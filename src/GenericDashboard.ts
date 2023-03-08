@@ -9,20 +9,6 @@
 // This avoids conflicts with other plugins
 namespace GenericDashboard {
 
-    interface ISourceAttribute{
-        value: any;
-        name: string;
-        
-    }
-
-    interface IDataSource{
-        sourceAtrributes: ISourceAttribute[];
-        type: string;
-        
-    }
-    interface IFilterData{
-        functionality:"groupBy"| "statusOverdue" | "groupByState" | "closure" | "groupByStack"| "dateRangeComapre"| "table"| "tracker";
-    }
     // These will be replaced by the build
     const PLUGIN_NAME = "<PLUGIN_NAME_PLACEHOLDER>";
     const PLUGIN_VERSION = "<PLUGIN_VERSION_PLACEHOLDER>";
@@ -76,10 +62,8 @@ namespace GenericDashboard {
 
         pluginTableId: string = "";
 
-        // This should have a strong type. We should not use any
         allChartsMap = new Map();
 
-        // This should have a strong type. We should not use any
         dateFilterEnablerMap = new Map();
 
         currentTimeRangeSelected: string = "";
@@ -87,7 +71,7 @@ namespace GenericDashboard {
         currentCat: string = "";
 
         currentFilter: string = "";
-        // Shouldn't start with capital letter
+
         ByCategoryLabelDetails: ByCategoryLabelData[] = [];
 
         labelHistoryData: XRLabelEntry[] = [];
@@ -152,29 +136,18 @@ namespace GenericDashboard {
             return 'itemRef' in data;
         }
 
-        async initiateDataSource(pluginConfig: any) {
+        initiateDataSource(pluginConfig: any) {
             let that = this;
+            let dataSources = pluginConfig.dataSources;
 
-            // This should have a strong type. We should not use any
-            let dataSources:IDataSource[] = pluginConfig.dataSources;
-            // We should gracefully handle the case where there are no data sources
-            if (!dataSources) {
-                ml.UI.showError("No datasources", "No data sources defined for this plugin");
-                return;
-            }
-
-            // We should not use any
             let dataSourcePromises = [];
 
-            // We should not use any
             let dashboardPluginSources: any[] = [];
 
-            // Use for...of instead of forEach
-            for(let dataSourceConfig of dataSources) {
+            dataSources.forEach(dataSourceConfig => {
                 if (dataSourceConfig.type == "Needles") {
                     let needleSourceCategory;
                     let needleSourceFieldId;
-                    // Use for...of instead of forEach
                     dataSourceConfig.sourceAtrributes.forEach(sourceAttribute => {
                         if (sourceAttribute.name == "category") {
                             needleSourceCategory = sourceAttribute.value;
@@ -189,47 +162,49 @@ namespace GenericDashboard {
                 } else if (dataSourceConfig.type == "Labels") {
                     dataSourcePromises.push(Matrix.Labels.projectLabelHistory());
                 }
-            }
+            });
 
-            
-           let dataSourcePromisesResults = await Promise.all(dataSourcePromises);
-            try{
-                for( let dataSourcePromiseResult of dataSourcePromisesResults){
+            Promise.all(dataSourcePromises).then(dataSourcePromisesResults => {
 
-                        if (dataSourcePromiseResult.length > 0 && that.instanceOfXRTrimNeedleItem(dataSourcePromiseResult[0])) {
-                            dashboardPluginSources.push({
-                                "type": "Needles",
-                                "source": dataSourcePromiseResult
-                            })
-                        } else if (dataSourcePromiseResult.length > 0 && that.instanceOfXRLabelEntry(dataSourcePromiseResult[0])) {
-                            that.labelHistoryData = dataSourcePromiseResult;
-                            dashboardPluginSources.push({
-                                "type": "Labels",
-                                "source": dataSourcePromiseResult
-                            })
-                        }
+                dataSourcePromisesResults.forEach(dataSourcePromiseResult => {
 
+                    if (dataSourcePromiseResult.length > 0 && that.instanceOfXRTrimNeedleItem(dataSourcePromiseResult[0])) {
+                        dashboardPluginSources.push({
+                            "type": "Needles",
+                            "source": dataSourcePromiseResult
+                        })
+                    } else if (dataSourcePromiseResult.length > 0 && that.instanceOfXRLabelEntry(dataSourcePromiseResult[0])) {
+                        that.labelHistoryData = dataSourcePromiseResult;
+                        dashboardPluginSources.push({
+                            "type": "Labels",
+                            "source": dataSourcePromiseResult
+                        })
                     }
-                    that.processFunctionalitiesData(dashboardPluginSources, pluginConfig);
-                    that.renderCategoryWiseData(that.currentCat);
-                    $(".spinningWait", that._root).hide();
-                }
-                catch(error){
-                    //Report the error to the user
-                    ml.UI.showError("Error", error);
-                    //Remove the spinning wait
-                    $(".spinningWait", that._root).hide();
-                }
+
+                });
+
+                that.processFunctionalitiesData(dashboardPluginSources, pluginConfig);
+                that.renderCategoryWiseData(that.currentCat);
+                $(".spinningWait", that._root).hide();
+
+            }).catch(() => {
+                //Remove the spinning wait
+                $(".spinningWait", that._root).hide();
+            });
+
         }
 
         renderHTML(pluginConfig: any) {
             let that = this;
 
             const renderTemplateData: any = Commons.RenderTemplate.preparePluginHtmlTemplate(pluginConfig);
+
             that.pluginTableId = renderTemplateData.pluginTableId;
+
             that.allChartsMap = renderTemplateData.allChartsMap;
 
             that.dateFilterEnablerMap = renderTemplateData.dateFilterEnablerMap;
+
             that.currentTimeRangeSelected = renderTemplateData.currentTimeRangeSelected;
 
             renderTemplateData.dateRangeData.forEach(dateRangeItem => {
@@ -262,7 +237,6 @@ namespace GenericDashboard {
             let pluginCategories = pluginConfig.categories;
             let index = 0;
 
-            // Use for...of instead of forEach
             pluginCategories.forEach(cat => {
 
                 if (ml.LabelTools.getLabelDefinitions([cat]).length > 0) {
@@ -280,7 +254,6 @@ namespace GenericDashboard {
 
             //Table filter
             if (that.pluginTableId !== "") {
-                //Probably more clear if you use backticks and ${} instead of concatenation
                 $("#" + that.pluginTableId + "InputFilter").on("keyup", function (e) {
                     let inputValue = $(e.target).val().toString();
                     let value = inputValue.toLowerCase();
@@ -302,10 +275,8 @@ namespace GenericDashboard {
             Commons.GenericFunctionalities.initiateByCategoryLabelData(pluginConfig, that.ByCategoryLabelDetails);
 
             let categoriesFunctionalities = pluginConfig.categoriesFunctionalities;
-            // Use for...of instead of forEach + strong type
-            categoriesFunctionalities.forEach(category => {
 
-                 // Use for...of instead of forEach + strong type
+            categoriesFunctionalities.forEach(category => {
                 category.functionalities.forEach(functionality => {
                     if(functionality.type === 'dateRangeComapre'){
                         functionality.dateRanges.forEach(dateRange => {
@@ -372,12 +343,11 @@ namespace GenericDashboard {
 
             let that = this;
             let enableDateFilter;
-            //Probably more clear if you use backticks and ${} instead of concatenation
+
             $("#" + dateFilterId + "-date-filter").hide();
 
             $("#" + dateFilterId + "-date-filter-icon").click(function () {
 
-                //This should be strongly typed
                 let dateFileterData = that.dateFilterEnablerMap.get(dateFilterId);
                 enableDateFilter = !dateFileterData.dateFilterEnabled;
                 dateFileterData.dateFilterEnabled = enableDateFilter;
@@ -491,12 +461,12 @@ namespace GenericDashboard {
                 fromDate.data("DateTimePicker").maxDate(e.date);
                 ml.UI.setEnabled(goButton, fromDate.data("DateTimePicker").date() && toDate.data("DateTimePicker").date());
             });
-            //Use backticks instead of concatenation
+
             $("#" + dateFilterId + "-gobutton").click(function () {
 
                 let fromDateSelected = fromDate.data("DateTimePicker").date();
                 let toDateSelected = toDate.data("DateTimePicker").date();
-                let dateFileterData:IFilterData = that.dateFilterEnablerMap.get(dateFilterId);
+                let dateFileterData = that.dateFilterEnablerMap.get(dateFilterId);
 
                 let byCategoryLabelData = that.ByCategoryLabelDetails
                     .find(({ category }) => category === that.currentCat);
@@ -520,7 +490,6 @@ namespace GenericDashboard {
                     case 'tracker':
                         that.renderTrackerChartByDateRanges(fromDateSelected, toDateSelected, byCategoryLabelData, dateFilterId);
                         break;
-                    //This is a good example of why you should use strong typing and restrict the possible values of a variable. dateRangeComapre vs dateRangeCompare: 
                     case 'dateRangeComapre':
                         that.renderDateRangeComapreDataByDateRanges(fromDateSelected, toDateSelected, byCategoryLabelData, dateFilterId);
                         break;
@@ -560,12 +529,12 @@ namespace GenericDashboard {
             });
 
         }
-        // Should be strongly typed
+
         renderDateRangeByAction(range,contentId){
             let that = this;
             let columnData;
             let categoryData;
-            // Same here, use strong typing to restrict the possible values of range (Or use enum)
+
             switch (range) {
                 case 'week':
                     columnData = that.dateRangeData.currentWeekColumnsData;
@@ -604,7 +573,7 @@ namespace GenericDashboard {
                     categoryData = that.dateRangeData.quarterlyFYCategoryData.categories;
                     break;                   
             };
-            // No capital letters in variable names as first letter please 
+
             let ByCategoryLabelData = this.ByCategoryLabelDetails
                 .find(({ category }) => category === this.currentCat);
 
@@ -632,7 +601,6 @@ namespace GenericDashboard {
 
             $("#selectedCat", this._root).text(cat);
 
-            // No capital letters in variable names as first letter please. Also, use strong typing.
             let ByCategoryLabelData = this.ByCategoryLabelDetails
                 .find(({ category }) => category === this.currentCat);
 
@@ -718,7 +686,7 @@ namespace GenericDashboard {
             }
 
         }
-        //Don't use any as a type. Use the actual type.
+
         filterByLabel(filter: any) {
             this.currentFilter = filter.type;
             let filterDataClass = "";
@@ -733,15 +701,14 @@ namespace GenericDashboard {
             }
         }
 
-        //Don't use any as a type. Use the actual type.
+
         renderDateRangeComapreDataByDateRanges(fromDateVal: any, toDateVal: any, byCategoryLabelData: ByCategoryLabelData, groupId: String) {
             let fromDate = new Date(fromDateVal);
             let toDate = new Date(toDateVal);
 
             let formattedFromDate = new Date(fromDate.setDate(fromDate.getDate() + 1)).toISOString().slice(0, 10);
             let formattedToDate = new Date(toDate.setDate(toDate.getDate() + 1)).toISOString().slice(0, 10);
-            
-            //No any please.
+
             let daterangeCompareLabels = [];
             let dateFilterChartCategoryData = [];
             let dateFilterChartColumnsData: any = [];
@@ -759,7 +726,7 @@ namespace GenericDashboard {
                     }
                 });
             }
-            // use for...of instead of forEach and strongly type the variable
+
             this.labelHistoryData.forEach(
                 (labelHistoryRecord) => {
                     let itemCategory = labelHistoryRecord.itemRef.substring(0, labelHistoryRecord.itemRef.indexOf('-'));
@@ -767,8 +734,7 @@ namespace GenericDashboard {
                         let labelHistoryData_ = { ...labelHistoryRecord };
                         let fromDateLabels: XRLabelChange[] = [];
                         let toDateLabels: XRLabelChange[] = [];
-            
-                        // use for...of instead of forEach and strongly type the variable
+
                         labelHistoryData_.labels.forEach(
                             (labelStatusHistoryrecord) => {
                                 let fromDateLabelStatusData = { ...labelStatusHistoryrecord };
@@ -819,7 +785,6 @@ namespace GenericDashboard {
                             }
                         );
 
-                        
                         if (fromDateLabels.length > 0) {
                             fromDateLabels.forEach((fromDateLabel) => {
                                 let labelIndex = daterangeCompareLabels.findIndex(labelCode => labelCode === fromDateLabel.label);
@@ -956,7 +921,7 @@ namespace GenericDashboard {
                 });
             }
         }
-        //Specify parameters types
+
         renderGroupByChart(labels, grouoWiseData, groupId) {
             let that = this;
             //prepare template "${contentConfig.id}-Chart"
@@ -995,7 +960,7 @@ namespace GenericDashboard {
                 that.filterByLabel({ type: "" })
             });
         }
-        //Specify parameters types
+
         renderGroupByStateChartByDateRanges(fromDateVal: any, toDateVal: any, byCategoryLabelData: ByCategoryLabelData, groupId: String) {
 
             let fromDate = new Date(fromDateVal);
@@ -1464,58 +1429,56 @@ namespace GenericDashboard {
         }
 
 
-        //use strong typing for the parameters
-        // functionalityDataSources should a map instead of array. That would be accessed by key instead of looping each time.
         processFunctionalitiesData(functionalityDataSources: any, pluginConfig: any) {
 
             let that = this;
-            // No capital letters in the variable names as first letter
-            for (const byCategoryLabelData of this.ByCategoryLabelDetails) {
+
+            for (const ByCategoryLabelData of this.ByCategoryLabelDetails) {
 
                 //process groupBy functionality
-                byCategoryLabelData.groupByData.forEach(groupByObject => {
+                ByCategoryLabelData.groupByData.forEach(groupByObject => {
                     let groupByObjectDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === groupByObject.dataSourceType);
                     Commons.GenericFunctionalities.processGroupByObjectData(groupByObject,
                         groupByObjectDataSource.source,
-                        byCategoryLabelData.category,
+                        ByCategoryLabelData.category,
                         that.dateFilterEnablerMap,
-                        byCategoryLabelData.itemCurrentStateTableHeaders,
-                        byCategoryLabelData.itemCurrentStateValues
+                        ByCategoryLabelData.itemCurrentStateTableHeaders,
+                        ByCategoryLabelData.itemCurrentStateValues
                     );
 
                 });
 
                 //process groupBy-operands functionality
-                byCategoryLabelData.groupByOperandsData.forEach(groupByOperandsObject => {
+                ByCategoryLabelData.groupByOperandsData.forEach(groupByOperandsObject => {
                     let groupByOperandsDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === groupByOperandsObject.dataSourceType);
                     Commons.GenericFunctionalities.processGroupByOperandsData(groupByOperandsObject,
                         groupByOperandsDataSource.source,
-                        byCategoryLabelData.category
+                        ByCategoryLabelData.category
                     );
 
                 });
 
                 //process groupByStack functionality
-                byCategoryLabelData.groupByStackData.forEach(groupByStackObject => {
+                ByCategoryLabelData.groupByStackData.forEach(groupByStackObject => {
                     let groupByStackDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === groupByStackObject.dataSourceType);
                     Commons.GenericFunctionalities.processGroupByStackData(groupByStackObject,
                         groupByStackDataSource.source,
-                        byCategoryLabelData.category,
-                        byCategoryLabelData.itemCurrentStateTableHeaders,
-                        byCategoryLabelData.itemCurrentStateValues
+                        ByCategoryLabelData.category,
+                        ByCategoryLabelData.itemCurrentStateTableHeaders,
+                        ByCategoryLabelData.itemCurrentStateValues
                     );
                 });
 
                 //process groupByState functionality
-                byCategoryLabelData.groupByStateData.forEach(groupByStateObject => {
+                ByCategoryLabelData.groupByStateData.forEach(groupByStateObject => {
                     let groupByStateDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === groupByStateObject.dataSourceType);
                     if(groupByStateDataSource.type === "Labels"){
                         Commons.GenericFunctionalities.processGroupByStateData(groupByStateObject,
                             groupByStateDataSource.source,
-                            byCategoryLabelData.category,
+                            ByCategoryLabelData.category,
                             that.dateFilterEnablerMap,
-                            byCategoryLabelData.itemCurrentStateTableHeaders,
-                            byCategoryLabelData.itemCurrentStateValues
+                            ByCategoryLabelData.itemCurrentStateTableHeaders,
+                            ByCategoryLabelData.itemCurrentStateValues
                         );
                     }else if(groupByStateDataSource.type === "Needles"){
                         Commons.GenericFunctionalities.processGroupByStateNeedleData(groupByStateObject,
@@ -1529,7 +1492,7 @@ namespace GenericDashboard {
                 });
 
                 //process groupByStateOverDue functionality
-                byCategoryLabelData.groupByStateOverdueData.forEach(groupByStateOverDueObject => {
+                ByCategoryLabelData.groupByStateOverdueData.forEach(groupByStateOverDueObject => {
 
                     let labelsDataSource: XRLabelEntry[];
                     let needlesDataSource: XRTrimNeedleItem[];
@@ -1548,52 +1511,52 @@ namespace GenericDashboard {
                     Commons.GenericFunctionalities.processGroupByStateOverDueData(groupByStateOverDueObject,
                         labelsDataSource,
                         needlesDataSource,
-                        byCategoryLabelData.category,
+                        ByCategoryLabelData.category,
                         that.dateFilterEnablerMap,
-                        byCategoryLabelData.itemCurrentStateTableHeaders,
-                        byCategoryLabelData.itemCurrentStateValues
+                        ByCategoryLabelData.itemCurrentStateTableHeaders,
+                        ByCategoryLabelData.itemCurrentStateValues
                     );
                 });
 
                 //process avg functionality
-                byCategoryLabelData.avgData.forEach(avgObject => {
+                ByCategoryLabelData.avgData.forEach(avgObject => {
                     let avgDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === avgObject.dataSourceType);
                     Commons.GenericFunctionalities.processAvgData(avgObject,
                         avgDataSource.source,
-                        byCategoryLabelData.category
+                        ByCategoryLabelData.category
                     );
                 });
 
                 //process closure functionality
-                byCategoryLabelData.closureData.forEach(closureObject => {
+                ByCategoryLabelData.closureData.forEach(closureObject => {
                     let closureDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === closureObject.dataSourceType);
                     Commons.GenericFunctionalities.processClosureData(closureObject,
                         closureDataSource.source,
-                        byCategoryLabelData.category,
+                        ByCategoryLabelData.category,
                         that.dateFilterEnablerMap,
-                        byCategoryLabelData.itemCurrentStateTableHeaders,
-                        byCategoryLabelData.itemCurrentStateValues
+                        ByCategoryLabelData.itemCurrentStateTableHeaders,
+                        ByCategoryLabelData.itemCurrentStateValues
                     );
                 });
 
                 //process dateRangeComapre functionality
-                byCategoryLabelData.dateRangeCompareData.forEach(dateRangeCompareObject => {
+                ByCategoryLabelData.dateRangeCompareData.forEach(dateRangeCompareObject => {
                     let dateRangeCompareDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === dateRangeCompareObject.dataSourceType);
                     Commons.GenericFunctionalities.processDateRangeCompareData(dateRangeCompareObject,
                         dateRangeCompareDataSource.source,
-                        byCategoryLabelData.category
+                        ByCategoryLabelData.category
                     );
                 });
 
                 //process tracker functionality
-                byCategoryLabelData.trackerData.forEach(trackerObject => {
+                ByCategoryLabelData.trackerData.forEach(trackerObject => {
                     let trackerDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === trackerObject.dataSourceType);
                     Commons.GenericFunctionalities.processTrackerData(trackerObject,
                         trackerDataSource.source,
-                        byCategoryLabelData.category,
+                        ByCategoryLabelData.category,
                         that.dateFilterEnablerMap,
-                        byCategoryLabelData.itemCurrentStateTableHeaders,
-                        byCategoryLabelData.itemCurrentStateValues
+                        ByCategoryLabelData.itemCurrentStateTableHeaders,
+                        ByCategoryLabelData.itemCurrentStateValues
                     );
                 });
             }

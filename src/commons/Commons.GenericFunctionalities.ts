@@ -676,7 +676,7 @@ namespace Commons {
 
                 let itemCurrentStateData: ItemCurrentStateData = getitemCurrentStateData(item.itemRef,
                     itemCurrentStateValues,
-                    itemCurrentStateTableHeaders);
+                    itemCurrentStateTableHeaders);  
 
                 for (const label of item.labels) {
 
@@ -1032,7 +1032,12 @@ namespace Commons {
                 if ((currentStateIndex == closedStateIndex)
                     || (currentStateIndex == rejectedStateIndex)
                 ) {
-                    trackerObject.stateTrackerData = trackerObject.stateTrackerInitialData;
+                    let stateTrackerInitialData: any[] = [['x']];
+
+                    trackerObject.stateDesc.forEach(labelDesc => {
+                        stateTrackerInitialData.push([labelDesc]);
+                    });  
+                    trackerObject.stateTrackerData = stateTrackerInitialData;
                 }
 
                 let itemCurrentStateDataIndex = itemCurrentStateValues.findIndex(itemCurrentStateData => itemCurrentStateData.id == item.itemRef);

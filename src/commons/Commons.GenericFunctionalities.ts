@@ -830,10 +830,6 @@ namespace Commons {
 
                 let itemCategory: string = item.itemRef.substring(0, item.itemRef.indexOf('-'));
 
-                if(itemCategory == "CAA-4"){
-                    console.log("CAA-4 test");
-                }
-
                 if (itemCategory !== functionalityCategory) {
                     continue;
                 }
@@ -963,6 +959,7 @@ namespace Commons {
                     itemCurrentStateTableHeaders);
 
                 let itemIndex = -1;
+                let stateTrackerInitialData = JSON.parse(JSON.stringify(trackerObject.stateTrackerData));
 
                 for (const label of item.labels) {
 
@@ -1036,11 +1033,11 @@ namespace Commons {
                 if ((currentStateIndex == closedStateIndex)
                     || (currentStateIndex == rejectedStateIndex)
                 ) {
-                    let stateTrackerInitialData: any[] = [['x']];
+                    // let stateTrackerInitialData: any[] = [['x']];
 
-                    trackerObject.stateDesc.forEach(labelDesc => {
-                        stateTrackerInitialData.push([labelDesc]);
-                    });  
+                    // trackerObject.stateDesc.forEach(labelDesc => {
+                    //     stateTrackerInitialData.push([labelDesc]);
+                    // });  
                     trackerObject.stateTrackerData = stateTrackerInitialData;
                 }
 

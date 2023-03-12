@@ -114,7 +114,7 @@
                 ],
                 "layoutDomStyle":" .chart { width: 90%; min-height: 350px; cursor:pointer; } .dateFilter{ display:flex; margin-left: 45px; } .filterDates { width: 115px; margin: 0 6px; } .date-filter-form-control { height: 20px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px; } .date-filter-btn { margin-bottom: 0; margin-left: 12px; font-weight: 400; text-align: center; white-space: nowrap; vertical-align: middle; touch-action: manipulation; cursor: pointer; background-image: none; border: 1px solid transparent; padding: 0px 5px; font-size: 12px; line-height: 1.42857143; border-radius: 4px; } .tableDateFilter{ display:flex; margin-left: 350px; } .closureTimeChart{ width: 90%; min-height: 315px; cursor:pointer; } .bigChart{ width: 90%; min-height: 900px; cursor:pointer; }",
             },
-            "categories":["CA","PA"],
+            "categories":["CA","PA","CAA","PAA"],
             "categoriesFunctionalities":[
                 {
                     "id":"CA",
@@ -198,7 +198,169 @@
         
                 },
                 {
+                    "id":"CAA",
+                    "functionalities": [
+                        {
+                            "id": "dept",
+                            "type": "groupBy",
+                            "dataSourceType": "Labels",
+                            "renderChart": "Y",
+                            "showInTable": "Y",
+                            "tableHeader": "Department",
+                            "title": "count by department",
+                            "labels": ["PROD-AB", "PROD-C", "QC-AB", "QC-C", "QA", "RA", "SCM", "MICRO", "PUR", "Packaging", "HR", "ENG", "ST", "UT", "NDLP"],
+                            "labelsDesc": ["PAB", "PC", "QCAB", "QCC", "QA", "RA", "SCM", "MI", "PUR", "PKG", "HR", "ENG","ST", "UT", "NDL"]
+                        },
+                        {
+                            "id": "cat",
+                            "type": "groupBy",
+                            "dataSourceType": "Labels",
+                            "renderChart": "Y",
+                            "showInTable": "Y",
+                            "tableHeader": "Category",
+                            "title": "count by category",
+                            "labels": ["IA", "EXA", "COMP", "IP", "PRO"],
+                            "labelsDesc": ["Internal Audit", "External Audit", "Complaint", "Process", "Product"]
+                        },
+                        {
+                            "id": "status",
+                            "type": "groupByState",
+                            "dataSourceType": "Labels",
+                            "renderChart": "Y",
+                            "showInTable": "Y",
+                            "tableHeader": "Current State",
+                            "labels": ["CAN1", "CAN2", "CAN5", "CAN3", "CN6", "CAR"],
+                            "labelsDesc": ["CA Initiated", "CA Approved", "RCA Approved", "WFEC", "CA Closed", "CA Rejected"],
+                            "labelColors": ["#d62728", "#ff7f0e", "#9467bd", "#1f77b4", "#2ca02c", "#8c564b"]
+                        },
+                        {
+                            "id": "avg",
+                            "type": "avg",
+                            "dataSourceType": "Labels",
+                            "renderChart": "Y",
+                            "title": "average time spent in state",
+                            "labels": ["CAN1", "CAN2", "CAN5", "CAN3"],
+                            "labelsDesc": ["CA Initiated", "CA Approved", "RCA Approved", "WFEC"],
+                            "allLabels": ["CAN1", "CAN2", "CAN5", "CAN3", "CN6", "CAR"],
+                            "allLabelDesc": ["CA Initiated", "CA Approved", "RCA Approved", "WFEC", "CA Closed", "CA Rejected"],
+                            "initialSateLabel": "CAN1",
+                            "closedStateLabel": "CN6",
+                            "rejectedStateLabel": "CAR"
+                        },
+                        {
+                            "id": "tracker",
+                            "type": "tracker",
+                            "dataSourceType": "Labels",
+                            "renderChart": "Y",
+                            "showInTable": "Y",
+                            "labels": ["CAN1", "CAN2", "CAN5", "CAN3"],
+                            "labelsDesc": ["CA Initiated", "CA Approved", "RCA Approved", "WFEC"],
+                            "labelColors": ["#d62728", "#ff7f0e", "#9467bd", "#1f77b4"],
+                            "allLabels": ["CAN1", "CAN2", "CAN5", "CAN3", "CN6", "CAR"],
+                            "allLabelDesc": ["CA Initiated", "CA Approved", "RCA Approved", "WFEC", "CA Closed", "CA Rejected"],
+                            "closedStateLabel": "CN6",
+                            "rejectedStateLabel": "CAR"
+                        },
+                        {
+                            "id": "closure",
+                            "type": "closure",
+                            "dataSourceType": "Labels",
+                            "renderChart": "Y",
+                            "showInTable": "Y",
+                            "tableHeader": "Closure Time",
+                            "title": "closure time(in days)",
+                            "allLabels": ["CAN1", "CAN2", "CAN5", "CAN3", "CN6", "CAR"],
+                            "allLabelDesc": ["CA Initiated", "CA Approved", "RCA Approved", "WFEC", "CA Closed", "CA Rejected"],
+                            "initialSateLabel": "CAN1",
+                            "closedStateLabel": "CN6",
+                            "rejectedStateLabel": "CAR"
+                        }
+                    ]
+        
+                },
+                {
                     "id":"PA",
+                    "functionalities": [
+                        {
+                            "id": "dept",
+                            "type": "groupBy",
+                            "dataSourceType": "Labels",
+                            "renderChart": "Y",
+                            "showInTable": "Y",
+                            "tableHeader": "Department",
+                            "title": "count by department",
+                            "labels": ["PROD-AB", "PROD-C", "QC-AB", "QC-C", "QA", "RA", "SCM", "MICRO", "PUR", "Packaging", "HR", "ENG", "ST", "UT", "NDLP"],
+                            "labelsDesc": ["PAB", "PC", "QCAB", "QCC", "QA", "RA", "SCM", "MI", "PUR", "PKG", "HR", "ENG","ST", "UT", "NDL"]
+                        },
+                        {
+                            "id": "cat",
+                            "type": "groupBy",
+                            "dataSourceType": "Labels",
+                            "renderChart": "Y",
+                            "showInTable": "Y",
+                            "tableHeader": "Category",
+                            "title": "count by category",
+                            "labels": ["IA", "EXA", "COMP", "IP", "PRO"],
+                            "labelsDesc": ["Internal Audit", "External Audit", "Complaint", "Process", "Product"]
+                        },
+                        {
+                            "id": "status",
+                            "type": "groupByState",
+                            "dataSourceType": "Labels",
+                            "renderChart": "Y",
+                            "showInTable": "Y",
+                            "tableHeader": "Current State",
+                            "labels": ["PN1", "PN2", "PN3", "PN4", "PN5", "PAR"],
+                            "labelsDesc": ["PA Initiated", "PA Approved", "RCA Approved", "WFEC", "PA Closed", "PA Rejected"],
+                            "labelColors": ["#d62728", "#ff7f0e", "#9467bd", "#1f77b4", "#2ca02c", "#8c564b"]
+                        },
+                        {
+                            "id": "avg",
+                            "type": "avg",
+                            "dataSourceType": "Labels",
+                            "renderChart": "Y",
+                            "title": "average time spent in state",
+                            "labels": ["PN1", "PN2", "PN3", "PN4"],
+                            "labelsDesc": ["PA Initiated", "PA Approved", "RCA Approved", "WFEC"],
+                            "allLabels": ["PN1", "PN2", "PN3", "PN4", "PN5", "PAR"],
+                            "allLabelDesc": ["PA Initiated", "PA Approved", "RCA Approved", "WFEC", "PA Closed", "PA Rejected"],
+                            "initialSateLabel": "PN1",
+                            "closedStateLabel": "PN5",
+                            "rejectedStateLabel": "PAR"
+                        },
+                        {
+                            "id": "tracker",
+                            "type": "tracker",
+                            "dataSourceType": "Labels",
+                            "renderChart": "Y",
+                            "showInTable": "Y",
+                            "labels": ["PN1", "PN2", "PN3", "PN4"],
+                            "labelsDesc": ["PA Initiated", "PA Approved", "RCA Approved", "WFEC"],
+                            "labelColors": ["#d62728", "#ff7f0e", "#9467bd", "#1f77b4"],
+                            "allLabels": ["PN1", "PN2", "PN3", "PN4", "PN5", "PAR"],
+                            "allLabelDesc": ["PA Initiated", "PA Approved", "RCA Approved", "WFEC", "PA Closed", "PA Rejected"],
+                            "closedStateLabel": "PN5",
+                            "rejectedStateLabel": "PAR"
+                        },
+                        {
+                            "id": "closure",
+                            "type": "closure",
+                            "dataSourceType": "Labels",
+                            "renderChart": "Y",
+                            "showInTable": "Y",
+                            "tableHeader": "Closure Time",
+                            "title": "closure time(in days)",
+                            "allLabels": ["PN1", "PN2", "PN3", "PN4", "PN5", "PAR"],
+                            "allLabelDesc": ["PA Initiated", "PA Approved", "RCA Approved", "WFEC", "PA Closed", "PA Rejected"],
+                            "initialSateLabel": "PN1",
+                            "closedStateLabel": "PN5",
+                            "rejectedStateLabel": "PAR"
+                        }
+                    ]
+        
+                },
+                {
+                    "id":"PAA",
                     "functionalities": [
                         {
                             "id": "dept",

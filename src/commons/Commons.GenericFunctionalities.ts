@@ -830,6 +830,10 @@ namespace Commons {
 
                 let itemCategory: string = item.itemRef.substring(0, item.itemRef.indexOf('-'));
 
+                if(itemCategory == "CAA-4"){
+                    console.log("CAA-4");
+                }
+
                 if (itemCategory !== functionalityCategory) {
                     continue;
                 }

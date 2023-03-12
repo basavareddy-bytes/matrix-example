@@ -288,9 +288,11 @@ namespace Commons {
                             }
                             break;
                         case 'tracker':
+                            let stateTrackerInitialData: any[] = [['x']];
                             let stateTrackerData: any[] = [['x']];
 
                             functionality.labelsDesc.forEach(labelDesc => {
+                                stateTrackerInitialData.push([labelDesc]);
                                 stateTrackerData.push([labelDesc]);
                             });
 
@@ -304,8 +306,8 @@ namespace Commons {
                                 stateColors: functionality.labelColors,
                                 allStateCodes: functionality.allLabels,
                                 allStateDesc: functionality.allLabelDesc,
-                                stateTrackerInitialData: JSON.parse(JSON.stringify(stateTrackerData)),
-                                stateTrackerData: JSON.parse(JSON.stringify(stateTrackerData)),
+                                stateTrackerInitialData: stateTrackerInitialData,
+                                stateTrackerData: stateTrackerData,
                                 closedState: functionality.closedStateLabel,
                                 rejectedState: functionality.rejectedStateLabel,
                                 currentState: "",

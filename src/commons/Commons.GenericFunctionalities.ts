@@ -270,6 +270,7 @@ namespace Commons {
                                 showInTable: functionality.showInTable,
                                 tableHeader: functionality.tableHeader,
                                 allStateCodes: functionality.allLabels,
+                                initialStateCodes: functionality.initialStateLabels,
                                 allStateDesc: functionality.allLabelDesc,
                                 closedItemsData: closedItemsData,
                                 closureTimeData: [category.id + ' ' + functionality.title],
@@ -838,27 +839,46 @@ namespace Commons {
                     itemCurrentStateValues,
                     itemCurrentStateTableHeaders);
 
+                let initiateStatesDataMap: Map<string, Date> = new Map<string, Date>();    
+
                 for (const label of item.labels) {
                     let stateIndex = closureObject.allStateCodes.findIndex(stateCode => stateCode === label.label);
                     if (stateIndex > -1 && (label.reset.length !== label.set.length)) {
                         closureObject.currentState = label.label;
                     }
 
-                    let initialStateIndex = closureObject.allStateCodes.findIndex(stateCode => stateCode === closureObject.intialState);
-                    let closedStateIndex = closureObject.allStateCodes.findIndex(stateCode => stateCode === closureObject.closedState);
+                    if(stateIndex > -1){
+                        let initialStateIndex = closureObject.initialStateCodes.findIndex(stateCode => stateCode === label.label);
+                        if(initialStateIndex > -1){
 
-                    if (stateIndex == initialStateIndex) {
-                        label.set.sort((a, b) => a.version - b.version);
-                        let intiatedDate = new Date(label.set[0].dateIso);
-                        closureObject.initiatedDate = intiatedDate;
-                        itemCurrentStateData.InitiatedDate = intiatedDate;
+                            label.set.sort((a, b) => a.version - b.version);
+                            let intiatedDate = new Date(label.set[0].dateIso);
+                          
+                            if (initiateStatesDataMap.get(label.label)) {
+                                if(intiatedDate > initiateStatesDataMap.get(label.label)){
+                                    initiateStatesDataMap.set(label.label,intiatedDate);
+                                }
+                            }else{
+                                initiateStatesDataMap.set(label.label,intiatedDate);
+                            }
+                        }
                     }
 
+                    let closedStateIndex = closureObject.allStateCodes.findIndex(stateCode => stateCode === closureObject.closedState);
                     if (stateIndex == closedStateIndex) {
                         label.set.sort((a, b) => b.version - a.version);
                         const colosedDate = new Date(label.set[0].dateIso);
                         closureObject.closedDate = colosedDate;
                         itemCurrentStateData.ClosedDate = colosedDate;
+                    }
+                }
+
+                for(const intialStateCode of closureObject.initialStateCodes){
+                    if(initiateStatesDataMap.get(intialStateCode)){
+                        let intiatedDate = initiateStatesDataMap.get(intialStateCode);
+                        closureObject.initiatedDate = intiatedDate;
+                        itemCurrentStateData.InitiatedDate = intiatedDate;
+                        break;
                     }
                 }
 

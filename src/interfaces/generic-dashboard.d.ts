@@ -125,6 +125,7 @@ interface closureObject {
     showInTable: string;
     tableHeader: string;
     allStateCodes: any[];
+    initialStateCodes: any[];
     allStateDesc: any[];
     closedItemsData: any[];
     closureTimeData: any[];

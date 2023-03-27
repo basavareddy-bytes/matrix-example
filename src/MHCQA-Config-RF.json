@@ -311,6 +311,12 @@
                                 "AN5",
                                 "CAR"
                             ],
+                            "initialStateLabels": [
+                                "AN1",
+                                "AN2",
+                                "AN3",
+                                "AN4"
+                            ],
                             "allLabelDesc": [
                                 "CA Initiated",
                                 "CA Approved",
@@ -516,6 +522,12 @@
                                 "WFEC",
                                 "PAC",
                                 "PAR"
+                            ],
+                            "initialStateLabels": [
+                                "PN1",
+                                "PN2",
+                                "PN3",
+                                "WFEC"
                             ],
                             "allLabelDesc": [
                                 "PA Initiated",

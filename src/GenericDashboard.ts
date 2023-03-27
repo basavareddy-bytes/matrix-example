@@ -681,7 +681,7 @@ namespace GenericDashboard {
                 });
             }
 
-            if (ByCategoryLabelData.itemCurrentStateValues && ByCategoryLabelData.itemCurrentStateValues.length > 0) {
+            if (ByCategoryLabelData.itemCurrentStateValues) {
                 that.renderPluginTable(ByCategoryLabelData.itemCurrentStateTableHeaders, ByCategoryLabelData.itemCurrentStateValues);
             }
 

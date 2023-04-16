@@ -237,6 +237,12 @@
                                 "AN5",
                                 "CAR"
                             ],
+                            "initialStateLabels": [
+                                "AN1",
+                                "AN2",
+                                "AN3",
+                                "AN4"
+                            ],
                             "allLabelDesc": [
                                 "CA Initiated",
                                 "CA Approved",
@@ -444,6 +450,12 @@
                                 "AN4",
                                 "AN5",
                                 "CAR"
+                            ],
+                            "initialStateLabels": [
+                                "AN1",
+                                "AN2",
+                                "AN3",
+                                "AN4"
                             ],
                             "allLabelDesc": [
                                 "CA Initiated",
@@ -653,6 +665,12 @@
                                 "PAC",
                                 "PAR"
                             ],
+                            "initialStateLabels": [
+                                "PN1",
+                                "PN2",
+                                "PN3",
+                                "WFEC"
+                            ],
                             "allLabelDesc": [
                                 "PA Initiated",
                                 "PA Approved",
@@ -860,6 +878,12 @@
                                 "WFEC",
                                 "PAC",
                                 "PAR"
+                            ],
+                            "initialStateLabels": [
+                                "PN1",
+                                "PN2",
+                                "PN3",
+                                "WFEC"
                             ],
                             "allLabelDesc": [
                                 "PA Initiated",
@@ -1157,6 +1181,7 @@
                                 "CCN5",
                                 "CCR"
                             ],
+                            "initialStateLabels": ["CCN1", "CCN2", "CCN3", "CCN4"],
                             "allLabelDesc": [
                                 "CC Initiated",
                                 "CC Approved",
@@ -1323,6 +1348,7 @@
                                 "CCN5",
                                 "CCR"
                             ],
+                            "initialStateLabels": ["CCN1", "CCN2", "CCN3", "CCN4"],
                             "allLabelDesc": [
                                 "CC Initiated",
                                 "CC Approved",
@@ -1483,6 +1509,7 @@
                                 "DCN4",
                                 "DR1"
                             ],
+                            "initialStateLabels": ["DCN1", "DCN2", "DCN3"],
                             "allLabelDesc": [
                                 "DC Initiated",
                                 "Approved by HOD",
@@ -1768,6 +1795,7 @@
                                 "CR2",
                                 "CR3"
                             ],
+                            "initialStateLabels": ["CR1", "CR2"],
                             "allLabelDesc": [
                                 "NCR Initiated",
                                 "NCR Approved",
@@ -2052,6 +2080,7 @@
                                 "EV3",
                                 "DR"
                             ],
+                            "initialStateLabels": ["EV1", "EN2"],
                             "allLabelDesc": [
                                 "Deviation Initiated",
                                 "Deviation Approved",

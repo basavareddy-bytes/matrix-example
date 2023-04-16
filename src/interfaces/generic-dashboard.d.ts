@@ -107,6 +107,7 @@ interface avgObject {
     stateCodes: any[];
     stateDesc: any[];
     allStateCodes: any[];
+    initialStateCodes: any[];
     allStateDesc: any[];
     statusWiseTotalDaysData: any[];
     statusWiseAvgData: any[];

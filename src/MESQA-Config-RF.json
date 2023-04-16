@@ -112,9 +112,9 @@
                         ]
                     }
                 ],
-                "layoutDomStyle":" .chart { width: 90%; min-height: 350px; cursor:pointer; } .dateFilter{ display:flex; margin-left: 45px; } .filterDates { width: 115px; margin: 0 6px; } .date-filter-form-control { height: 20px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px; } .date-filter-btn { margin-bottom: 0; margin-left: 12px; font-weight: 400; text-align: center; white-space: nowrap; vertical-align: middle; touch-action: manipulation; cursor: pointer; background-image: none; border: 1px solid transparent; padding: 0px 5px; font-size: 12px; line-height: 1.42857143; border-radius: 4px; } .tableDateFilter{ display:flex; margin-left: 350px; } .closureTimeChart{ width: 90%; min-height: 315px; cursor:pointer; } .bigChart{ width: 90%; min-height: 900px; cursor:pointer; }",
+                "layoutDomStyle":" .chart { width: 90%; min-height: 350px; cursor:pointer; } .dateFilter{ display:flex; margin-left: 45px; } .filterDates { width: 115px; margin: 0 6px; } .date-filter-form-control { height: 20px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px; } .date-filter-btn { margin-bottom: 0; margin-left: 12px; font-weight: 400; text-align: center; white-space: nowrap; vertical-align: middle; touch-action: manipulation; cursor: pointer; background-image: none; border: 1px solid transparent; padding: 0px 5px; font-size: 12px; line-height: 1.42857143; border-radius: 4px; } .tableDateFilter{ display:flex; margin-left: 350px; } .closureTimeChart{ width: 90%; min-height: 315px; cursor:pointer; } .bigChart{ width: 90%; min-height: 900px; cursor:pointer; }"
             },
-            "categories":["CA","PA","CAA","PAA"],
+            "categories":["CAA","PAA","CA","PA"],
             "categoriesFunctionalities":[
                 {
                     "id":"CA",
@@ -161,6 +161,7 @@
                             "labels": ["CAN1", "CAN2", "CAN5", "CAN3"],
                             "labelsDesc": ["CA Initiated", "CA Approved", "RCA Approved", "WFEC"],
                             "allLabels": ["CAN1", "CAN2", "CAN5", "CAN3", "CN6", "CAR"],
+                            "initialStateLabels": ["CAN1", "CAN2", "CAN5", "CAN3"],
                             "allLabelDesc": ["CA Initiated", "CA Approved", "RCA Approved", "WFEC", "CA Closed", "CA Rejected"],
                             "initialSateLabel": "CAN1",
                             "closedStateLabel": "CN6",
@@ -175,8 +176,8 @@
                             "labels": ["CAN1", "CAN2", "CAN5", "CAN3"],
                             "labelsDesc": ["CA Initiated", "CA Approved", "RCA Approved", "WFEC"],
                             "labelColors": ["#d62728", "#ff7f0e", "#9467bd", "#1f77b4"],
-                            "allLabels": ["CAN1", "CAN2", "CAN5", "CAN3", "CN6", "CAR"],
-                            "allLabelDesc": ["CA Initiated", "CA Approved", "RCA Approved", "WFEC", "CA Closed", "CA Rejected"],
+                            "allLabels": ["CAN1", "CAN2", "CAN5", "CAN3"],
+                            "allLabelDesc": ["CA Initiated", "CA Approved", "RCA Approved", "WFEC"],
                             "closedStateLabel": "CN6",
                             "rejectedStateLabel": "CAR"
                         },
@@ -243,6 +244,7 @@
                             "labels": ["CAN1", "CAN2", "CAN5", "CAN3"],
                             "labelsDesc": ["CA Initiated", "CA Approved", "RCA Approved", "WFEC"],
                             "allLabels": ["CAN1", "CAN2", "CAN5", "CAN3", "CN6", "CAR"],
+                            "initialStateLabels": ["CAN1", "CAN2", "CAN5", "CAN3"],
                             "allLabelDesc": ["CA Initiated", "CA Approved", "RCA Approved", "WFEC", "CA Closed", "CA Rejected"],
                             "initialSateLabel": "CAN1",
                             "closedStateLabel": "CN6",
@@ -257,8 +259,8 @@
                             "labels": ["CAN1", "CAN2", "CAN5", "CAN3"],
                             "labelsDesc": ["CA Initiated", "CA Approved", "RCA Approved", "WFEC"],
                             "labelColors": ["#d62728", "#ff7f0e", "#9467bd", "#1f77b4"],
-                            "allLabels": ["CAN1", "CAN2", "CAN5", "CAN3", "CN6", "CAR"],
-                            "allLabelDesc": ["CA Initiated", "CA Approved", "RCA Approved", "WFEC", "CA Closed", "CA Rejected"],
+                            "allLabels": ["CAN1", "CAN2", "CAN5", "CAN3"],
+                            "allLabelDesc": ["CA Initiated", "CA Approved", "RCA Approved", "WFEC"],
                             "closedStateLabel": "CN6",
                             "rejectedStateLabel": "CAR"
                         },
@@ -325,6 +327,7 @@
                             "labels": ["PN1", "PN2", "PN3", "PN4"],
                             "labelsDesc": ["PA Initiated", "PA Approved", "RCA Approved", "WFEC"],
                             "allLabels": ["PN1", "PN2", "PN3", "PN4", "PN5", "PAR"],
+                            "initialStateLabels": ["PN1", "PN2", "PN3", "PN4"],
                             "allLabelDesc": ["PA Initiated", "PA Approved", "RCA Approved", "WFEC", "PA Closed", "PA Rejected"],
                             "initialSateLabel": "PN1",
                             "closedStateLabel": "PN5",
@@ -339,8 +342,8 @@
                             "labels": ["PN1", "PN2", "PN3", "PN4"],
                             "labelsDesc": ["PA Initiated", "PA Approved", "RCA Approved", "WFEC"],
                             "labelColors": ["#d62728", "#ff7f0e", "#9467bd", "#1f77b4"],
-                            "allLabels": ["PN1", "PN2", "PN3", "PN4", "PN5", "PAR"],
-                            "allLabelDesc": ["PA Initiated", "PA Approved", "RCA Approved", "WFEC", "PA Closed", "PA Rejected"],
+                            "allLabels": ["PN1", "PN2", "PN3", "PN4"],
+                            "allLabelDesc": ["PA Initiated", "PA Approved", "RCA Approved", "WFEC"],
                             "closedStateLabel": "PN5",
                             "rejectedStateLabel": "PAR"
                         },
@@ -407,6 +410,7 @@
                             "labels": ["PN1", "PN2", "PN3", "PN4"],
                             "labelsDesc": ["PA Initiated", "PA Approved", "RCA Approved", "WFEC"],
                             "allLabels": ["PN1", "PN2", "PN3", "PN4", "PN5", "PAR"],
+                            "initialStateLabels": ["PN1", "PN2", "PN3", "PN4"],
                             "allLabelDesc": ["PA Initiated", "PA Approved", "RCA Approved", "WFEC", "PA Closed", "PA Rejected"],
                             "initialSateLabel": "PN1",
                             "closedStateLabel": "PN5",
@@ -421,8 +425,8 @@
                             "labels": ["PN1", "PN2", "PN3", "PN4"],
                             "labelsDesc": ["PA Initiated", "PA Approved", "RCA Approved", "WFEC"],
                             "labelColors": ["#d62728", "#ff7f0e", "#9467bd", "#1f77b4"],
-                            "allLabels": ["PN1", "PN2", "PN3", "PN4", "PN5", "PAR"],
-                            "allLabelDesc": ["PA Initiated", "PA Approved", "RCA Approved", "WFEC", "PA Closed", "PA Rejected"],
+                            "allLabels": ["PN1", "PN2", "PN3", "PN4"],
+                            "allLabelDesc": ["PA Initiated", "PA Approved", "RCA Approved", "WFEC"],
                             "closedStateLabel": "PN5",
                             "rejectedStateLabel": "PAR"
                         },
@@ -509,6 +513,21 @@
                                 "size": 12,
                                 "contentType": "chart",
                                 "contentConfig": {
+                                    "id" : "closure",
+                                    "functionality" : "closure",
+                                    "title" : "Change Control closure time overview",
+                                    "dateFilterRequired" : "Y",
+                                    "contentClass" : "closureTimeChart"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "columnConfig": [
+                            {
+                                "size": 12,
+                                "contentType": "chart",
+                                "contentConfig": {
                                     "id" : "tracker",
                                     "functionality" : "tracker",
                                     "title" : "CC/DC Tracker",
@@ -533,7 +552,7 @@
                         ]
                     }
                 ],
-                "layoutDomStyle":" .chart { width: 90%; min-height: 350px; cursor:pointer; } .dateFilter{ display:flex; margin-left: 45px; } .filterDates { width: 115px; margin: 0 6px; } .date-filter-form-control { height: 20px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px; } .date-filter-btn { margin-bottom: 0; margin-left: 12px; font-weight: 400; text-align: center; white-space: nowrap; vertical-align: middle; touch-action: manipulation; cursor: pointer; background-image: none; border: 1px solid transparent; padding: 0px 5px; font-size: 12px; line-height: 1.42857143; border-radius: 4px; } .tableDateFilter{ display:flex; margin-left: 350px; } .closureTimeChart{ width: 90%; min-height: 315px; cursor:pointer; } .bigChart{ width: 90%; min-height: 900px; cursor:pointer; }",
+                "layoutDomStyle":" .chart { width: 90%; min-height: 350px; cursor:pointer; } .dateFilter{ display:flex; margin-left: 45px; } .filterDates { width: 115px; margin: 0 6px; } .date-filter-form-control { height: 20px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px; } .date-filter-btn { margin-bottom: 0; margin-left: 12px; font-weight: 400; text-align: center; white-space: nowrap; vertical-align: middle; touch-action: manipulation; cursor: pointer; background-image: none; border: 1px solid transparent; padding: 0px 5px; font-size: 12px; line-height: 1.42857143; border-radius: 4px; } .tableDateFilter{ display:flex; margin-left: 350px; } .closureTimeChart{ width: 90%; min-height: 315px; cursor:pointer; } .bigChart{ width: 90%; min-height: 900px; cursor:pointer; }"
             },
             "categories":["CC","CCA","DC"],
             "categoriesFunctionalities":[
@@ -571,6 +590,7 @@
                             "labels": ["CN2", "CC1", "CN3", "CN4"],
                             "labelsDesc": ["CC Initiated", "CC Approved", "UI", "IV"],
                             "allLabels": ["CN2", "CC1", "CN3", "CN4", "CN5", "CCR"],
+                            "initialStateLabels": ["CN2", "CC1", "CN3", "CN4"],
                             "allLabelDesc": ["CC Initiated", "CC Approved", "UI", "IV", "CC Closed", "CC Rejected"],
                             "initialSateLabel": "CN2",
                             "closedStateLabel": "CN5",
@@ -585,8 +605,23 @@
                             "labels": ["CN2", "CC1", "CN3", "CN4"],
                             "labelsDesc": ["CC Initiated", "CC Approved", "UI", "IV"],
                             "labelColors": ["#d62728", "#ff7f0e", "#9467bd", "#1f77b4"],
+                            "allLabels": ["CN2", "CC1", "CN3", "CN4"],
+                            "allLabelDesc": ["CC Initiated", "CC Approved", "UI", "IV"],
+                            "closedStateLabel": "CN5",
+                            "rejectedStateLabel": "CCR"
+                        },
+                        {
+                            "id": "closure",
+                            "type": "closure",
+                            "dataSourceType": "Labels",
+                            "renderChart": "Y",
+                            "showInTable": "Y",
+                            "tableHeader": "Closure Time",
+                            "title": "closure time(in days)",
                             "allLabels": ["CN2", "CC1", "CN3", "CN4", "CN5", "CCR"],
+                            "initialStateLabels": ["CN2", "CC1", "CN3", "CN4"],
                             "allLabelDesc": ["CC Initiated", "CC Approved", "UI", "IV", "CC Closed", "CC Rejected"],
+                            "initialSateLabel": "CN2",
                             "closedStateLabel": "CN5",
                             "rejectedStateLabel": "CCR"
                         }
@@ -626,6 +661,7 @@
                             "labels": ["CN2", "CC1", "CN3", "CN4"],
                             "labelsDesc": ["CC Initiated", "CC Approved", "UI", "IV"],
                             "allLabels": ["CN2", "CC1", "CN3", "CN4", "CN5", "CCR"],
+                            "initialStateLabels": ["CN2", "CC1", "CN3", "CN4"],
                             "allLabelDesc": ["CC Initiated", "CC Approved", "UI", "IV", "CC Closed", "CC Rejected"],
                             "initialSateLabel": "CN2",
                             "closedStateLabel": "CN5",
@@ -640,8 +676,23 @@
                             "labels": ["CN2", "CC1", "CN3", "CN4"],
                             "labelsDesc": ["CC Initiated", "CC Approved", "UI", "IV"],
                             "labelColors": ["#d62728", "#ff7f0e", "#9467bd", "#1f77b4"],
+                            "allLabels": ["CN2", "CC1", "CN3", "CN4"],
+                            "allLabelDesc": ["CC Initiated", "CC Approved", "UI", "IV"],
+                            "closedStateLabel": "CN5",
+                            "rejectedStateLabel": "CCR"
+                        },
+                        {
+                            "id": "closure",
+                            "type": "closure",
+                            "dataSourceType": "Labels",
+                            "renderChart": "Y",
+                            "showInTable": "Y",
+                            "tableHeader": "Closure Time",
+                            "title": "closure time(in days)",
                             "allLabels": ["CN2", "CC1", "CN3", "CN4", "CN5", "CCR"],
+                            "initialStateLabels": ["CN2", "CC1", "CN3", "CN4"],
                             "allLabelDesc": ["CC Initiated", "CC Approved", "UI", "IV", "CC Closed", "CC Rejected"],
+                            "initialSateLabel": "CN2",
                             "closedStateLabel": "CN5",
                             "rejectedStateLabel": "CCR"
                         }
@@ -681,6 +732,7 @@
                             "labels": ["DN1", "DN2", "DN3"],
                             "labelsDesc": ["DC Initiated", "Approved by HOD", "DC Approved"],
                             "allLabels": ["DN1", "DN2", "DN3", "DN4","DCR"],
+                            "initialStateLabels": ["DN1", "DN2", "DN3"],
                             "allLabelDesc": ["DC Initiated", "Approved by HOD", "DC Approved", "DC Closed", "DC Rejected"],
                             "initialSateLabel": "DN1",
                             "closedStateLabel": "DN4",
@@ -695,8 +747,23 @@
                             "labels": ["DN1", "DN2", "DN3"],
                             "labelsDesc": ["DC Initiated", "Approved by HOD", "DC Approved"],
                             "labelColors": ["#d62728", "#ff7f0e", "#9467bd"],
+                            "allLabels": ["DN1", "DN2", "DN3"],
+                            "allLabelDesc": ["DC Initiated", "Approved by HOD", "DC Approved"],
+                            "closedStateLabel": "DN4",
+                            "rejectedStateLabel": "DCR"
+                        },
+                        {
+                            "id": "closure",
+                            "type": "closure",
+                            "dataSourceType": "Labels",
+                            "renderChart": "Y",
+                            "showInTable": "Y",
+                            "tableHeader": "Closure Time",
+                            "title": "closure time(in days)",
                             "allLabels": ["DN1", "DN2", "DN3", "DN4","DCR"],
+                            "initialStateLabels": ["DN1", "DN2", "DN3"],
                             "allLabelDesc": ["DC Initiated", "Approved by HOD", "DC Approved", "DC Closed", "DC Rejected"],
+                            "initialSateLabel": "DN1",
                             "closedStateLabel": "DN4",
                             "rejectedStateLabel": "DCR"
                         }
@@ -778,6 +845,21 @@
                                 "size": 12,
                                 "contentType": "chart",
                                 "contentConfig": {
+                                    "id" : "closure",
+                                    "functionality" : "closure",
+                                    "title" : "NCR closure time overview",
+                                    "dateFilterRequired" : "Y",
+                                    "contentClass" : "closureTimeChart"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "columnConfig": [
+                            {
+                                "size": 12,
+                                "contentType": "chart",
+                                "contentConfig": {
                                     "id" : "tracker",
                                     "functionality" : "tracker",
                                     "title" : "NCR Tracker",
@@ -802,7 +884,7 @@
                         ]
                     }
                 ],
-                "layoutDomStyle":" .chart { width: 90%; min-height: 350px; cursor:pointer; } .dateFilter{ display:flex; margin-left: 45px; } .filterDates { width: 115px; margin: 0 6px; } .date-filter-form-control { height: 20px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px; } .date-filter-btn { margin-bottom: 0; margin-left: 12px; font-weight: 400; text-align: center; white-space: nowrap; vertical-align: middle; touch-action: manipulation; cursor: pointer; background-image: none; border: 1px solid transparent; padding: 0px 5px; font-size: 12px; line-height: 1.42857143; border-radius: 4px; } .tableDateFilter{ display:flex; margin-left: 350px; } .closureTimeChart{ width: 90%; min-height: 315px; cursor:pointer; } .bigChart{ width: 90%; min-height: 900px; cursor:pointer; }",
+                "layoutDomStyle":" .chart { width: 90%; min-height: 350px; cursor:pointer; } .dateFilter{ display:flex; margin-left: 45px; } .filterDates { width: 115px; margin: 0 6px; } .date-filter-form-control { height: 20px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px; } .date-filter-btn { margin-bottom: 0; margin-left: 12px; font-weight: 400; text-align: center; white-space: nowrap; vertical-align: middle; touch-action: manipulation; cursor: pointer; background-image: none; border: 1px solid transparent; padding: 0px 5px; font-size: 12px; line-height: 1.42857143; border-radius: 4px; } .tableDateFilter{ display:flex; margin-left: 350px; } .closureTimeChart{ width: 90%; min-height: 315px; cursor:pointer; } .bigChart{ width: 90%; min-height: 900px; cursor:pointer; }"
             },
             "categories":["NCR"],
             "categoriesFunctionalities":[
@@ -851,6 +933,7 @@
                             "labels": ["NN1", "NN2"],
                             "labelsDesc": ["NCR Initiated", "NCR Approved"],
                             "allLabels": ["NN1", "NN2", "NN3"],
+                            "initialStateLabels": ["NN1", "NN2"],
                             "allLabelDesc": ["NCR Initiated", "NCR Approved", "NCR Closed"],
                             "initialSateLabel": "NN1",
                             "closedStateLabel": "NN3",
@@ -865,8 +948,23 @@
                             "labels": ["NN1", "NN2"],
                             "labelsDesc": ["NCR Initiated", "NCR Approved"],
                             "labelColors": ["#d62728", "#ff7f0e"],
+                            "allLabels": ["NN1", "NN2"],
+                            "allLabelDesc": ["NCR Initiated", "NCR Approved"],
+                            "closedStateLabel": "NN3",
+                            "rejectedStateLabel": ""
+                        },
+                        {
+                            "id": "closure",
+                            "type": "closure",
+                            "dataSourceType": "Labels",
+                            "renderChart": "Y",
+                            "showInTable": "Y",
+                            "tableHeader": "Closure Time",
+                            "title": "closure time(in days)",
                             "allLabels": ["NN1", "NN2", "NN3"],
+                            "initialStateLabels": ["NN1", "NN2"],
                             "allLabelDesc": ["NCR Initiated", "NCR Approved", "NCR Closed"],
+                            "initialSateLabel": "NN1",
                             "closedStateLabel": "NN3",
                             "rejectedStateLabel": ""
                         }
@@ -948,6 +1046,21 @@
                                 "size": 12,
                                 "contentType": "chart",
                                 "contentConfig": {
+                                    "id" : "closure",
+                                    "functionality" : "closure",
+                                    "title" : "Deviation closure time overview",
+                                    "dateFilterRequired" : "Y",
+                                    "contentClass" : "closureTimeChart"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "columnConfig": [
+                            {
+                                "size": 12,
+                                "contentType": "chart",
+                                "contentConfig": {
                                     "id" : "tracker",
                                     "functionality" : "tracker",
                                     "title" : "Deviation Tracker",
@@ -972,7 +1085,7 @@
                         ]
                     }
                 ],
-                "layoutDomStyle":" .chart { width: 90%; min-height: 350px; cursor:pointer; } .dateFilter{ display:flex; margin-left: 45px; } .filterDates { width: 115px; margin: 0 6px; } .date-filter-form-control { height: 20px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px; } .date-filter-btn { margin-bottom: 0; margin-left: 12px; font-weight: 400; text-align: center; white-space: nowrap; vertical-align: middle; touch-action: manipulation; cursor: pointer; background-image: none; border: 1px solid transparent; padding: 0px 5px; font-size: 12px; line-height: 1.42857143; border-radius: 4px; } .tableDateFilter{ display:flex; margin-left: 350px; } .closureTimeChart{ width: 90%; min-height: 315px; cursor:pointer; } .bigChart{ width: 90%; min-height: 900px; cursor:pointer; }",
+                "layoutDomStyle":" .chart { width: 90%; min-height: 350px; cursor:pointer; } .dateFilter{ display:flex; margin-left: 45px; } .filterDates { width: 115px; margin: 0 6px; } .date-filter-form-control { height: 20px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px; } .date-filter-btn { margin-bottom: 0; margin-left: 12px; font-weight: 400; text-align: center; white-space: nowrap; vertical-align: middle; touch-action: manipulation; cursor: pointer; background-image: none; border: 1px solid transparent; padding: 0px 5px; font-size: 12px; line-height: 1.42857143; border-radius: 4px; } .tableDateFilter{ display:flex; margin-left: 350px; } .closureTimeChart{ width: 90%; min-height: 315px; cursor:pointer; } .bigChart{ width: 90%; min-height: 900px; cursor:pointer; }"
             },
             "categories":["DEV"],
             "categoriesFunctionalities":[
@@ -1021,6 +1134,7 @@
                             "labels": ["EV1", "EN2"],
                             "labelsDesc": ["Deviation Initiated", "Deviation Approved"],
                             "allLabels": ["DEVN1", "DEVN2", "DEVN3"],
+                            "initialStateLabels": ["DEVN1", "DEVN2"],
                             "allLabelDesc": ["Deviation Initiated", "Deviation Approved", "Deviation Closed"],
                             "initialSateLabel": "DEVN1",
                             "closedStateLabel": "DEVN3",
@@ -1035,8 +1149,23 @@
                             "labels": ["EV1", "EN2"],
                             "labelsDesc": ["Deviation Initiated", "Deviation Approved"],
                             "labelColors": ["#d62728", "#ff7f0e"],
+                            "allLabels": ["DEVN1", "DEVN2"],
+                            "allLabelDesc": ["Deviation Initiated", "Deviation Approved"],
+                            "closedStateLabel": "DEVN3",
+                            "rejectedStateLabel": ""
+                        },
+                        {
+                            "id": "closure",
+                            "type": "closure",
+                            "dataSourceType": "Labels",
+                            "renderChart": "Y",
+                            "showInTable": "Y",
+                            "tableHeader": "Closure Time",
+                            "title": "closure time(in days)",
                             "allLabels": ["DEVN1", "DEVN2", "DEVN3"],
+                            "initialStateLabels": ["DEVN1", "DEVN2"],
                             "allLabelDesc": ["Deviation Initiated", "Deviation Approved", "Deviation Closed"],
+                            "initialSateLabel": "DEVN1",
                             "closedStateLabel": "DEVN3",
                             "rejectedStateLabel": ""
                         }

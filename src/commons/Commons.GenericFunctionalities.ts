@@ -247,6 +247,7 @@ namespace Commons {
                                 stateCodes: functionality.labels,
                                 stateDesc: functionality.labelsDesc,
                                 allStateCodes: functionality.allLabels,
+                                initialStateCodes: functionality.initialStateLabels,
                                 allStateDesc: functionality.allLabelDesc,
                                 statusWiseTotalDaysData: statusWiseTotalDaysData,
                                 statusWiseAvgData: [category.id + ' ' + functionality.title, ...SateWiseAvgInitials],
@@ -758,21 +759,33 @@ namespace Commons {
                     continue;
                 }
 
+                let initiateStatesDataMap: Map<string, Date> = new Map<string, Date>(); 
+
                 for (const label of item.labels) {
                     let stateIndex = avgObject.allStateCodes.findIndex(stateCode => stateCode === label.label);
                     if (stateIndex > -1 && (label.reset.length !== label.set.length)) {
                         avgObject.currentState = label.label;
                     }
 
-                    let initialStateIndex = avgObject.allStateCodes.findIndex(stateCode => stateCode === avgObject.intialState);
-                    let closedStateIndex = avgObject.allStateCodes.findIndex(stateCode => stateCode === avgObject.closedState);
+                    if(stateIndex > -1){
+                        let initialStateIndex = avgObject.initialStateCodes.findIndex(stateCode => stateCode === label.label);
+                        if(initialStateIndex > -1){
 
-                    if (stateIndex == initialStateIndex) {
-                        label.set.sort((a, b) => a.version - b.version);
-                        let intiatedDate = new Date(label.set[0].dateIso);
-                        avgObject.initiatedDate = intiatedDate;
+                            label.set.sort((a, b) => a.version - b.version);
+                            let intiatedDate = new Date(label.set[0].dateIso);
+                          
+                            if (initiateStatesDataMap.get(label.label)) {
+                                if(intiatedDate > initiateStatesDataMap.get(label.label)){
+                                    initiateStatesDataMap.set(label.label,intiatedDate);
+                                }
+                            }else{
+                                initiateStatesDataMap.set(label.label,intiatedDate);
+                            }
+                        }
                     }
 
+                    
+                    let closedStateIndex = avgObject.allStateCodes.findIndex(stateCode => stateCode === avgObject.closedState);
                     if (stateIndex == closedStateIndex) {
                         label.set.sort((a, b) => b.version - a.version);
                         const colosedDate = new Date(label.set[0].dateIso);
@@ -788,6 +801,14 @@ namespace Commons {
                                 avgObject.statusWiseTotalDaysData[avgStateIndex][1] += 1;
                             }
                         }
+                    }
+                }
+
+                for(const intialStateCode of avgObject.initialStateCodes){
+                    if(initiateStatesDataMap.get(intialStateCode)){
+                        let intiatedDate = initiateStatesDataMap.get(intialStateCode);
+                        avgObject.initiatedDate = intiatedDate;
+                        break;
                     }
                 }
 

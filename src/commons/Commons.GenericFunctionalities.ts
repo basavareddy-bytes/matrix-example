@@ -1068,19 +1068,27 @@ namespace Commons {
 
                 }
 
-                let currentStateIndex = trackerObject.allStateCodes.findIndex(stateCode => stateCode === trackerObject.currentState);
-                let closedStateIndex = trackerObject.allStateCodes.findIndex(stateCode => stateCode === trackerObject.closedState);
-                let rejectedStateIndex = trackerObject.allStateCodes.findIndex(stateCode => stateCode === trackerObject.rejectedState);
-                if ((currentStateIndex == closedStateIndex)
-                    || (currentStateIndex == rejectedStateIndex)
-                ) {
-                    // let stateTrackerInitialData: any[] = [['x']];
+                // let currentStateIndex = trackerObject.allStateCodes.findIndex(stateCode => stateCode === trackerObject.currentState);
+                // let closedStateIndex = trackerObject.allStateCodes.findIndex(stateCode => stateCode === trackerObject.closedState);
+                // let rejectedStateIndex = trackerObject.allStateCodes.findIndex(stateCode => stateCode === trackerObject.rejectedState);
+                // if ((currentStateIndex == closedStateIndex)
+                //     || (currentStateIndex == rejectedStateIndex)
+                // ) {
+                //     // let stateTrackerInitialData: any[] = [['x']];
 
-                    // trackerObject.stateDesc.forEach(labelDesc => {
-                    //     stateTrackerInitialData.push([labelDesc]);
-                    // });  
+                //     // trackerObject.stateDesc.forEach(labelDesc => {
+                //     //     stateTrackerInitialData.push([labelDesc]);
+                //     // });  
+                //     trackerObject.stateTrackerData = stateTrackerInitialData;
+                // }
+
+                if ((trackerObject.currentState == trackerObject.closedState)
+                || (trackerObject.currentState == trackerObject.rejectedState)
+                ) {
                     trackerObject.stateTrackerData = stateTrackerInitialData;
                 }
+
+                
 
                 let itemCurrentStateDataIndex = itemCurrentStateValues.findIndex(itemCurrentStateData => itemCurrentStateData.id == item.itemRef);
 

@@ -283,9 +283,19 @@
                                 "AN1",
                                 "AN2",
                                 "AN3",
-                                "AN4"
+                                "AN4",
+                                "AN5",
+                                "CAR"
                             ],
                             "allLabelDesc": [
+                                "CA Initiated",
+                                "CA Approved",
+                                "RCA Approved",
+                                "WFEC",
+                                "CA Closed",
+                                "CA Rejected"
+                            ],
+                            "tableLabelDesc": [
                                 "CA Initiated",
                                 "CA Approved",
                                 "RCA Approved",
@@ -497,9 +507,19 @@
                                 "AN1",
                                 "AN2",
                                 "AN3",
-                                "AN4"
+                                "AN4",
+                                "AN5",
+                                "CAR"
                             ],
                             "allLabelDesc": [
+                                "CA Initiated",
+                                "CA Approved",
+                                "RCA Approved",
+                                "WFEC",
+                                "CA Closed",
+                                "CA Rejected"
+                            ],
+                            "tableLabelDesc": [
                                 "CA Initiated",
                                 "CA Approved",
                                 "RCA Approved",
@@ -711,9 +731,19 @@
                                 "PN1",
                                 "PN2",
                                 "PN3",
-                                "WFEC"
+                                "WFEC",
+                                "PAC",
+                                "PAR"
                             ],
                             "allLabelDesc": [
+                                "PA Initiated",
+                                "PA Approved",
+                                "RC Approved",
+                                "WFEC",
+                                "PA Closed",
+                                "PA Rejected"
+                            ],
+                            "tableLabelDesc": [
                                 "PA Initiated",
                                 "PA Approved",
                                 "RC Approved",
@@ -925,9 +955,19 @@
                                 "PN1",
                                 "PN2",
                                 "PN3",
-                                "WFEC"
+                                "WFEC",
+                                "PAC",
+                                "PAR"
                             ],
                             "allLabelDesc": [
+                                "PA Initiated",
+                                "PA Approved",
+                                "RC Approved",
+                                "WFEC",
+                                "PA Closed",
+                                "PA Rejected"
+                            ],
+                            "tableLabelDesc": [
                                 "PA Initiated",
                                 "PA Approved",
                                 "RC Approved",
@@ -1218,18 +1258,9 @@
                                 "#9467bd",
                                 "#1f77b4"
                             ],
-                            "allLabels": [
-                                "CCN1",
-                                "CCN2",
-                                "CCN3",
-                                "CCN4"
-                            ],
-                            "allLabelDesc": [
-                                "CC Initiated",
-                                "CC Approved",
-                                "UI",
-                                "IV"
-                            ],
+                            "allLabels": ["CCN1", "CCN2", "CCN3", "CCN4", "CCN5", "CCR"],
+                            "allLabelDesc": ["CC Initiated", "CC Approved", "UI", "IV", "CC Closed", "CC Rejected"],
+                            "tableLabelDesc": ["CC Initiated", "CC Approved", "UI", "IV"],
                             "closedStateLabel": "CCN5",
                             "rejectedStateLabel": "CCR"
                         },
@@ -1385,18 +1416,9 @@
                                 "#9467bd",
                                 "#1f77b4"
                             ],
-                            "allLabels": [
-                                "CCN1",
-                                "CCN2",
-                                "CCN3",
-                                "CCN4"
-                            ],
-                            "allLabelDesc": [
-                                "CC Initiated",
-                                "CC Approved",
-                                "UI",
-                                "IV"
-                            ],
+                            "allLabels": ["CCN1", "CCN2", "CCN3", "CCN4", "CCN5", "CCR"],
+                            "allLabelDesc": ["CC Initiated", "CC Approved", "UI", "IV", "CC Closed", "CC Rejected"],
+                            "tableLabelDesc": ["CC Initiated", "CC Approved", "UI", "IV"],
                             "closedStateLabel": "CCN5",
                             "rejectedStateLabel": "CCR"
                         },
@@ -1542,16 +1564,9 @@
                                 "#ff7f0e",
                                 "#9467bd"
                             ],
-                            "allLabels": [
-                                "DCN1",
-                                "DCN2",
-                                "DCN3"
-                            ],
-                            "allLabelDesc": [
-                                "DC Initiated",
-                                "Approved by HOD",
-                                "DC Approved"
-                            ],
+                            "allLabels": ["DCN1", "DCN2", "DCN3", "DCN4","DR1"],
+                            "allLabelDesc": ["DC Initiated", "Approved by HOD", "DC Approved", "DC Closed", "DC Rejected"],
+                            "tableLabelDesc": ["DC Initiated", "Approved by HOD", "DC Approved"],
                             "closedStateLabel": "DCN4",
                             "rejectedStateLabel": "DR1"
                         },
@@ -1823,14 +1838,9 @@
                                 "#d62728",
                                 "#ff7f0e"
                             ],
-                            "allLabels": [
-                                "CR1",
-                                "CR2"
-                            ],
-                            "allLabelDesc": [
-                                "NCR Initiated",
-                                "NCR Approved"
-                            ],
+                            "allLabels": ["CR1", "CR2", "CR3"],
+                            "allLabelDesc": ["NCR Initiated", "NCR Approved", "NCR Closed"],
+                            "tableLabelDesc": ["NCR Initiated", "NCR Approved"],
                             "closedStateLabel": "CR3",
                             "rejectedStateLabel": ""
                         },
@@ -2109,13 +2119,10 @@
                                 "#d62728",
                                 "#ff7f0e"
                             ],
-                            "allLabels": [
-                                "EV1",
-                                "EN2"
-                            ],
-                            "allLabelDesc": [
-                                "Deviation Initiated",
-                                "Deviation Approved"
+                            "allLabels": ["EV1", "EN2", "EV3", "DR"],
+                            "allLabelDesc": ["Deviation Initiated", "Deviation Approved", "Deviation Closed","Deviation Rejected"],
+                            "tableLabelDesc": [
+                                "Deviation Initiated", "Deviation Approved"
                             ],
                             "closedStateLabel": "EV3",
                             "rejectedStateLabel": "DR"

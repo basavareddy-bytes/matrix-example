@@ -319,7 +319,7 @@ namespace Commons {
                             trackerData.push(trackerObject);
 
                             if(functionality.showInTable){
-                                functionality.allLabelDesc.forEach(lableDesc => {
+                                functionality.tableLabelDesc.forEach(lableDesc => {
                                     itemCurrentStateTableHeaders.push(lableDesc);
                                 });
                             }
@@ -1062,29 +1062,25 @@ namespace Commons {
 
                         let stateDesc = trackerObject.allStateDesc[stateIndex];
                         let headerIndex = itemCurrentStateTableHeaders.findIndex(header => header === stateDesc);
-                        itemCurrentStateData.tableValues[headerIndex] = labelstateDaysCount;
+                        if(headerIndex > -1){
+                            itemCurrentStateData.tableValues[headerIndex] = labelstateDaysCount;
+                        }
 
                     }
 
                 }
 
-                // let currentStateIndex = trackerObject.allStateCodes.findIndex(stateCode => stateCode === trackerObject.currentState);
-                // let closedStateIndex = trackerObject.allStateCodes.findIndex(stateCode => stateCode === trackerObject.closedState);
-                // let rejectedStateIndex = trackerObject.allStateCodes.findIndex(stateCode => stateCode === trackerObject.rejectedState);
-                // if ((currentStateIndex == closedStateIndex)
-                //     || (currentStateIndex == rejectedStateIndex)
-                // ) {
-                //     // let stateTrackerInitialData: any[] = [['x']];
-
-                //     // trackerObject.stateDesc.forEach(labelDesc => {
-                //     //     stateTrackerInitialData.push([labelDesc]);
-                //     // });  
-                //     trackerObject.stateTrackerData = stateTrackerInitialData;
-                // }
-
-                if ((trackerObject.currentState == trackerObject.closedState)
-                || (trackerObject.currentState == trackerObject.rejectedState)
+                let currentStateIndex = trackerObject.allStateCodes.findIndex(stateCode => stateCode === trackerObject.currentState);
+                let closedStateIndex = trackerObject.allStateCodes.findIndex(stateCode => stateCode === trackerObject.closedState);
+                let rejectedStateIndex = trackerObject.allStateCodes.findIndex(stateCode => stateCode === trackerObject.rejectedState);
+                if ((currentStateIndex == closedStateIndex)
+                    || (currentStateIndex == rejectedStateIndex)
                 ) {
+                    // let stateTrackerInitialData: any[] = [['x']];
+
+                    // trackerObject.stateDesc.forEach(labelDesc => {
+                    //     stateTrackerInitialData.push([labelDesc]);
+                    // });  
                     trackerObject.stateTrackerData = stateTrackerInitialData;
                 }
 

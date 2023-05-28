@@ -82,6 +82,7 @@ namespace Commons {
                 let avgData: avgObject[] = [];
                 let closureData: closureObject[] = [];
                 let trackerData: trackerObject[] = [];
+                let groupByNcrDeptData: groupByNcrDeptObject[] = [];
                 let dateRangeCompareData: dateRangeCompareObject[] = [];
                 let groupByStackCurrentLabelData: groupByStackCurrentData[] = [];
                 let groupByObjectCurrentLabelData: groupByObjectCurrentData[] = [];
@@ -341,6 +342,33 @@ namespace Commons {
                             };
                             dateRangeCompareData.push(dateRangeComapreObject);
                             break;
+                        case 'groupByNcrDept':
+                            let ncOptions = [];
+                            let groupByNcrDeptWiseData = [];
+                            let groupByNcrDeptInitials = Array(functionality.labels.length).fill(0);
+                            let fieldAuditFindings =  IC.getFieldByName("IQA","Audit Findings");
+                            let ncCatColumn = fieldAuditFindings.parameterJson.columns.find(col=>col.name == "NC Category");
+                            let ncDropDownOptions = IC.getDropDowns(ncCatColumn.options.setting).pop();
+                            if( ncDropDownOptions && ncDropDownOptions.value && ncDropDownOptions.value.options){
+                                ncOptions = ncDropDownOptions.value.options;
+                                for( let option of ncDropDownOptions.value.options){
+                                    groupByNcrDeptWiseData.push([option.label, ...groupByNcrDeptInitials]);
+                                }
+                            }
+                            let groupByNcrDeptObject: groupByNcrDeptObject = {
+                                id: functionality.id,
+                                dataSourceType: functionality.dataSourceType,
+                                renderChart: functionality.renderChart,
+                                sourceTableName: functionality.sourceTableName,
+                                sourceTableColumnName: functionality.sourceTableColumnName,
+                                labels: functionality.labels,
+                                labelsDesc: functionality.labelsDesc,
+                                ncOptions: ncOptions,
+                                ncCatColumnField: ncCatColumn.field,
+                                groupByNcrDeptWiseData: groupByNcrDeptWiseData
+                            };
+                            groupByNcrDeptData.push(groupByNcrDeptObject);
+                            break;    
                     };
 
                 });
@@ -352,6 +380,7 @@ namespace Commons {
                     groupByStateData: groupByStateData,
                     groupByStateOverdueData: groupByStateOverdueData,
                     groupByStackData: groupByStackData,
+                    groupByNcrDeptData: groupByNcrDeptData,
                     avgData: avgData,
                     closureData: closureData,
                     trackerData: trackerData,
@@ -1095,6 +1124,38 @@ namespace Commons {
                 }
             }
 
+        }
+
+        export function processGroupByNcrDeptObjectData(groupByNcrDeptObject: groupByNcrDeptObject,
+            groupByNcrDeptObjectDataSource: XRTrimNeedleItem[]) {
+
+            for (const item of groupByNcrDeptObjectDataSource) {       
+                if(item.labels){
+                    let itemDeptIndex = -1;
+                    for(const label of groupByNcrDeptObject.labels){
+                        if(item.labels.includes(label)){
+                            let labelIndex = groupByNcrDeptObject.labels.findIndex(labelCode => labelCode === label);
+                            itemDeptIndex = labelIndex;
+                            break;
+                        }
+                    }
+
+                    if(itemDeptIndex > 0){
+                        if(item.fieldVal.length == 1){
+                            let auditFindingTable = JSON.parse(item.fieldVal[0].value);
+                            for( let auditFindingLine of auditFindingTable){
+                                let ncId = auditFindingLine[groupByNcrDeptObject.ncCatColumnField];
+                                let ncOption = groupByNcrDeptObject.ncOptions.find(ncOption => ncOption.id === ncId);
+                                groupByNcrDeptObject.groupByNcrDeptWiseData.forEach(ncDeptWiseData => {
+                                    if(ncDeptWiseData[0] == ncOption.label){
+                                    ncDeptWiseData[itemDeptIndex+1] += 1;
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+            }
         }
 
     }

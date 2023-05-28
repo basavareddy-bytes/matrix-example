@@ -79,6 +79,19 @@ interface groupByStateObject {
     currentLabelData: groupByObjectCurrentData[];
 }
 
+interface groupByNcrDeptObject {
+    id: string;
+    dataSourceType: string;
+    renderChart: string;
+    sourceTableName: string;
+    sourceTableColumnName: string;
+    labels: any[];
+    labelsDesc: any[];
+    ncOptions: any[];
+    ncCatColumnField: string;
+    groupByNcrDeptWiseData: any[];
+}
+
 interface groupByStateOverDueObject extends groupByStateObject {
     dataSources: any[];
     OpenItemsDueDateMap: Map;
@@ -178,6 +191,7 @@ interface ByCategoryLabelData {
     groupByStateData: groupByStateObject[];
     groupByStackData: groupByStackObject[];
     groupByStateOverdueData: groupByStateOverDueObject[];
+    groupByNcrDeptData: groupByNcrDeptObject[];
     avgData: avgObject[];
     closureData: closureObject[];
     trackerData: trackerObject[];

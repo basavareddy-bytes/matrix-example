@@ -1375,7 +1375,7 @@ namespace GenericDashboard {
                     x: 'x',
                     columns: [
                         ['x', ...labels],
-                        groupByNcrDeptWiseData
+                        ...groupByNcrDeptWiseData
                     ],
                     type: 'bar'
                 },

@@ -179,7 +179,7 @@ namespace GenericDashboard {
 
                     if (dataSourcePromiseResult.length > 0 && that.instanceOfXRTrimNeedleItem(dataSourcePromiseResult[0])) {
                         dashboardPluginSources.push({
-                            "type": "Needles",
+                            "type": "NeedlesBySearch",
                             "source": dataSourcePromiseResult
                         })
                     } else if (dataSourcePromiseResult.length > 0 && that.instanceOfXRLabelEntry(dataSourcePromiseResult[0])) {

@@ -675,6 +675,12 @@ namespace GenericDashboard {
                 });
             }
 
+            if (ByCategoryLabelData.groupByNcrAuditorData && ByCategoryLabelData.groupByNcrAuditorData.length > 0) {
+                ByCategoryLabelData.groupByNcrAuditorData.forEach(groupByNcrAuditorObject => {
+                    that.renderGroupByNcrAuditorChart(groupByNcrAuditorObject.groupByNcrAuditorWiseData, groupByNcrAuditorObject.id);
+                });
+            }
+
 
             if (ByCategoryLabelData.dateRangeCompareData && ByCategoryLabelData.dateRangeCompareData.length > 0) {
                 ByCategoryLabelData.dateRangeCompareData.forEach(dateRangeCompareObject => {
@@ -1400,6 +1406,33 @@ namespace GenericDashboard {
             that.allChartsMap.set(groupId, groupByChart);
         }
 
+        renderGroupByNcrAuditorChart(groupByNcrAuditorWiseData, groupId) {
+            let that = this;
+            //prepare template "${contentConfig.id}-Chart"
+            let groupByChartparams: c3.ChartConfiguration = {
+                bindto: `#${groupId}Graph`,
+                data: {
+                    x: 'x',
+                    columns: groupByNcrAuditorWiseData,
+                    type: 'bar'
+                },
+                axis: {
+                    x: {
+                        type: 'category'
+                    }
+                }
+            };
+
+            //prepare chart config and render
+            $(`#${groupId}-Chart div`).remove();
+
+            $(`#${groupId}-Chart`).append(`<div id='${groupId}Graph'>`);
+
+            let groupByChart = c3.generate(groupByChartparams);
+
+            that.allChartsMap.set(groupId, groupByChart);
+        }
+
         renderPluginTableByDateRanges(fromDateVal: any, toDateVal: any, byCategoryLabelData: ByCategoryLabelData) {
 
             let fromDate = new Date(fromDateVal);
@@ -1610,11 +1643,30 @@ namespace GenericDashboard {
                     );
                 });
 
-                //process groupBy functionality
+                //process groupBy NCR department wise functionality
                 ByCategoryLabelData.groupByNcrDeptData.forEach(groupByNcrDeptObject => {
                     let groupByNcrDeptObjectDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === groupByNcrDeptObject.dataSourceType);
                     Commons.GenericFunctionalities.processGroupByNcrDeptObjectData(groupByNcrDeptObject,
                         groupByNcrDeptObjectDataSource.source);
+                });
+
+                 //process groupBy NCR auditor wise functionality
+                 ByCategoryLabelData.groupByNcrAuditorData.forEach(groupByNcrAuditorObject => {
+                    let auditFindingsDataSource: XRTrimNeedleItem[];
+                    let auditorinfoDataSource: XRTrimNeedleItem[];
+
+                    for (const dataSource of functionalityDataSources) {
+
+                        
+                        if (dataSource.id === "audit-findings") {
+                            auditFindingsDataSource = dataSource.source;
+                        } else if (dataSource.id === "general-auditor-information") {
+                            auditorinfoDataSource = dataSource.source;
+                        }
+
+                    }
+                    Commons.GenericFunctionalities.processGroupByNcrAuditorObjectData(groupByNcrAuditorObject,
+                        auditFindingsDataSource,auditorinfoDataSource);
                 });
             }
         }

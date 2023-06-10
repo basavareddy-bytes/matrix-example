@@ -1193,5 +1193,59 @@ namespace Commons {
             }
         }
 
+        export function processGroupByNcrAuditorObjectData(groupByNcrAuditorObject: groupByNcrAuditorObject,
+            auditFindingsDataSource: XRTrimNeedleItem[],
+            auditorinfoDataSource: XRTrimNeedleItem[],
+            ) {
+
+                let auditorsData = [];
+                let auditCountData = [];
+                let auditItemsData = [];
+                let auditNcCountData = [];
+
+                for (const auditInfoItem of auditorinfoDataSource) { 
+                    if(auditInfoItem.fieldVal.length == 1){
+                        let auditInfoTable = JSON.parse(auditInfoItem.fieldVal[0].value);
+                        for( let auditInfoLine of auditInfoTable){
+                            let auditorOptionId = auditInfoLine[groupByNcrAuditorObject.auditorTypeColumnField];
+                            if(auditorOptionId == groupByNcrAuditorObject.auditorOptionId){
+                                let auditorName = auditInfoLine[groupByNcrAuditorObject.auditorNameColumnField];
+                                let auditorIndex = auditorsData.findIndex(auditor => auditor === auditorName);
+                                if(auditorIndex > 0){
+                                    auditCountData[auditorIndex] += 1;
+                                    auditItemsData[auditorIndex].push(auditInfoItem.itemOrFolderRef);
+                                }else{
+                                    auditorsData.push(auditorName);
+                                    auditCountData.push(1);
+                                    auditItemsData.push([auditInfoItem.itemOrFolderRef])
+                                    auditNcCountData.push(0);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                for (const auditFindingItem of auditFindingsDataSource) { 
+                    if(auditFindingItem.fieldVal.length == 1){
+                        let auditFindingTable = JSON.parse(auditFindingItem.fieldVal[0].value);
+                        let itemIndex = -1;
+                        for( let auditItems of auditItemsData){
+                            itemIndex += 1;
+                            let auditorItemIndex = auditItems.findIndex(itemRefId => itemRefId === auditFindingItem.itemOrFolderRef);
+                            if(auditorItemIndex > 0){
+                                auditNcCountData[itemIndex] += auditFindingTable.length;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                groupByNcrAuditorObject.groupByNcrAuditorWiseData = [
+                    ['x', ...auditorsData],
+                    ['No of audits performed',...auditCountData],
+                    ['No of NC given', ...auditNcCountData]
+                ];
+        }
+
     }
 }

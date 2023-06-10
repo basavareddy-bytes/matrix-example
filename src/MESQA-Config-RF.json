@@ -10,9 +10,11 @@
             "version": "1.0.0",
             "dataSources": [
                 {
+                    "id": "iqalabels",
                     "type": "Labels"
                 },
                 {
+                    "id": "audit-findings",
                     "type": "NeedlesBySearch",
                     "sourceAtrributes": [
                         {
@@ -22,6 +24,24 @@
                         {
                             "name": "fieldsOut",
                             "value": 2459
+                        },
+                        {
+                            "name": "labels",
+                            "value": 1
+                        }
+                    ]
+                },
+                {
+                    "id": "general-auditor-information",
+                    "type": "NeedlesBySearch",
+                    "sourceAtrributes": [
+                        {
+                            "name": "category",
+                            "value": "IQA"
+                        },
+                        {
+                            "name": "fieldsOut",
+                            "value": 2456
                         },
                         {
                             "name": "labels",
@@ -77,6 +97,21 @@
                         "columnConfig": [
                             {
                                 "size": 12,
+                                "contentType": "chart",
+                                "contentConfig": {
+                                    "id" : "ncrauditorWise",
+                                    "functionality" : "groupByNcrAuditor",
+                                    "title" : "Auditor performance overview",
+                                    "dateFilterRequired" : "N",
+                                    "contentClass" : "chart"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "columnConfig": [
+                            {
+                                "size": 12,
                                 "contentType": "table",
                                 "contentConfig": {
                                     "id" : "IQAO",
@@ -98,7 +133,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "iqalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -109,7 +144,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "iqalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": ["Q4", "PLN1", "Q1", "Q2"],
@@ -124,12 +159,22 @@
                         {
                             "id": "ncrDeptWise",
                             "type": "groupByNcrDept",
-                            "dataSourceType": "NeedlesBySearch",
+                            "dataSourceType": "audit-findings",
                             "renderChart": "Y",
                             "sourceTableName": "Audit Findings",
                             "sourceTableColumnName": "NC Category",
                             "labels": ["PROD-AB", "PROD-C", "QC-AB", "QC-C", "QA", "RA", "SCM", "MICRO", "PUR", "Packaging", "HR", "ENG", "ST", "UT", "NDLP"],
                             "labelsDesc": ["PAB", "PC", "QCAB", "QCC", "QA", "RA", "SCM", "MI", "PUR", "PKG", "HR", "ENG","ST", "UT", "NDL"]
+                        },
+                        {
+                            "id": "ncrauditorWise",
+                            "type": "groupByNcrAuditor",
+                            "dataSources":["audit-findings","general-auditor-information"],
+                            "renderChart": "Y",
+                            "auditorSourceTableName": "General Audit Information:",
+                            "auditorTypeColumnName": "Member Details",
+                            "auditorNameColumnName": "Name",
+                            "auditorOptionLabel": "Auditor"
                         }
                     ]
                 }

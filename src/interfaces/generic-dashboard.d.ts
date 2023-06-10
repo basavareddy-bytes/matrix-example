@@ -92,6 +92,20 @@ interface groupByNcrDeptObject {
     groupByNcrDeptWiseData: any[];
 }
 
+interface groupByNcrAuditorObject {
+    id: string;
+    dataSources: string[];
+    renderChart: string;
+    auditorSourceTableName: string;
+    auditorTypeColumnName: string;
+    auditorNameColumnName: string;
+    auditorOptionLabel: string;
+    auditorOptionId: string;
+    auditorTypeColumnField: string;
+    auditorNameColumnField: string;
+    groupByNcrAuditorWiseData: any[];
+}
+
 interface groupByStateOverDueObject extends groupByStateObject {
     dataSources: any[];
     OpenItemsDueDateMap: Map;
@@ -192,6 +206,7 @@ interface ByCategoryLabelData {
     groupByStackData: groupByStackObject[];
     groupByStateOverdueData: groupByStateOverDueObject[];
     groupByNcrDeptData: groupByNcrDeptObject[];
+    groupByNcrAuditorData: groupByNcrAuditorObject[];
     avgData: avgObject[];
     closureData: closureObject[];
     trackerData: trackerObject[];

@@ -83,6 +83,7 @@ namespace Commons {
                 let closureData: closureObject[] = [];
                 let trackerData: trackerObject[] = [];
                 let groupByNcrDeptData: groupByNcrDeptObject[] = [];
+                let groupByNcrAuditorData: groupByNcrAuditorObject[] = [];
                 let dateRangeCompareData: dateRangeCompareObject[] = [];
                 let groupByStackCurrentLabelData: groupByStackCurrentData[] = [];
                 let groupByObjectCurrentLabelData: groupByObjectCurrentData[] = [];
@@ -369,6 +370,39 @@ namespace Commons {
                             };
                             groupByNcrDeptData.push(groupByNcrDeptObject);
                             break;    
+                        case 'groupByNcrAuditor':
+                            let groupByNcrAuditorWiseData =  [
+                                ['x'],
+                                ['No of audits performed'],
+                                ['No of NC given']
+                            ];
+                            let fieldAuditorInfo =  IC.getFieldByName(category.id,functionality.auditorSourceTableName);
+                            let auditorTypeColumn = fieldAuditorInfo.parameterJson.columns.find(col=>col.name == functionality.auditorTypeColumnName);
+                            let auditorNameColumn = fieldAuditorInfo.parameterJson.columns.find(col=>col.name == functionality.auditorNameColumnName);
+                            let auditorDropDownOptions = IC.getDropDowns(auditorTypeColumn.options.setting).pop();
+                            let auditorOptionId = "";
+                            if( auditorDropDownOptions && auditorDropDownOptions.value && auditorDropDownOptions.value.options){
+                                for( let option of auditorDropDownOptions.value.options){
+                                    if(option.label == functionality.auditorOptionLabel){
+                                        auditorOptionId = option.id;
+                                    }
+                                }
+                            }
+                            let groupByNcrAuditorObject: groupByNcrAuditorObject = {
+                                id: functionality.id,
+                                dataSources: functionality.dataSources,
+                                renderChart: functionality.renderChart,
+                                auditorSourceTableName: functionality.auditorSourceTableName,
+                                auditorTypeColumnName: functionality.auditorTypeColumnName,
+                                auditorNameColumnName: functionality.auditorNameColumnName,
+                                auditorOptionLabel: functionality.auditorOptionLabel,
+                                auditorOptionId: auditorOptionId,
+                                auditorTypeColumnField: auditorTypeColumn.field,
+                                auditorNameColumnField: auditorNameColumn.field,
+                                groupByNcrAuditorWiseData: groupByNcrAuditorWiseData
+                            };
+                            groupByNcrAuditorData.push(groupByNcrAuditorObject);
+                            break;        
                     };
 
                 });
@@ -381,6 +415,7 @@ namespace Commons {
                     groupByStateOverdueData: groupByStateOverdueData,
                     groupByStackData: groupByStackData,
                     groupByNcrDeptData: groupByNcrDeptData,
+                    groupByNcrAuditorData: groupByNcrAuditorData,
                     avgData: avgData,
                     closureData: closureData,
                     trackerData: trackerData,

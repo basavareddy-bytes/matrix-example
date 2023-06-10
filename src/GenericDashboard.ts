@@ -156,7 +156,7 @@ namespace GenericDashboard {
                         }
                     });
                     if (needleSourceCategory && needleSourceFieldId) {
-                        dataSourcePromises.push(Matrix.Labels.getNeedlesByCategoryAndFiledId(needleSourceCategory,
+                        dataSourcePromises.push(Matrix.Labels.getNeedlesByCategoryAndFiledId(dataSourceConfig.id,needleSourceCategory,
                             needleSourceFieldId));
                     }
                 } else if (dataSourceConfig.type == "NeedlesBySearch") {
@@ -166,10 +166,11 @@ namespace GenericDashboard {
                             let searchParam = sourceAttribute.name + '=' + sourceAttribute.value;
                             searchParams += searchParam + '&'
                         });
-                        dataSourcePromises.push(Matrix.Labels.getNeedlesBySearch(searchParams));
+                        dataSourcePromises.push(Matrix.Labels.getNeedlesBySearch(dataSourceConfig.id,searchParams));
                     }
                 } else if (dataSourceConfig.type == "Labels") {
-                    dataSourcePromises.push(Matrix.Labels.projectLabelHistory());
+                    dataSourcePromises.push(Matrix.Labels.projectLabelHistory(dataSourceConfig.id));
+
                 }
             });
 
@@ -177,18 +178,21 @@ namespace GenericDashboard {
 
                 dataSourcePromisesResults.forEach(dataSourcePromiseResult => {
 
-                    if (dataSourcePromiseResult.length > 0 && that.instanceOfXRTrimNeedleItem(dataSourcePromiseResult[0])) {
-                        dashboardPluginSources.push({
-                            "type": "NeedlesBySearch",
-                            "source": dataSourcePromiseResult
-                        })
-                    } else if (dataSourcePromiseResult.length > 0 && that.instanceOfXRLabelEntry(dataSourcePromiseResult[0])) {
-                        that.labelHistoryData = dataSourcePromiseResult;
-                        dashboardPluginSources.push({
-                            "type": "Labels",
-                            "source": dataSourcePromiseResult
-                        })
-                    }
+                    // if (dataSourcePromiseResult.length > 0 && that.instanceOfXRTrimNeedleItem(dataSourcePromiseResult[0])) {
+                    //     dashboardPluginSources.push({
+                    //         "type": "NeedlesBySearch",
+                    //         "source": dataSourcePromiseResult
+                    //     })
+                    // } else if (dataSourcePromiseResult.length > 0 && that.instanceOfXRLabelEntry(dataSourcePromiseResult[0])) {
+                    //     that.labelHistoryData = dataSourcePromiseResult;
+                    //     dashboardPluginSources.push({
+                    //         "type": "Labels",
+                    //         "source": dataSourcePromiseResult
+                    //     })
+                    // }
+
+                    dashboardPluginSources.push(dataSourcePromiseResult);
+
 
                 });
 
@@ -1483,7 +1487,7 @@ namespace GenericDashboard {
 
                 //process groupBy functionality
                 ByCategoryLabelData.groupByData.forEach(groupByObject => {
-                    let groupByObjectDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === groupByObject.dataSourceType);
+                    let groupByObjectDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === groupByObject.dataSourceType);
                     Commons.GenericFunctionalities.processGroupByObjectData(groupByObject,
                         groupByObjectDataSource.source,
                         ByCategoryLabelData.category,
@@ -1496,7 +1500,7 @@ namespace GenericDashboard {
 
                 //process groupBy-operands functionality
                 ByCategoryLabelData.groupByOperandsData.forEach(groupByOperandsObject => {
-                    let groupByOperandsDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === groupByOperandsObject.dataSourceType);
+                    let groupByOperandsDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === groupByOperandsObject.dataSourceType);
                     Commons.GenericFunctionalities.processGroupByOperandsData(groupByOperandsObject,
                         groupByOperandsDataSource.source,
                         ByCategoryLabelData.category
@@ -1506,7 +1510,7 @@ namespace GenericDashboard {
 
                 //process groupByStack functionality
                 ByCategoryLabelData.groupByStackData.forEach(groupByStackObject => {
-                    let groupByStackDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === groupByStackObject.dataSourceType);
+                    let groupByStackDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === groupByStackObject.dataSourceType);
                     Commons.GenericFunctionalities.processGroupByStackData(groupByStackObject,
                         groupByStackDataSource.source,
                         ByCategoryLabelData.category,
@@ -1517,7 +1521,7 @@ namespace GenericDashboard {
 
                 //process groupByState functionality
                 ByCategoryLabelData.groupByStateData.forEach(groupByStateObject => {
-                    let groupByStateDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === groupByStateObject.dataSourceType);
+                    let groupByStateDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === groupByStateObject.dataSourceType);
                     if (groupByStateDataSource.type === "Labels") {
                         Commons.GenericFunctionalities.processGroupByStateData(groupByStateObject,
                             groupByStateDataSource.source,
@@ -1545,7 +1549,7 @@ namespace GenericDashboard {
 
                     for (const dataSourceType of groupByStateOverDueObject.dataSources) {
 
-                        let dataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === dataSourceType);
+                        let dataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === dataSourceType);
                         if (dataSourceType === "Labels") {
                             labelsDataSource = dataSource.source;
                         } else if (dataSourceType === "Needles") {
@@ -1566,7 +1570,7 @@ namespace GenericDashboard {
 
                 //process avg functionality
                 ByCategoryLabelData.avgData.forEach(avgObject => {
-                    let avgDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === avgObject.dataSourceType);
+                    let avgDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === avgObject.dataSourceType);
                     Commons.GenericFunctionalities.processAvgData(avgObject,
                         avgDataSource.source,
                         ByCategoryLabelData.category
@@ -1575,7 +1579,7 @@ namespace GenericDashboard {
 
                 //process closure functionality
                 ByCategoryLabelData.closureData.forEach(closureObject => {
-                    let closureDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === closureObject.dataSourceType);
+                    let closureDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === closureObject.dataSourceType);
                     Commons.GenericFunctionalities.processClosureData(closureObject,
                         closureDataSource.source,
                         ByCategoryLabelData.category,
@@ -1587,7 +1591,7 @@ namespace GenericDashboard {
 
                 //process dateRangeComapre functionality
                 ByCategoryLabelData.dateRangeCompareData.forEach(dateRangeCompareObject => {
-                    let dateRangeCompareDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === dateRangeCompareObject.dataSourceType);
+                    let dateRangeCompareDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === dateRangeCompareObject.dataSourceType);
                     Commons.GenericFunctionalities.processDateRangeCompareData(dateRangeCompareObject,
                         dateRangeCompareDataSource.source,
                         ByCategoryLabelData.category
@@ -1596,7 +1600,7 @@ namespace GenericDashboard {
 
                 //process tracker functionality
                 ByCategoryLabelData.trackerData.forEach(trackerObject => {
-                    let trackerDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === trackerObject.dataSourceType);
+                    let trackerDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === trackerObject.dataSourceType);
                     Commons.GenericFunctionalities.processTrackerData(trackerObject,
                         trackerDataSource.source,
                         ByCategoryLabelData.category,
@@ -1608,7 +1612,7 @@ namespace GenericDashboard {
 
                 //process groupBy functionality
                 ByCategoryLabelData.groupByNcrDeptData.forEach(groupByNcrDeptObject => {
-                    let groupByNcrDeptObjectDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === groupByNcrDeptObject.dataSourceType);
+                    let groupByNcrDeptObjectDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === groupByNcrDeptObject.dataSourceType);
                     Commons.GenericFunctionalities.processGroupByNcrDeptObjectData(groupByNcrDeptObject,
                         groupByNcrDeptObjectDataSource.source);
                 });

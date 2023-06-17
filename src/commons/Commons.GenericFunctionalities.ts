@@ -1211,7 +1211,7 @@ namespace Commons {
                             if(auditorOptionId == groupByNcrAuditorObject.auditorOptionId){
                                 let auditorName = auditInfoLine[groupByNcrAuditorObject.auditorNameColumnField];
                                 let auditorIndex = auditorsData.findIndex(auditor => auditor === auditorName);
-                                if(auditorIndex > 0){
+                                if(auditorIndex > -1){
                                     auditCountData[auditorIndex] += 1;
                                     auditItemsData[auditorIndex].push(auditInfoItem.itemOrFolderRef);
                                 }else{

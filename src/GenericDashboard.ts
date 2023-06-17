@@ -156,7 +156,7 @@ namespace GenericDashboard {
                         }
                     });
                     if (needleSourceCategory && needleSourceFieldId) {
-                        dataSourcePromises.push(Matrix.Labels.getNeedlesByCategoryAndFiledId(dataSourceConfig.id,needleSourceCategory,
+                        dataSourcePromises.push(Matrix.Labels.getNeedlesByCategoryAndFiledId(dataSourceConfig.id,dataSourceConfig.type,needleSourceCategory,
                             needleSourceFieldId));
                     }
                 } else if (dataSourceConfig.type == "NeedlesBySearch") {
@@ -166,10 +166,10 @@ namespace GenericDashboard {
                             let searchParam = sourceAttribute.name + '=' + sourceAttribute.value;
                             searchParams += searchParam + '&'
                         });
-                        dataSourcePromises.push(Matrix.Labels.getNeedlesBySearch(dataSourceConfig.id,searchParams));
+                        dataSourcePromises.push(Matrix.Labels.getNeedlesBySearch(dataSourceConfig.id,dataSourceConfig.type,searchParams));
                     }
                 } else if (dataSourceConfig.type == "Labels") {
-                    dataSourcePromises.push(Matrix.Labels.projectLabelHistory(dataSourceConfig.id));
+                    dataSourcePromises.push(Matrix.Labels.projectLabelHistory(dataSourceConfig.id,dataSourceConfig.type));
 
                 }
             });

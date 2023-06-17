@@ -1655,15 +1655,12 @@ namespace GenericDashboard {
                     let auditFindingsDataSource: XRTrimNeedleItem[];
                     let auditorinfoDataSource: XRTrimNeedleItem[];
 
-                    for (const dataSource of functionalityDataSources) {
-
-                        
+                    for (const dataSource of functionalityDataSources) { 
                         if (dataSource.id === "audit-findings") {
                             auditFindingsDataSource = dataSource.source;
                         } else if (dataSource.id === "general-auditor-information") {
                             auditorinfoDataSource = dataSource.source;
                         }
-
                     }
                     Commons.GenericFunctionalities.processGroupByNcrAuditorObjectData(groupByNcrAuditorObject,
                         auditFindingsDataSource,auditorinfoDataSource);

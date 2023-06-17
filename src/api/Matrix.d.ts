@@ -3,5 +3,6 @@
 
 interface resourcesData {
     id: string;
+    type: string;
     source: XRLabelEntry[] | XRTrimNeedleItem[];
 }

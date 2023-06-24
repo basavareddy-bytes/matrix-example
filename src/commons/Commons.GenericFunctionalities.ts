@@ -1237,7 +1237,7 @@ namespace Commons {
                             if(auditorItemIndex > 0){
                                 auditNcCountData[itemIndex] += auditFindingTable.length;
                                 if(auditFindingTable.length !== 0){
-                                    auditNcRatio[itemIndex] = auditFindingTable.length/auditCountData[itemIndex];
+                                    auditNcRatio[itemIndex] = Math.round(((auditFindingTable.length/auditCountData[itemIndex]) + Number.EPSILON) * 100) / 100;
                                 }
                                 break;
                             }

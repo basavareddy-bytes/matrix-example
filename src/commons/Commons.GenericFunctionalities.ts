@@ -327,7 +327,6 @@ namespace Commons {
                             }
                             break;
                         case 'dateRangeComapre':
-
                             let dateRangeComapreObject: dateRangeCompareObject = {
                                 id: functionality.id,
                                 dataSourceType: functionality.dataSourceType,
@@ -374,7 +373,8 @@ namespace Commons {
                             let groupByNcrAuditorWiseData =  [
                                 ['x'],
                                 ['No of audits performed'],
-                                ['No of NC given']
+                                ['No of NC given'],
+                                ['NC ratio']
                             ];
                             let fieldAuditorInfo =  IC.getFieldByName(category.id,functionality.auditorSourceTableName);
                             let auditorTypeColumn = fieldAuditorInfo.parameterJson.columns.find(col=>col.name == functionality.auditorTypeColumnName);
@@ -1202,6 +1202,7 @@ namespace Commons {
                 let auditCountData = [];
                 let auditItemsData = [];
                 let auditNcCountData = [];
+                let auditNcRatio = [];
 
                 for (const auditInfoItem of auditorinfoDataSource) { 
                     if(auditInfoItem.fieldVal.length == 1){
@@ -1219,6 +1220,7 @@ namespace Commons {
                                     auditCountData.push(1);
                                     auditItemsData.push([auditInfoItem.itemOrFolderRef])
                                     auditNcCountData.push(0);
+                                    auditNcRatio.push(0);
                                 }
                             }
                         }
@@ -1234,6 +1236,9 @@ namespace Commons {
                             let auditorItemIndex = auditItems.findIndex(itemRefId => itemRefId === auditFindingItem.itemOrFolderRef);
                             if(auditorItemIndex > 0){
                                 auditNcCountData[itemIndex] += auditFindingTable.length;
+                                if(auditFindingTable.length !== 0){
+                                    auditNcRatio[itemIndex] = auditFindingTable.length/auditCountData[itemIndex];
+                                }
                                 break;
                             }
                         }
@@ -1243,7 +1248,8 @@ namespace Commons {
                 groupByNcrAuditorObject.groupByNcrAuditorWiseData = [
                     ['x', ...auditorsData],
                     ['No of audits performed',...auditCountData],
-                    ['No of NC given', ...auditNcCountData]
+                    ['No of NC given', ...auditNcCountData],
+                    ['NC ratio', ...auditNcRatio]
                 ];
         }
 

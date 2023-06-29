@@ -87,7 +87,7 @@
                                     "id" : "ncrDeptWise",
                                     "functionality" : "groupByNcrDept",
                                     "title" : "NCR department wise overview",
-                                    "dateFilterRequired" : "N",
+                                    "dateFilterRequired" : "Y",
                                     "contentClass" : "chart"
                                 }
                             }
@@ -102,7 +102,7 @@
                                     "id" : "ncrauditorWise",
                                     "functionality" : "groupByNcrAuditor",
                                     "title" : "Auditor performance overview",
-                                    "dateFilterRequired" : "N",
+                                    "dateFilterRequired" : "Y",
                                     "contentClass" : "chart"
                                 }
                             }

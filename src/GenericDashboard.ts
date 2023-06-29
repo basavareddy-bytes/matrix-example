@@ -438,6 +438,24 @@ namespace GenericDashboard {
                                 });
                             }
                             break;
+                        case 'groupByNcrDept':
+                            if (byCategoryLabelData.groupByNcrDeptData.length > 0) {
+                                byCategoryLabelData.groupByNcrDeptData.forEach(groupByNcrDeptObject => {
+                                    if (dateFilterId == groupByNcrDeptObject.id) {
+                                        that.renderGroupByNcrDeptChart(groupByNcrDeptObject.labelsDesc, groupByNcrDeptObject.groupByNcrDeptWiseData, groupByNcrDeptObject.id);
+                                    }
+                                });
+                            }
+                            break;
+                        case 'groupByNcrAuditor':
+                            if (byCategoryLabelData.groupByNcrAuditorData.length > 0) {
+                                byCategoryLabelData.groupByNcrAuditorData.forEach(groupByNcrAuditorObject => {
+                                    if (dateFilterId == groupByNcrAuditorObject.id) {
+                                        that.renderGroupByNcrAuditorChart(groupByNcrAuditorObject.groupByNcrAuditorWiseData, groupByNcrAuditorObject.id);
+                                    }
+                                });
+                            }
+                            break;    
                         case 'table':
                             if (byCategoryLabelData.itemCurrentStateValues.length > 0) {
                                 that.renderPluginTable(byCategoryLabelData.itemCurrentStateTableHeaders, byCategoryLabelData.itemCurrentStateValues);
@@ -1376,6 +1394,50 @@ namespace GenericDashboard {
             that.allChartsMap.set(groupId, trackerChart);
         }
 
+        renderGroupByNcrDeptChartByDateRanges(fromDateVal: any, toDateVal: any, byCategoryLabelData: ByCategoryLabelData, groupId: String) {
+
+            let fromDate = new Date(fromDateVal);
+            let toDate = new Date(toDateVal);
+
+            if (byCategoryLabelData.groupByNcrDeptData.length > 0) {
+                byCategoryLabelData.groupByNcrDeptData.forEach(groupByNcrDeptObject => {
+                    if (groupByNcrDeptObject.id == groupId) {
+
+                        let groupByNcrDeptWiseData = [];
+                        let groupByNcrDeptInitials = Array(groupByNcrDeptObject.labels.length).fill(0);
+                        
+                        for( let option of groupByNcrDeptObject.ncOptions){
+                            groupByNcrDeptWiseData.push([option.label, ...groupByNcrDeptInitials]);
+                        }
+
+                        groupByNcrDeptObject.currentLabelData.forEach( (itemCurrentStateData) => {
+                            if (itemCurrentStateData.creationDate && 
+                                (itemCurrentStateData.creationDate >= fromDate && itemCurrentStateData.creationDate <= toDate)) {
+                                    let itemDeptIndex = -1;
+                                    for(const label of groupByNcrDeptObject.labels){
+                                        if(itemCurrentStateData.labels.includes(label)){
+                                            let labelIndex = groupByNcrDeptObject.labels.findIndex(labelCode => labelCode === label);
+                                            itemDeptIndex = labelIndex;
+                                            break;
+                                        }
+                                    }
+
+                                    if(itemDeptIndex > 0){
+                                        groupByNcrDeptObject.groupByNcrDeptWiseData.forEach(ncDeptWiseData => {
+                                            if(ncDeptWiseData[0] == itemCurrentStateData.ncLabel){
+                                                ncDeptWiseData[itemDeptIndex+1] += 1;
+                                            }
+                                        });
+                                    }
+                            }
+                        });
+
+                        this.renderGroupByNcrDeptChart(groupByNcrDeptObject.labelsDesc, groupByNcrDeptWiseData, groupByNcrDeptObject.id);
+                    }
+                });
+            }
+        }
+
         renderGroupByNcrDeptChart(labels, groupByNcrDeptWiseData, groupId) {
             let that = this;
             //prepare template "${contentConfig.id}-Chart"
@@ -1404,6 +1466,74 @@ namespace GenericDashboard {
             let groupByChart = c3.generate(groupByChartparams);
 
             that.allChartsMap.set(groupId, groupByChart);
+        }
+
+        renderGroupByNcrAuditorChartByDateRanges(fromDateVal: any, toDateVal: any, byCategoryLabelData: ByCategoryLabelData, groupId: String) {
+
+            let fromDate = new Date(fromDateVal);
+            let toDate = new Date(toDateVal);
+
+            if (byCategoryLabelData.groupByNcrAuditorData.length > 0) {
+                byCategoryLabelData.groupByNcrAuditorData.forEach(groupByNcrAuditorObject => {
+                    if (groupByNcrAuditorObject.id == groupId) {
+
+                        let auditorsData = [];
+                        let auditCountData = [];
+                        let auditItemsData = [];
+                        let auditNcCountData = [];
+                        let auditNcRatio = [];
+
+                        groupByNcrAuditorObject.currentAuditorInfoData.forEach( (currentAuditorData) => {
+                            if (currentAuditorData.creationDate && 
+                                (currentAuditorData.creationDate >= fromDate && currentAuditorData.creationDate <= toDate)) {
+                                    let auditorIndex = auditorsData.findIndex(auditor => auditor === currentAuditorData.auditorName);
+                                    if(auditorIndex > -1){
+                                        auditCountData[auditorIndex] += 1;
+                                        auditItemsData[auditorIndex].push(currentAuditorData.id);
+                                    }else{
+                                        auditorsData.push(currentAuditorData.auditorName);
+                                        auditCountData.push(1);
+                                        auditItemsData.push([currentAuditorData.id])
+                                        auditNcCountData.push(0);
+                                        auditNcRatio.push(0);
+                                    }
+                            }
+                        });
+
+                        groupByNcrAuditorObject.currentAuditFindingsData.forEach( (currentAuditFindingsData) => {
+                            if (currentAuditFindingsData.creationDate && 
+                                (currentAuditFindingsData.creationDate >= fromDate && currentAuditFindingsData.creationDate <= toDate)) {
+                                    let itemIndex = -1;
+                                    for( let auditItems of auditItemsData){
+                                        itemIndex += 1;
+                                        let auditorItemIndex = auditItems.findIndex(itemRefId => itemRefId === currentAuditFindingsData.id);
+                                        if(auditorItemIndex > 0){
+                                            let auditNcCount = currentAuditFindingsData.auditNcCount;
+                                            auditNcCountData[itemIndex] += auditNcCount;
+                                            break;
+                                        }
+                                    }
+                            }
+                        });
+
+                        auditorsData.forEach((auditor, index) => {
+                            if(auditNcCountData[index] !== 0){
+                                auditNcRatio[index] = Math.round(((auditNcCountData[index]/auditCountData[index]) + Number.EPSILON) * 100) / 100;
+                            }
+                        });
+        
+                        let groupByNcrAuditorWiseData = [
+                            ['x', ...auditorsData],
+                            ['No of audits performed',...auditCountData],
+                            ['No of NC given', ...auditNcCountData],
+                            ['NC ratio', ...auditNcRatio]
+                        ];
+
+                        this.renderGroupByNcrAuditorChart(groupByNcrAuditorWiseData, groupByNcrAuditorObject.id);
+
+                    }
+                });
+            }
         }
 
         renderGroupByNcrAuditorChart(groupByNcrAuditorWiseData, groupId) {

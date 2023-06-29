@@ -90,6 +90,9 @@ namespace Commons {
                 let closureLabelCurrentData: closureObjectCurrentData[] = [];
                 let dateRangeCompareCurrentLabelData: groupByObjectCurrentData[] = [];
                 let trackerLabelCurrentData: Map<string, trackerObjectCurrentData> = new Map<string, trackerObjectCurrentData>();
+                let groupByNcrDeptCurrentLabelData: groupByNcrDeptCurrentData[] = [];
+                let currentAuditorInfoData: auditorInfoCurrentData[] = [];
+                let currentAuditFindingsData: auditFindingsCurrentData[] = [];
                 let operandsData: Map<string, operandObjectData> = new Map<string, operandObjectData>();
 
                 category.functionalities.forEach(functionality => {
@@ -346,8 +349,8 @@ namespace Commons {
                             let ncOptions = [];
                             let groupByNcrDeptWiseData = [];
                             let groupByNcrDeptInitials = Array(functionality.labels.length).fill(0);
-                            let fieldAuditFindings =  IC.getFieldByName("IQA","Audit Findings");
-                            let ncCatColumn = fieldAuditFindings.parameterJson.columns.find(col=>col.name == "NC Category");
+                            let fieldAuditFindings =  IC.getFieldByName(category.id,functionality.sourceTableName);
+                            let ncCatColumn = fieldAuditFindings.parameterJson.columns.find(col=>col.name == functionality.sourceTableColumnName);
                             let ncDropDownOptions = IC.getDropDowns(ncCatColumn.options.setting).pop();
                             if( ncDropDownOptions && ncDropDownOptions.value && ncDropDownOptions.value.options){
                                 ncOptions = ncDropDownOptions.value.options;
@@ -365,7 +368,8 @@ namespace Commons {
                                 labelsDesc: functionality.labelsDesc,
                                 ncOptions: ncOptions,
                                 ncCatColumnField: ncCatColumn.field,
-                                groupByNcrDeptWiseData: groupByNcrDeptWiseData
+                                groupByNcrDeptWiseData: groupByNcrDeptWiseData,
+                                currentLabelData: groupByNcrDeptCurrentLabelData
                             };
                             groupByNcrDeptData.push(groupByNcrDeptObject);
                             break;    
@@ -399,7 +403,9 @@ namespace Commons {
                                 auditorOptionId: auditorOptionId,
                                 auditorTypeColumnField: auditorTypeColumn.field,
                                 auditorNameColumnField: auditorNameColumn.field,
-                                groupByNcrAuditorWiseData: groupByNcrAuditorWiseData
+                                groupByNcrAuditorWiseData: groupByNcrAuditorWiseData,
+                                currentAuditorInfoData: currentAuditorInfoData,
+                                currentAuditFindingsData: currentAuditFindingsData
                             };
                             groupByNcrAuditorData.push(groupByNcrAuditorObject);
                             break;        
@@ -1186,6 +1192,16 @@ namespace Commons {
                                     ncDeptWiseData[itemDeptIndex+1] += 1;
                                     }
                                 });
+
+                                let groupByNcrDeptCurrentData: groupByNcrDeptCurrentData = {
+                                    id: item.itemOrFolderRef,
+                                    creationDate: new Date(item.creationDate),
+                                    labels: item.labels,
+                                    ncLabel: ncOption.label
+                                };
+
+                                groupByNcrDeptObject.currentLabelData.push(groupByNcrDeptCurrentData);
+
                             }
                         }
                     }
@@ -1211,6 +1227,16 @@ namespace Commons {
                             let auditorOptionId = auditInfoLine[groupByNcrAuditorObject.auditorTypeColumnField];
                             if(auditorOptionId == groupByNcrAuditorObject.auditorOptionId){
                                 let auditorName = auditInfoLine[groupByNcrAuditorObject.auditorNameColumnField];
+
+                                let auditorInfoCurrentData: auditorInfoCurrentData = {
+                                    id: auditInfoItem.itemOrFolderRef,
+                                    creationDate: new Date(auditInfoItem.creationDate),
+                                    auditorName: auditorName,
+                                    auditorOptionId: auditorOptionId
+                                };
+
+                                groupByNcrAuditorObject.currentAuditorInfoData.push(auditorInfoCurrentData);
+
                                 let auditorIndex = auditorsData.findIndex(auditor => auditor === auditorName);
                                 if(auditorIndex > -1){
                                     auditCountData[auditorIndex] += 1;
@@ -1235,15 +1261,28 @@ namespace Commons {
                             itemIndex += 1;
                             let auditorItemIndex = auditItems.findIndex(itemRefId => itemRefId === auditFindingItem.itemOrFolderRef);
                             if(auditorItemIndex > 0){
-                                auditNcCountData[itemIndex] += auditFindingTable.length;
-                                if(auditFindingTable.length !== 0){
-                                    auditNcRatio[itemIndex] = Math.round(((auditFindingTable.length/auditCountData[itemIndex]) + Number.EPSILON) * 100) / 100;
-                                }
+                                let auditNcCount = auditFindingTable.length;
+                                auditNcCountData[itemIndex] += auditNcCount;
+
+                                let auditFindingsCurrentData: auditFindingsCurrentData = {
+                                    id: auditFindingItem.itemOrFolderRef,
+                                    creationDate: new Date(auditFindingItem.creationDate),
+                                    auditNcCount: auditNcCount
+                                };
+
+                                groupByNcrAuditorObject.currentAuditFindingsData.push(auditFindingsCurrentData);
+                                
                                 break;
                             }
                         }
                     }
                 }
+
+                auditorsData.forEach((auditor, index) => {
+                    if(auditNcCountData[index] !== 0){
+                        auditNcRatio[index] = Math.round(((auditNcCountData[index]/auditCountData[index]) + Number.EPSILON) * 100) / 100;
+                    }
+                });
 
                 groupByNcrAuditorObject.groupByNcrAuditorWiseData = [
                     ['x', ...auditorsData],

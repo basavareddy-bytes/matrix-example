@@ -24,6 +24,26 @@ interface trackerObjectCurrentData {
     itemStateDays: Map<string, Number>;
 }
 
+interface groupByNcrDeptCurrentData {
+    id: string;
+    creationDate: Date;
+    labels: string;
+    ncLabel: string;
+}
+
+interface auditorInfoCurrentData {
+    id: string;
+    creationDate: Date;
+    auditorName: string;
+    auditorOptionId: string;
+}
+
+interface auditFindingsCurrentData {
+    id: string;
+    creationDate: Date;
+    auditNcCount: Number;
+}
+
 interface operandObjectData {
     operand: string;
     labelsState: Map<string, Boolean>;
@@ -90,6 +110,7 @@ interface groupByNcrDeptObject {
     ncOptions: any[];
     ncCatColumnField: string;
     groupByNcrDeptWiseData: any[];
+    currentLabelData: groupByNcrDeptCurrentData[];
 }
 
 interface groupByNcrAuditorObject {
@@ -104,6 +125,8 @@ interface groupByNcrAuditorObject {
     auditorTypeColumnField: string;
     auditorNameColumnField: string;
     groupByNcrAuditorWiseData: any[];
+    currentAuditorInfoData: auditorInfoCurrentData[];
+    currentAuditFindingsData: auditFindingsCurrentData[];
 }
 
 interface groupByStateOverDueObject extends groupByStateObject {

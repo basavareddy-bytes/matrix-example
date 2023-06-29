@@ -1431,7 +1431,7 @@ namespace GenericDashboard {
                                     }
 
                                     if(itemDeptIndex > 0){
-                                        groupByNcrDeptObject.groupByNcrDeptWiseData.forEach(ncDeptWiseData => {
+                                        groupByNcrDeptWiseData.forEach(ncDeptWiseData => {
                                             if(ncDeptWiseData[0] == itemCurrentStateData.ncLabel){
                                                 ncDeptWiseData[itemDeptIndex+1] += 1;
                                             }

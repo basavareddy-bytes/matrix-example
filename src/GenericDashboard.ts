@@ -521,6 +521,12 @@ namespace GenericDashboard {
                     case 'tracker':
                         that.renderTrackerChartByDateRanges(fromDateSelected, toDateSelected, byCategoryLabelData, dateFilterId);
                         break;
+                    case 'groupByNcrDept':
+                        that.renderGroupByNcrDeptChartByDateRanges(fromDateSelected, toDateSelected, byCategoryLabelData, dateFilterId);
+                        break;
+                    case 'groupByNcrAuditor':
+                        that.renderGroupByNcrAuditorChartByDateRanges(fromDateSelected, toDateSelected, byCategoryLabelData, dateFilterId);
+                        break;    
                     case 'dateRangeComapre':
                         that.renderDateRangeComapreDataByDateRanges(fromDateSelected, toDateSelected, byCategoryLabelData, dateFilterId);
                         break;
@@ -1394,6 +1400,8 @@ namespace GenericDashboard {
             that.allChartsMap.set(groupId, trackerChart);
         }
 
+       
+
         renderGroupByNcrDeptChartByDateRanges(fromDateVal: any, toDateVal: any, byCategoryLabelData: ByCategoryLabelData, groupId: String) {
 
             let fromDate = new Date(fromDateVal);
@@ -1468,6 +1476,7 @@ namespace GenericDashboard {
             that.allChartsMap.set(groupId, groupByChart);
         }
 
+        
         renderGroupByNcrAuditorChartByDateRanges(fromDateVal: any, toDateVal: any, byCategoryLabelData: ByCategoryLabelData, groupId: String) {
 
             let fromDate = new Date(fromDateVal);

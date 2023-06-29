@@ -1271,7 +1271,6 @@ namespace Commons {
                                 };
 
                                 groupByNcrAuditorObject.currentAuditFindingsData.push(auditFindingsCurrentData);
-                                
                                 break;
                             }
                         }

@@ -1,6 +1,264 @@
 {
     "plugins": [
         {
+            "id": "IQAO",
+            "title": "IQA Overview",
+            "folder": "DASHBOARDS",
+            "order": 3000,
+            "icon": "fal fa-chart-bar",
+            "name": "IQA Overview",
+            "version": "1.0.0",
+            "dataSources": [
+                {
+                    "id": "iqalabels",
+                    "type": "Labels"
+                },
+                {
+                    "id": "audit-findings",
+                    "type": "NeedlesBySearch",
+                    "sourceAtrributes": [
+                        {
+                            "name": "category",
+                            "value": "IQA"
+                        },
+                        {
+                            "name": "fieldsOut",
+                            "value": 2950
+                        },
+                        {
+                            "name": "labels",
+                            "value": 1
+                        }
+                    ]
+                },
+                {
+                    "id": "general-auditor-information",
+                    "type": "NeedlesBySearch",
+                    "sourceAtrributes": [
+                        {
+                            "name": "category",
+                            "value": "IQA"
+                        },
+                        {
+                            "name": "fieldsOut",
+                            "value": 2947
+                        },
+                        {
+                            "name": "labels",
+                            "value": 1
+                        }
+                    ]
+                }
+            ],
+            "layoutConfig": {
+                "rowConfig": [
+                    {
+                        "columnConfig": [
+                            {
+                                "size": 6,
+                                "contentType": "chart",
+                                "contentConfig": {
+                                    "id": "status",
+                                    "functionality": "groupByState",
+                                    "title": "Status wise IQA count overview",
+                                    "dateFilterRequired": "Y",
+                                    "contentClass": "chart"
+                                }
+                            },
+                            {
+                                "size": 6,
+                                "contentType": "chart",
+                                "contentConfig": {
+                                    "id": "avg",
+                                    "functionality": "avg",
+                                    "title": "Average time state wise overview",
+                                    "dateFilterRequired": "N",
+                                    "contentClass": "chart"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "columnConfig": [
+                            {
+                                "size": 12,
+                                "contentType": "chart",
+                                "contentConfig": {
+                                    "id": "ncrDeptWise",
+                                    "functionality": "groupByNcrDept",
+                                    "title": "NCR department wise overview",
+                                    "dateFilterRequired": "Y",
+                                    "contentClass": "chart"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "columnConfig": [
+                            {
+                                "size": 12,
+                                "contentType": "chart",
+                                "contentConfig": {
+                                    "id": "ncrauditorWise",
+                                    "functionality": "groupByNcrAuditor",
+                                    "title": "Auditor performance overview",
+                                    "dateFilterRequired": "Y",
+                                    "contentClass": "chart"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "columnConfig": [
+                            {
+                                "size": 12,
+                                "contentType": "table",
+                                "contentConfig": {
+                                    "id": "IQAO",
+                                    "functionality": "table",
+                                    "title": "IQA current status list",
+                                    "dateFilterRequired": "Y"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "layoutDomStyle": " .chart { width: 90%; min-height: 350px; cursor:pointer; } .dateFilter{ display:flex; margin-left: 45px; } .filterDates { width: 115px; margin: 0 6px; } .date-filter-form-control { height: 20px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px; } .date-filter-btn { margin-bottom: 0; margin-left: 12px; font-weight: 400; text-align: center; white-space: nowrap; vertical-align: middle; touch-action: manipulation; cursor: pointer; background-image: none; border: 1px solid transparent; padding: 0px 5px; font-size: 12px; line-height: 1.42857143; border-radius: 4px; } .tableDateFilter{ display:flex; margin-left: 350px; } .closureTimeChart{ width: 90%; min-height: 315px; cursor:pointer; } .bigChart{ width: 90%; min-height: 900px; cursor:pointer; }"
+            },
+            "categories": [
+                "IQA"
+            ],
+            "categoriesFunctionalities": [
+                {
+                    "id": "IQA",
+                    "functionalities": [
+                        {
+                            "id": "status",
+                            "type": "groupByState",
+                            "dataSourceType": "iqalabels",
+                            "renderChart": "Y",
+                            "showInTable": "Y",
+                            "tableHeader": "Current State",
+                            "labels": [
+                                "QA1",
+                                "QA5",
+                                "QA2",
+                                "QA3",
+                                "QA4"
+                            ],
+                            "labelsDesc": [
+                                "IQA Initiated",
+                                "IQA Plan Approved",
+                                "Report Approved",
+                                "Response Accepted",
+                                "IQA CLosed"
+                            ],
+                            "labelColors": [
+                                "#d62728",
+                                "#ff7f0e",
+                                "#9467bd",
+                                "#1f77b4",
+                                "#2ca02c"
+                            ]
+                        },
+                        {
+                            "id": "avg",
+                            "type": "avg",
+                            "dataSourceType": "iqalabels",
+                            "renderChart": "Y",
+                            "title": "average time spent in state",
+                            "labels": [
+                                "QA1",
+                                "QA5",
+                                "QA2",
+                                "QA3"
+                            ],
+                            "labelsDesc": [
+                                "IQA Initiated",
+                                "IQA Plan Approved",
+                                "Report Approved",
+                                "Response Accepted"
+                            ],
+                            "allLabels": [
+                                "QA1",
+                                "QA5",
+                                "QA2",
+                                "QA3",
+                                "QA4"
+                            ],
+                            "initialStateLabels": [
+                                "QA1",
+                                "QA5",
+                                "QA2",
+                                "QA3"
+                            ],
+                            "allLabelDesc": [
+                                "IQA Initiated",
+                                "IQA Plan Approved",
+                                "Report Approved",
+                                "Response Accepted",
+                                "IQA CLosed"
+                            ],
+                            "initialSateLabel": "QA1",
+                            "closedStateLabel": "QA4",
+                            "rejectedStateLabel": ""
+                        },
+                        {
+                            "id": "ncrDeptWise",
+                            "type": "groupByNcrDept",
+                            "dataSourceType": "audit-findings",
+                            "renderChart": "Y",
+                            "sourceTableName": "Audit Findings",
+                            "sourceTableColumnName": "NC Category",
+                            "labels": [
+                                "MHC",
+                                "QC",
+                                "RA",
+                                "Production",
+                                "PUR",
+                                "MICRO",
+                                "PACK",
+                                "Design",
+                                "HR",
+                                "SUC",
+                                "ST",
+                                "UT",
+                                "QA"
+                            ],
+                            "labelsDesc": [
+                                "Common",
+                                "QC",
+                                "RA",
+                                "Prod",
+                                "PUR",
+                                "MICRO",
+                                "PACK",
+                                "D&D",
+                                "HR",
+                                "SUC",
+                                "ST",
+                                "Utility",
+                                "QA"
+                            ]
+                        },
+                        {
+                            "id": "ncrauditorWise",
+                            "type": "groupByNcrAuditor",
+                            "dataSources": [
+                                "audit-findings",
+                                "general-auditor-information"
+                            ],
+                            "renderChart": "Y",
+                            "auditorSourceTableName": "General Audit Information:",
+                            "auditorTypeColumnName": "Member Details",
+                            "auditorNameColumnName": "Name",
+                            "auditorOptionLabel": "Auditor"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "id": "CAPAO",
             "title": "CAPA Status Overview",
             "folder": "DASHBOARDS",
@@ -10,6 +268,7 @@
             "version": "1.11.0",
             "dataSources": [
                 {
+                    "id": "capalabels",
                     "type": "Labels"
                 }
             ],
@@ -114,7 +373,12 @@
                 ],
                 "layoutDomStyle": " .chart { width: 90%; min-height: 350px; cursor:pointer; } .dateFilter{ display:flex; margin-left: 45px; } .filterDates { width: 115px; margin: 0 6px; } .date-filter-form-control { height: 20px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px; } .date-filter-btn { margin-bottom: 0; margin-left: 12px; font-weight: 400; text-align: center; white-space: nowrap; vertical-align: middle; touch-action: manipulation; cursor: pointer; background-image: none; border: 1px solid transparent; padding: 0px 5px; font-size: 12px; line-height: 1.42857143; border-radius: 4px; } .tableDateFilter{ display:flex; margin-left: 350px; } .closureTimeChart{ width: 90%; min-height: 315px; cursor:pointer; } .bigChart{ width: 90%; min-height: 900px; cursor:pointer; }"
             },
-            "categories": ["CAA","PAA","CA","PA"],
+            "categories": [
+                "CAA",
+                "PAA",
+                "CA",
+                "PA"
+            ],
             "categoriesFunctionalities": [
                 {
                     "id": "CA",
@@ -122,12 +386,13 @@
                         {
                             "id": "dept",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Department",
                             "title": "count by department",
                             "labels": [
+                                "MHC",
                                 "QC",
                                 "RA",
                                 "Production",
@@ -142,6 +407,7 @@
                                 "QA"
                             ],
                             "labelsDesc": [
+                                "Common",
                                 "QC",
                                 "RA",
                                 "Prod",
@@ -159,7 +425,7 @@
                         {
                             "id": "cat",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Category",
@@ -182,7 +448,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -214,7 +480,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": [
@@ -258,7 +524,7 @@
                         {
                             "id": "tracker",
                             "type": "tracker",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "labels": [
@@ -307,7 +573,7 @@
                         {
                             "id": "closure",
                             "type": "closure",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Closure Time",
@@ -346,12 +612,13 @@
                         {
                             "id": "dept",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Department",
                             "title": "count by department",
                             "labels": [
+                                "MHC",
                                 "QC",
                                 "RA",
                                 "Production",
@@ -366,6 +633,7 @@
                                 "QA"
                             ],
                             "labelsDesc": [
+                                "Common",
                                 "QC",
                                 "RA",
                                 "Prod",
@@ -383,7 +651,7 @@
                         {
                             "id": "cat",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Category",
@@ -406,7 +674,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -438,7 +706,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": [
@@ -482,7 +750,7 @@
                         {
                             "id": "tracker",
                             "type": "tracker",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "labels": [
@@ -531,7 +799,7 @@
                         {
                             "id": "closure",
                             "type": "closure",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Closure Time",
@@ -570,12 +838,13 @@
                         {
                             "id": "dept",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Department",
                             "title": "count by department",
                             "labels": [
+                                "MHC",
                                 "QC",
                                 "RA",
                                 "Production",
@@ -590,6 +859,7 @@
                                 "QA"
                             ],
                             "labelsDesc": [
+                                "Common",
                                 "QC",
                                 "RA",
                                 "Prod",
@@ -607,7 +877,7 @@
                         {
                             "id": "cat",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Category",
@@ -630,7 +900,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -662,7 +932,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": [
@@ -706,7 +976,7 @@
                         {
                             "id": "tracker",
                             "type": "tracker",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "labels": [
@@ -755,7 +1025,7 @@
                         {
                             "id": "closure",
                             "type": "closure",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Closure Time",
@@ -794,12 +1064,13 @@
                         {
                             "id": "dept",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Department",
                             "title": "count by department",
                             "labels": [
+                                "MHC",
                                 "QC",
                                 "RA",
                                 "Production",
@@ -814,6 +1085,7 @@
                                 "QA"
                             ],
                             "labelsDesc": [
+                                "Common",
                                 "QC",
                                 "RA",
                                 "Prod",
@@ -831,7 +1103,7 @@
                         {
                             "id": "cat",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Category",
@@ -854,7 +1126,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -886,7 +1158,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": [
@@ -930,7 +1202,7 @@
                         {
                             "id": "tracker",
                             "type": "tracker",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "labels": [
@@ -979,7 +1251,7 @@
                         {
                             "id": "closure",
                             "type": "closure",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Closure Time",
@@ -1024,6 +1296,7 @@
             "version": "1.0.0",
             "dataSources": [
                 {
+                    "id": "capalabels",
                     "type": "Labels"
                 }
             ],
@@ -1129,12 +1402,13 @@
                         {
                             "id": "dept",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Department",
                             "title": "count by department",
                             "labels": [
+                                "MHC",
                                 "QC",
                                 "RA",
                                 "Production",
@@ -1149,6 +1423,7 @@
                                 "QA"
                             ],
                             "labelsDesc": [
+                                "Common",
                                 "QC",
                                 "RA",
                                 "Prod",
@@ -1166,7 +1441,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -1198,7 +1473,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": [
@@ -1221,7 +1496,12 @@
                                 "CCN5",
                                 "CCR"
                             ],
-                            "initialStateLabels": ["CCN1", "CCN2", "CCN3", "CCN4"],
+                            "initialStateLabels": [
+                                "CCN1",
+                                "CCN2",
+                                "CCN3",
+                                "CCN4"
+                            ],
                             "allLabelDesc": [
                                 "CC Initiated",
                                 "CC Approved",
@@ -1237,7 +1517,7 @@
                         {
                             "id": "tracker",
                             "type": "tracker",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "labels": [
@@ -1258,23 +1538,61 @@
                                 "#9467bd",
                                 "#1f77b4"
                             ],
-                            "allLabels": ["CCN1", "CCN2", "CCN3", "CCN4", "CCN5", "CCR"],
-                            "allLabelDesc": ["CC Initiated", "CC Approved", "UI", "IV", "CC Closed", "CC Rejected"],
-                            "tableLabelDesc": ["CC Initiated", "CC Approved", "UI", "IV"],
+                            "allLabels": [
+                                "CCN1",
+                                "CCN2",
+                                "CCN3",
+                                "CCN4",
+                                "CCN5",
+                                "CCR"
+                            ],
+                            "allLabelDesc": [
+                                "CC Initiated",
+                                "CC Approved",
+                                "UI",
+                                "IV",
+                                "CC Closed",
+                                "CC Rejected"
+                            ],
+                            "tableLabelDesc": [
+                                "CC Initiated",
+                                "CC Approved",
+                                "UI",
+                                "IV"
+                            ],
                             "closedStateLabel": "CCN5",
                             "rejectedStateLabel": "CCR"
                         },
                         {
                             "id": "closure",
                             "type": "closure",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Closure Time",
                             "title": "closure time(in days)",
-                            "allLabels": ["CCN1", "CCN2", "CCN3", "CCN4", "CCN5", "CCR"],
-                            "initialStateLabels": ["CCN1", "CCN2", "CCN3", "CCN4"],
-                            "allLabelDesc": ["CC Initiated", "CC Approved", "UI", "IV", "CC Closed", "CC Rejected"],
+                            "allLabels": [
+                                "CCN1",
+                                "CCN2",
+                                "CCN3",
+                                "CCN4",
+                                "CCN5",
+                                "CCR"
+                            ],
+                            "initialStateLabels": [
+                                "CCN1",
+                                "CCN2",
+                                "CCN3",
+                                "CCN4"
+                            ],
+                            "allLabelDesc": [
+                                "CC Initiated",
+                                "CC Approved",
+                                "UI",
+                                "IV",
+                                "CC Closed",
+                                "CC Rejected"
+                            ],
                             "initialSateLabel": "CCN1",
                             "closedStateLabel": "CCN5",
                             "rejectedStateLabel": "CCR"
@@ -1287,12 +1605,13 @@
                         {
                             "id": "dept",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Department",
                             "title": "count by department",
                             "labels": [
+                                "MHC",
                                 "QC",
                                 "RA",
                                 "Production",
@@ -1307,6 +1626,7 @@
                                 "QA"
                             ],
                             "labelsDesc": [
+                                "Common",
                                 "QC",
                                 "RA",
                                 "Prod",
@@ -1324,7 +1644,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -1356,7 +1676,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": [
@@ -1379,7 +1699,12 @@
                                 "CCN5",
                                 "CCR"
                             ],
-                            "initialStateLabels": ["CCN1", "CCN2", "CCN3", "CCN4"],
+                            "initialStateLabels": [
+                                "CCN1",
+                                "CCN2",
+                                "CCN3",
+                                "CCN4"
+                            ],
                             "allLabelDesc": [
                                 "CC Initiated",
                                 "CC Approved",
@@ -1395,7 +1720,7 @@
                         {
                             "id": "tracker",
                             "type": "tracker",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "labels": [
@@ -1416,23 +1741,61 @@
                                 "#9467bd",
                                 "#1f77b4"
                             ],
-                            "allLabels": ["CCN1", "CCN2", "CCN3", "CCN4", "CCN5", "CCR"],
-                            "allLabelDesc": ["CC Initiated", "CC Approved", "UI", "IV", "CC Closed", "CC Rejected"],
-                            "tableLabelDesc": ["CC Initiated", "CC Approved", "UI", "IV"],
+                            "allLabels": [
+                                "CCN1",
+                                "CCN2",
+                                "CCN3",
+                                "CCN4",
+                                "CCN5",
+                                "CCR"
+                            ],
+                            "allLabelDesc": [
+                                "CC Initiated",
+                                "CC Approved",
+                                "UI",
+                                "IV",
+                                "CC Closed",
+                                "CC Rejected"
+                            ],
+                            "tableLabelDesc": [
+                                "CC Initiated",
+                                "CC Approved",
+                                "UI",
+                                "IV"
+                            ],
                             "closedStateLabel": "CCN5",
                             "rejectedStateLabel": "CCR"
                         },
                         {
                             "id": "closure",
                             "type": "closure",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Closure Time",
                             "title": "closure time(in days)",
-                            "allLabels": ["CCN1", "CCN2", "CCN3", "CCN4", "CCN5", "CCR"],
-                            "initialStateLabels": ["CCN1", "CCN2", "CCN3", "CCN4"],
-                            "allLabelDesc": ["CC Initiated", "CC Approved", "UI", "IV", "CC Closed", "CC Rejected"],
+                            "allLabels": [
+                                "CCN1",
+                                "CCN2",
+                                "CCN3",
+                                "CCN4",
+                                "CCN5",
+                                "CCR"
+                            ],
+                            "initialStateLabels": [
+                                "CCN1",
+                                "CCN2",
+                                "CCN3",
+                                "CCN4"
+                            ],
+                            "allLabelDesc": [
+                                "CC Initiated",
+                                "CC Approved",
+                                "UI",
+                                "IV",
+                                "CC Closed",
+                                "CC Rejected"
+                            ],
                             "initialSateLabel": "CCN1",
                             "closedStateLabel": "CCN5",
                             "rejectedStateLabel": "CCR"
@@ -1445,12 +1808,13 @@
                         {
                             "id": "dept",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Department",
                             "title": "count by department",
                             "labels": [
+                                "MHC",
                                 "QC",
                                 "RA",
                                 "Production",
@@ -1465,6 +1829,7 @@
                                 "QA"
                             ],
                             "labelsDesc": [
+                                "Common",
                                 "QC",
                                 "RA",
                                 "Prod",
@@ -1482,7 +1847,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -1511,7 +1876,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": [
@@ -1531,7 +1896,11 @@
                                 "DCN4",
                                 "DR1"
                             ],
-                            "initialStateLabels": ["DCN1", "DCN2", "DCN3"],
+                            "initialStateLabels": [
+                                "DCN1",
+                                "DCN2",
+                                "DCN3"
+                            ],
                             "allLabelDesc": [
                                 "DC Initiated",
                                 "Approved by HOD",
@@ -1546,7 +1915,7 @@
                         {
                             "id": "tracker",
                             "type": "tracker",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "labels": [
@@ -1564,23 +1933,55 @@
                                 "#ff7f0e",
                                 "#9467bd"
                             ],
-                            "allLabels": ["DCN1", "DCN2", "DCN3", "DCN4","DR1"],
-                            "allLabelDesc": ["DC Initiated", "Approved by HOD", "DC Approved", "DC Closed", "DC Rejected"],
-                            "tableLabelDesc": ["DC Initiated", "Approved by HOD", "DC Approved"],
+                            "allLabels": [
+                                "DCN1",
+                                "DCN2",
+                                "DCN3",
+                                "DCN4",
+                                "DR1"
+                            ],
+                            "allLabelDesc": [
+                                "DC Initiated",
+                                "Approved by HOD",
+                                "DC Approved",
+                                "DC Closed",
+                                "DC Rejected"
+                            ],
+                            "tableLabelDesc": [
+                                "DC Initiated",
+                                "Approved by HOD",
+                                "DC Approved"
+                            ],
                             "closedStateLabel": "DCN4",
                             "rejectedStateLabel": "DR1"
                         },
                         {
                             "id": "closure",
                             "type": "closure",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Closure Time",
                             "title": "closure time(in days)",
-                            "allLabels": ["DCN1", "DCN2", "DCN3", "DCN4","DR1"],
-                            "initialStateLabels": ["DCN1", "DCN2", "DCN3"],
-                            "allLabelDesc": ["DC Initiated", "Approved by HOD", "DC Approved", "DC Closed", "DC Rejected"],
+                            "allLabels": [
+                                "DCN1",
+                                "DCN2",
+                                "DCN3",
+                                "DCN4",
+                                "DR1"
+                            ],
+                            "initialStateLabels": [
+                                "DCN1",
+                                "DCN2",
+                                "DCN3"
+                            ],
+                            "allLabelDesc": [
+                                "DC Initiated",
+                                "Approved by HOD",
+                                "DC Approved",
+                                "DC Closed",
+                                "DC Rejected"
+                            ],
                             "initialSateLabel": "DCN1",
                             "closedStateLabel": "DCN4",
                             "rejectedStateLabel": "DR1"
@@ -1599,6 +2000,7 @@
             "version": "1.0.0",
             "dataSources": [
                 {
+                    "id": "capalabels",
                     "type": "Labels"
                 }
             ],
@@ -1713,12 +2115,13 @@
                         {
                             "id": "dept",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Department",
                             "title": "count by department",
                             "labels": [
+                                "MHC",
                                 "QC",
                                 "RA",
                                 "Production",
@@ -1733,6 +2136,7 @@
                                 "QA"
                             ],
                             "labelsDesc": [
+                                "Common",
                                 "QC",
                                 "RA",
                                 "Prod",
@@ -1750,7 +2154,7 @@
                         {
                             "id": "cat",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Category",
@@ -1771,7 +2175,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -1794,7 +2198,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": [
@@ -1810,7 +2214,10 @@
                                 "CR2",
                                 "CR3"
                             ],
-                            "initialStateLabels": ["CR1", "CR2"],
+                            "initialStateLabels": [
+                                "CR1",
+                                "CR2"
+                            ],
                             "allLabelDesc": [
                                 "NCR Initiated",
                                 "NCR Approved",
@@ -1823,7 +2230,7 @@
                         {
                             "id": "tracker",
                             "type": "tracker",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "labels": [
@@ -1838,23 +2245,45 @@
                                 "#d62728",
                                 "#ff7f0e"
                             ],
-                            "allLabels": ["CR1", "CR2", "CR3"],
-                            "allLabelDesc": ["NCR Initiated", "NCR Approved", "NCR Closed"],
-                            "tableLabelDesc": ["NCR Initiated", "NCR Approved"],
+                            "allLabels": [
+                                "CR1",
+                                "CR2",
+                                "CR3"
+                            ],
+                            "allLabelDesc": [
+                                "NCR Initiated",
+                                "NCR Approved",
+                                "NCR Closed"
+                            ],
+                            "tableLabelDesc": [
+                                "NCR Initiated",
+                                "NCR Approved"
+                            ],
                             "closedStateLabel": "CR3",
                             "rejectedStateLabel": ""
                         },
                         {
                             "id": "closure",
                             "type": "closure",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Closure Time",
                             "title": "closure time(in days)",
-                            "allLabels": ["CR1", "CR2", "CR3"],
-                            "initialStateLabels": ["CR1", "CR2"],
-                            "allLabelDesc": ["NCR Initiated", "NCR Approved", "NCR Closed"],
+                            "allLabels": [
+                                "CR1",
+                                "CR2",
+                                "CR3"
+                            ],
+                            "initialStateLabels": [
+                                "CR1",
+                                "CR2"
+                            ],
+                            "allLabelDesc": [
+                                "NCR Initiated",
+                                "NCR Approved",
+                                "NCR Closed"
+                            ],
                             "initialSateLabel": "CR1",
                             "closedStateLabel": "CR3",
                             "rejectedStateLabel": ""
@@ -1873,6 +2302,7 @@
             "version": "1.0.0",
             "dataSources": [
                 {
+                    "id": "capalabels",
                     "type": "Labels"
                 }
             ],
@@ -1987,12 +2417,13 @@
                         {
                             "id": "dept",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Department",
                             "title": "count by department",
                             "labels": [
+                                "MHC",
                                 "QC",
                                 "RA",
                                 "Production",
@@ -2007,6 +2438,7 @@
                                 "QA"
                             ],
                             "labelsDesc": [
+                                "Common",
                                 "QC",
                                 "RA",
                                 "Prod",
@@ -2024,7 +2456,7 @@
                         {
                             "id": "cat",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Category",
@@ -2047,7 +2479,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -2073,7 +2505,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": [
@@ -2090,7 +2522,10 @@
                                 "EV3",
                                 "DR"
                             ],
-                            "initialStateLabels": ["EV1", "EN2"],
+                            "initialStateLabels": [
+                                "EV1",
+                                "EN2"
+                            ],
                             "allLabelDesc": [
                                 "Deviation Initiated",
                                 "Deviation Approved",
@@ -2104,7 +2539,7 @@
                         {
                             "id": "tracker",
                             "type": "tracker",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "labels": [
@@ -2119,10 +2554,21 @@
                                 "#d62728",
                                 "#ff7f0e"
                             ],
-                            "allLabels": ["EV1", "EN2", "EV3", "DR"],
-                            "allLabelDesc": ["Deviation Initiated", "Deviation Approved", "Deviation Closed","Deviation Rejected"],
+                            "allLabels": [
+                                "EV1",
+                                "EN2",
+                                "EV3",
+                                "DR"
+                            ],
+                            "allLabelDesc": [
+                                "Deviation Initiated",
+                                "Deviation Approved",
+                                "Deviation Closed",
+                                "Deviation Rejected"
+                            ],
                             "tableLabelDesc": [
-                                "Deviation Initiated", "Deviation Approved"
+                                "Deviation Initiated",
+                                "Deviation Approved"
                             ],
                             "closedStateLabel": "EV3",
                             "rejectedStateLabel": "DR"
@@ -2130,14 +2576,27 @@
                         {
                             "id": "closure",
                             "type": "closure",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Closure Time",
                             "title": "closure time(in days)",
-                            "allLabels": ["EV1", "EN2", "EV3", "DR"],
-                            "initialStateLabels": ["EV1", "EN2"],
-                            "allLabelDesc": ["Deviation Initiated", "Deviation Approved", "Deviation Closed","Deviation Rejected"],
+                            "allLabels": [
+                                "EV1",
+                                "EN2",
+                                "EV3",
+                                "DR"
+                            ],
+                            "initialStateLabels": [
+                                "EV1",
+                                "EN2"
+                            ],
+                            "allLabelDesc": [
+                                "Deviation Initiated",
+                                "Deviation Approved",
+                                "Deviation Closed",
+                                "Deviation Rejected"
+                            ],
                             "initialSateLabel": "EV1",
                             "closedStateLabel": "EV3",
                             "rejectedStateLabel": "DR"

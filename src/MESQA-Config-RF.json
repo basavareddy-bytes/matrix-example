@@ -190,6 +190,7 @@
             "version": "1.12.0",
             "dataSources": [
                 {
+                    "id": "capalabels",
                     "type": "Labels"
                 }
             ],
@@ -302,7 +303,7 @@
                         {
                             "id": "dept",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Department",
@@ -313,7 +314,7 @@
                         {
                             "id": "cat",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Category",
@@ -324,7 +325,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -335,7 +336,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": ["CAN1", "CAN2", "CAN5", "CAN3"],
@@ -350,7 +351,7 @@
                         {
                             "id": "tracker",
                             "type": "tracker",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "labels": ["CAN1", "CAN2", "CAN5", "CAN3"],
@@ -365,7 +366,7 @@
                         {
                             "id": "closure",
                             "type": "closure",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Closure Time",
@@ -386,7 +387,7 @@
                         {
                             "id": "dept",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Department",
@@ -397,7 +398,7 @@
                         {
                             "id": "cat",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Category",
@@ -408,7 +409,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -419,7 +420,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": ["CAN1", "CAN2", "CAN5", "CAN3"],
@@ -434,7 +435,7 @@
                         {
                             "id": "tracker",
                             "type": "tracker",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "labels": ["CAN1", "CAN2", "CAN5", "CAN3"],
@@ -449,7 +450,7 @@
                         {
                             "id": "closure",
                             "type": "closure",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Closure Time",
@@ -470,7 +471,7 @@
                         {
                             "id": "dept",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Department",
@@ -481,7 +482,7 @@
                         {
                             "id": "cat",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Category",
@@ -492,7 +493,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -503,7 +504,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": ["PN1", "PN2", "PN3", "PN4"],
@@ -518,7 +519,7 @@
                         {
                             "id": "tracker",
                             "type": "tracker",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "labels": ["PN1", "PN2", "PN3", "PN4"],
@@ -533,7 +534,7 @@
                         {
                             "id": "closure",
                             "type": "closure",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Closure Time",
@@ -554,7 +555,7 @@
                         {
                             "id": "dept",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Department",
@@ -565,7 +566,7 @@
                         {
                             "id": "cat",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Category",
@@ -576,7 +577,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -587,7 +588,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": ["PN1", "PN2", "PN3", "PN4"],
@@ -602,7 +603,7 @@
                         {
                             "id": "tracker",
                             "type": "tracker",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "labels": ["PN1", "PN2", "PN3", "PN4"],
@@ -617,7 +618,7 @@
                         {
                             "id": "closure",
                             "type": "closure",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Closure Time",
@@ -645,6 +646,7 @@
             "version": "1.0.0",
             "dataSources": [
                 {
+                    "id": "capalabels",
                     "type": "Labels"
                 }
             ],
@@ -746,7 +748,7 @@
                         {
                             "id": "dept",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Department",
@@ -757,7 +759,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -768,7 +770,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": ["CN2", "CC1", "CN3", "CN4"],
@@ -783,7 +785,7 @@
                         {
                             "id": "tracker",
                             "type": "tracker",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "labels": ["CN2", "CC1", "CN3", "CN4"],
@@ -798,7 +800,7 @@
                         {
                             "id": "closure",
                             "type": "closure",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Closure Time",
@@ -818,7 +820,7 @@
                         {
                             "id": "dept",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Department",
@@ -829,7 +831,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -840,7 +842,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": ["CN2", "CC1", "CN3", "CN4"],
@@ -855,7 +857,7 @@
                         {
                             "id": "tracker",
                             "type": "tracker",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "labels": ["CN2", "CC1", "CN3", "CN4"],
@@ -870,7 +872,7 @@
                         {
                             "id": "closure",
                             "type": "closure",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Closure Time",
@@ -890,7 +892,7 @@
                         {
                             "id": "dept",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Department",
@@ -901,7 +903,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -912,7 +914,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": ["DN1", "DN2", "DN3"],
@@ -927,7 +929,7 @@
                         {
                             "id": "tracker",
                             "type": "tracker",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "labels": ["DN1", "DN2", "DN3"],
@@ -942,7 +944,7 @@
                         {
                             "id": "closure",
                             "type": "closure",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Closure Time",
@@ -969,6 +971,7 @@
             "version": "1.0.0",
             "dataSources": [
                 {
+                    "id": "capalabels",
                     "type": "Labels"
                 }
             ],
@@ -1081,7 +1084,7 @@
                         {
                             "id": "dept",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Department",
@@ -1092,7 +1095,7 @@
                         {
                             "id": "cat",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Category",
@@ -1103,7 +1106,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -1114,7 +1117,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": ["NN1", "NN2"],
@@ -1129,7 +1132,7 @@
                         {
                             "id": "tracker",
                             "type": "tracker",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "labels": ["NN1", "NN2"],
@@ -1144,7 +1147,7 @@
                         {
                             "id": "closure",
                             "type": "closure",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Closure Time",
@@ -1171,6 +1174,7 @@
             "version": "1.0.0",
             "dataSources": [
                 {
+                    "id": "capalabels",
                     "type": "Labels"
                 }
             ],
@@ -1283,7 +1287,7 @@
                         {
                             "id": "dept",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Department",
@@ -1294,7 +1298,7 @@
                         {
                             "id": "cat",
                             "type": "groupBy",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Category",
@@ -1305,7 +1309,7 @@
                         {
                             "id": "status",
                             "type": "groupByState",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Current State",
@@ -1316,7 +1320,7 @@
                         {
                             "id": "avg",
                             "type": "avg",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "title": "average time spent in state",
                             "labels": ["EV1", "EN2"],
@@ -1331,7 +1335,7 @@
                         {
                             "id": "tracker",
                             "type": "tracker",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "labels": ["EV1", "EN2"],
@@ -1346,7 +1350,7 @@
                         {
                             "id": "closure",
                             "type": "closure",
-                            "dataSourceType": "Labels",
+                            "dataSourceType": "capalabels",
                             "renderChart": "Y",
                             "showInTable": "Y",
                             "tableHeader": "Closure Time",

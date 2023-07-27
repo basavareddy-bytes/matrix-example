@@ -76,7 +76,7 @@ namespace GenericDashboard {
 
         labelHistoryData: XRLabelEntry[] = [];
 
-        dateRangeData : dateRangeData = {
+        dateRangeData: dateRangeData = {
             currentWeekCategoryData: [],
             currentMonthCategoryData: {},
             threeMonthsCategoryData: [],
@@ -147,20 +147,50 @@ namespace GenericDashboard {
             dataSources.forEach(dataSourceConfig => {
                 if (dataSourceConfig.type == "Needles") {
                     let needleSourceCategory;
+                    let needleSourceFieldName;
                     let needleSourceFieldId;
                     dataSourceConfig.sourceAtrributes.forEach(sourceAttribute => {
                         if (sourceAttribute.name == "category") {
                             needleSourceCategory = sourceAttribute.value;
-                        } else if (sourceAttribute.name == "fieldId") {
-                            needleSourceFieldId = sourceAttribute.value;
+                        } else if (sourceAttribute.name == "fieldName") {
+                            needleSourceFieldName = sourceAttribute.value;
                         }
                     });
+                    needleSourceFieldId =  IC.getFieldByName(needleSourceCategory,needleSourceFieldName).id;
                     if (needleSourceCategory && needleSourceFieldId) {
-                        dataSourcePromises.push(Matrix.Labels.getNeedlesByCategoryAndFiledId(needleSourceCategory,
+                        dataSourcePromises.push(Matrix.Labels.getNeedlesByCategoryAndFiledId(dataSourceConfig.id,dataSourceConfig.type,needleSourceCategory,
                             needleSourceFieldId));
                     }
+                } else if (dataSourceConfig.type == "NeedlesBySearch") {
+
+                    let needleSourceCategory;
+                    let needleSourceFieldName;
+                    let needleSourceFieldId;
+                    dataSourceConfig.sourceAtrributes.forEach(sourceAttribute => {
+                        if (sourceAttribute.name == "category") {
+                            needleSourceCategory = sourceAttribute.value;
+                        } else if (sourceAttribute.name == "fieldName") {
+                            needleSourceFieldName = sourceAttribute.value;
+                        }
+                    });
+                    needleSourceFieldId =  IC.getFieldByName(needleSourceCategory,needleSourceFieldName).id;
+                    if (needleSourceCategory && needleSourceFieldId) {
+                        dataSourcePromises.push(Matrix.Labels.getNeedlesBySearch(dataSourceConfig.id,dataSourceConfig.type,needleSourceCategory,
+                            needleSourceFieldId));
+                    }
+                    
+                    // if (dataSourceConfig.sourceAtrributes.length > 0) {
+                    //     let searchParams = "";
+                    //     dataSourceConfig.sourceAtrributes.forEach(sourceAttribute => {
+                    //         let searchParam;
+                    //         searchParam = sourceAttribute.name + '=' + sourceAttribute.value;
+                    //         searchParams += searchParam + '&'
+                    //     });
+                    //     dataSourcePromises.push(Matrix.Labels.getNeedlesBySearch(dataSourceConfig.id,dataSourceConfig.type,searchParams));
+                    // }
                 } else if (dataSourceConfig.type == "Labels") {
-                    dataSourcePromises.push(Matrix.Labels.projectLabelHistory());
+                    dataSourcePromises.push(Matrix.Labels.projectLabelHistory(dataSourceConfig.id,dataSourceConfig.type));
+
                 }
             });
 
@@ -168,18 +198,21 @@ namespace GenericDashboard {
 
                 dataSourcePromisesResults.forEach(dataSourcePromiseResult => {
 
-                    if (dataSourcePromiseResult.length > 0 && that.instanceOfXRTrimNeedleItem(dataSourcePromiseResult[0])) {
-                        dashboardPluginSources.push({
-                            "type": "Needles",
-                            "source": dataSourcePromiseResult
-                        })
-                    } else if (dataSourcePromiseResult.length > 0 && that.instanceOfXRLabelEntry(dataSourcePromiseResult[0])) {
-                        that.labelHistoryData = dataSourcePromiseResult;
-                        dashboardPluginSources.push({
-                            "type": "Labels",
-                            "source": dataSourcePromiseResult
-                        })
-                    }
+                    // if (dataSourcePromiseResult.length > 0 && that.instanceOfXRTrimNeedleItem(dataSourcePromiseResult[0])) {
+                    //     dashboardPluginSources.push({
+                    //         "type": "NeedlesBySearch",
+                    //         "source": dataSourcePromiseResult
+                    //     })
+                    // } else if (dataSourcePromiseResult.length > 0 && that.instanceOfXRLabelEntry(dataSourcePromiseResult[0])) {
+                    //     that.labelHistoryData = dataSourcePromiseResult;
+                    //     dashboardPluginSources.push({
+                    //         "type": "Labels",
+                    //         "source": dataSourcePromiseResult
+                    //     })
+                    // }
+
+                    dashboardPluginSources.push(dataSourcePromiseResult);
+
 
                 });
 
@@ -208,7 +241,7 @@ namespace GenericDashboard {
             that.currentTimeRangeSelected = renderTemplateData.currentTimeRangeSelected;
 
             renderTemplateData.dateRangeData.forEach(dateRangeItem => {
-                that.initiateDateRangeActions(dateRangeItem.range,dateRangeItem.contentId);
+                that.initiateDateRangeActions(dateRangeItem.range, dateRangeItem.contentId);
             });
 
 
@@ -278,14 +311,14 @@ namespace GenericDashboard {
 
             categoriesFunctionalities.forEach(category => {
                 category.functionalities.forEach(functionality => {
-                    if(functionality.type === 'dateRangeComapre'){
+                    if (functionality.type === 'dateRangeComapre') {
                         functionality.dateRanges.forEach(dateRange => {
-                            that.initiateDateRangeActions(dateRange,functionality.id);
+                            that.initiateDateRangeActions(dateRange, functionality.id);
                         });
                     }
                 });
             });
-            
+
         }
 
 
@@ -366,7 +399,7 @@ namespace GenericDashboard {
                             if (byCategoryLabelData.groupByData.length > 0) {
                                 byCategoryLabelData.groupByData.forEach(groupByObject => {
                                     if (dateFilterId == groupByObject.id) {
-                                        that.renderGroupByChart(groupByObject.labelsDesc,groupByObject.groupWiseData,groupByObject.id);
+                                        that.renderGroupByChart(groupByObject.labelsDesc, groupByObject.groupWiseData, groupByObject.id);
                                     }
                                 });
                             }
@@ -375,7 +408,7 @@ namespace GenericDashboard {
                             if (byCategoryLabelData.groupByStateData.length > 0) {
                                 byCategoryLabelData.groupByStateData.forEach(groupByStateObject => {
                                     if (dateFilterId == groupByStateObject.id) {
-                                        that.renderGroupByStateChart(groupByStateObject.stateWiseData,groupByStateObject.stateColors,groupByStateObject.id);
+                                        that.renderGroupByStateChart(groupByStateObject.stateWiseData, groupByStateObject.stateColors, groupByStateObject.id);
                                     }
                                 });
                             }
@@ -384,7 +417,7 @@ namespace GenericDashboard {
                             if (byCategoryLabelData.groupByStateOverdueData.length > 0) {
                                 byCategoryLabelData.groupByStateOverdueData.forEach(groupByStateOverdueObject => {
                                     if (dateFilterId == groupByStateOverdueObject.id) {
-                                        that.renderGroupByStateChart(groupByStateOverdueObject.stateWiseData,groupByStateOverdueObject.stateColors,groupByStateOverdueObject.id);
+                                        that.renderGroupByStateChart(groupByStateOverdueObject.stateWiseData, groupByStateOverdueObject.stateColors, groupByStateOverdueObject.id);
                                     }
                                 });
                             }
@@ -393,7 +426,7 @@ namespace GenericDashboard {
                             if (byCategoryLabelData.groupByStackData.length > 0) {
                                 byCategoryLabelData.groupByStackData.forEach(groupByStackObject => {
                                     if (dateFilterId == groupByStackObject.id) {
-                                        that.renderGroupByStackChart(groupByStackObject.groupByStackData,groupByStackObject.groupByCodesDesc,groupByStackObject.categoryDesc,groupByStackObject.groupByCodeColors,groupByStackObject.id);
+                                        that.renderGroupByStackChart(groupByStackObject.groupByStackData, groupByStackObject.groupByCodesDesc, groupByStackObject.categoryDesc, groupByStackObject.groupByCodeColors, groupByStackObject.id);
                                     }
                                 });
                             }
@@ -402,7 +435,7 @@ namespace GenericDashboard {
                             if (byCategoryLabelData.avgData.length > 0) {
                                 byCategoryLabelData.avgData.forEach(avgObject => {
                                     if (dateFilterId == avgObject.id) {
-                                        that.renderAvgChart(avgObject.stateDesc,avgObject.statusWiseAvgData,avgObject.id);
+                                        that.renderAvgChart(avgObject.stateDesc, avgObject.statusWiseAvgData, avgObject.id);
                                     }
                                 });
                             }
@@ -411,7 +444,7 @@ namespace GenericDashboard {
                             if (byCategoryLabelData.closureData.length > 0) {
                                 byCategoryLabelData.closureData.forEach(closureObject => {
                                     if (dateFilterId == closureObject.id) {
-                                        that.renderClosureChart(closureObject.closedItemsData,closureObject.closureTimeData,closureObject.id);
+                                        that.renderClosureChart(closureObject.closedItemsData, closureObject.closureTimeData, closureObject.id);
                                     }
                                 });
                             }
@@ -420,14 +453,32 @@ namespace GenericDashboard {
                             if (byCategoryLabelData.trackerData.length > 0) {
                                 byCategoryLabelData.trackerData.forEach(trackerObject => {
                                     if (dateFilterId == trackerObject.id) {
-                                        that.renderTrackerChart(trackerObject.stateDesc,trackerObject.stateTrackerData,trackerObject.stateColors,trackerObject.id);
+                                        that.renderTrackerChart(trackerObject.stateDesc, trackerObject.stateTrackerData, trackerObject.stateColors, trackerObject.id);
                                     }
                                 });
                             }
                             break;
+                        case 'groupByNcrDept':
+                            if (byCategoryLabelData.groupByNcrDeptData.length > 0) {
+                                byCategoryLabelData.groupByNcrDeptData.forEach(groupByNcrDeptObject => {
+                                    if (dateFilterId == groupByNcrDeptObject.id) {
+                                        that.renderGroupByNcrDeptChart(groupByNcrDeptObject.labelsDesc, groupByNcrDeptObject.groupByNcrDeptWiseData, groupByNcrDeptObject.id);
+                                    }
+                                });
+                            }
+                            break;
+                        case 'groupByNcrAuditor':
+                            if (byCategoryLabelData.groupByNcrAuditorData.length > 0) {
+                                byCategoryLabelData.groupByNcrAuditorData.forEach(groupByNcrAuditorObject => {
+                                    if (dateFilterId == groupByNcrAuditorObject.id) {
+                                        that.renderGroupByNcrAuditorChart(groupByNcrAuditorObject.groupByNcrAuditorWiseData, groupByNcrAuditorObject.id);
+                                    }
+                                });
+                            }
+                            break;    
                         case 'table':
                             if (byCategoryLabelData.itemCurrentStateValues.length > 0) {
-                                that.renderPluginTable(byCategoryLabelData.itemCurrentStateTableHeaders,byCategoryLabelData.itemCurrentStateValues);
+                                that.renderPluginTable(byCategoryLabelData.itemCurrentStateTableHeaders, byCategoryLabelData.itemCurrentStateValues);
                             }
                             break;
                     }
@@ -490,6 +541,12 @@ namespace GenericDashboard {
                     case 'tracker':
                         that.renderTrackerChartByDateRanges(fromDateSelected, toDateSelected, byCategoryLabelData, dateFilterId);
                         break;
+                    case 'groupByNcrDept':
+                        that.renderGroupByNcrDeptChartByDateRanges(fromDateSelected, toDateSelected, byCategoryLabelData, dateFilterId);
+                        break;
+                    case 'groupByNcrAuditor':
+                        that.renderGroupByNcrAuditorChartByDateRanges(fromDateSelected, toDateSelected, byCategoryLabelData, dateFilterId);
+                        break;    
                     case 'dateRangeComapre':
                         that.renderDateRangeComapreDataByDateRanges(fromDateSelected, toDateSelected, byCategoryLabelData, dateFilterId);
                         break;
@@ -501,28 +558,28 @@ namespace GenericDashboard {
 
         }
 
-        initiateDateRangeActions(range,contentId){
+        initiateDateRangeActions(range, contentId) {
             let that = this;
 
-            $("#"+range+"Range").click(function () {
+            $("#" + range + "Range").click(function () {
 
-                if(range == "dateCompare"){
-                    $("#"+contentId+"-date-filter").show();
-                }else{
-                    $("#"+contentId+"-date-filter").hide();
+                if (range == "dateCompare") {
+                    $("#" + contentId + "-date-filter").show();
+                } else {
+                    $("#" + contentId + "-date-filter").hide();
                 }
-                
+
                 if (that.currentTimeRangeSelected !== range) {
-                    $("#"+range+"Range").removeClass("timerangenormal");
-                    $("#"+range+"Range").addClass("timerangeselected");
+                    $("#" + range + "Range").removeClass("timerangenormal");
+                    $("#" + range + "Range").addClass("timerangeselected");
 
                     $('#' + that.currentTimeRangeSelected + 'Range').removeClass("timerangeselected");
                     $('#' + that.currentTimeRangeSelected + 'Range').addClass("timerangenormal");
 
                     that.currentTimeRangeSelected = range;
-                    
-                    if(range !== "dateCompare"){
-                        that.renderDateRangeByAction(range,contentId);
+
+                    if (range !== "dateCompare") {
+                        that.renderDateRangeByAction(range, contentId);
                     }
                 }
 
@@ -530,7 +587,7 @@ namespace GenericDashboard {
 
         }
 
-        renderDateRangeByAction(range,contentId){
+        renderDateRangeByAction(range, contentId) {
             let that = this;
             let columnData;
             let categoryData;
@@ -547,42 +604,42 @@ namespace GenericDashboard {
                 case 'threeMonths':
                     columnData = that.dateRangeData.threeMonthsColumnsData;
                     categoryData = that.dateRangeData.threeMonthsCategoryData;
-                    break;    
+                    break;
                 case 'sixMonths':
                     columnData = that.dateRangeData.sixMonthsColumnsData;
                     categoryData = that.dateRangeData.sixMonthsCategoryData;
-                    break;    
+                    break;
                 case 'twelveMonths':
                     columnData = that.dateRangeData.twelveMonthsColumnsData;
                     categoryData = that.dateRangeData.twelveMonthsCategoryData;
-                    break; 
+                    break;
                 case 'ytd':
                     columnData = that.dateRangeData.ytdColumnsData;
                     categoryData = that.dateRangeData.ytdCategoryData;
-                    break; 
+                    break;
                 case 'moreThanYear':
                     columnData = that.dateRangeData.moreThanYearColumnsData;
                     categoryData = that.dateRangeData.moreThanYearCategoryData;
-                    break;  
+                    break;
                 case 'quarterlyCY':
                     columnData = that.dateRangeData.quarterlyCYColumnsData;
                     categoryData = that.dateRangeData.quarterlyCYCategoryData.categories;
-                    break;  
+                    break;
                 case 'quarterlyFY':
                     columnData = that.dateRangeData.quarterlyFYColumnsData;
                     categoryData = that.dateRangeData.quarterlyFYCategoryData.categories;
-                    break;                   
+                    break;
             };
 
             let ByCategoryLabelData = this.ByCategoryLabelDetails
                 .find(({ category }) => category === this.currentCat);
 
-            if(ByCategoryLabelData.dateRangeCompareData.length > 0){
+            if (ByCategoryLabelData.dateRangeCompareData.length > 0) {
                 ByCategoryLabelData.dateRangeCompareData.forEach(dateRangeCompareObject => {
-                    if(dateRangeCompareObject.id == contentId){
-                        that.renderDateRangeChart(columnData,categoryData,dateRangeCompareObject.labelsDesc,
-                            dateRangeCompareObject.labelColors,dateRangeCompareObject.id); 
-                    }   
+                    if (dateRangeCompareObject.id == contentId) {
+                        that.renderDateRangeChart(columnData, categoryData, dateRangeCompareObject.labelsDesc,
+                            dateRangeCompareObject.labelColors, dateRangeCompareObject.id);
+                    }
                 });
             }
         }
@@ -593,7 +650,7 @@ namespace GenericDashboard {
             if (cat == undefined) {
                 return;
             }
-            if (cat == ""){
+            if (cat == "") {
                 cat = $("#itemSelectionLabelDashboard .dropdown-menu li:first").text();
             }
 
@@ -655,6 +712,19 @@ namespace GenericDashboard {
                     that.renderTrackerChart(trackerObject.stateDesc, trackerObject.stateTrackerData, trackerObject.stateColors, trackerObject.id);
                 });
             }
+
+            if (ByCategoryLabelData.groupByNcrDeptData && ByCategoryLabelData.groupByNcrDeptData.length > 0) {
+                ByCategoryLabelData.groupByNcrDeptData.forEach(groupByNcrDeptObject => {
+                    that.renderGroupByNcrDeptChart(groupByNcrDeptObject.labelsDesc, groupByNcrDeptObject.groupByNcrDeptWiseData, groupByNcrDeptObject.id);
+                });
+            }
+
+            if (ByCategoryLabelData.groupByNcrAuditorData && ByCategoryLabelData.groupByNcrAuditorData.length > 0) {
+                ByCategoryLabelData.groupByNcrAuditorData.forEach(groupByNcrAuditorObject => {
+                    that.renderGroupByNcrAuditorChart(groupByNcrAuditorObject.groupByNcrAuditorWiseData, groupByNcrAuditorObject.id);
+                });
+            }
+
 
             if (ByCategoryLabelData.dateRangeCompareData && ByCategoryLabelData.dateRangeCompareData.length > 0) {
                 ByCategoryLabelData.dateRangeCompareData.forEach(dateRangeCompareObject => {
@@ -1350,6 +1420,178 @@ namespace GenericDashboard {
             that.allChartsMap.set(groupId, trackerChart);
         }
 
+       
+
+        renderGroupByNcrDeptChartByDateRanges(fromDateVal: any, toDateVal: any, byCategoryLabelData: ByCategoryLabelData, groupId: String) {
+
+            let fromDate = new Date(fromDateVal);
+            let toDate = new Date(toDateVal);
+
+            if (byCategoryLabelData.groupByNcrDeptData.length > 0) {
+                byCategoryLabelData.groupByNcrDeptData.forEach(groupByNcrDeptObject => {
+                    if (groupByNcrDeptObject.id == groupId) {
+
+                        let groupByNcrDeptWiseData = [];
+                        let groupByNcrDeptInitials = Array(groupByNcrDeptObject.labels.length).fill(0);
+                        
+                        for( let option of groupByNcrDeptObject.ncOptions){
+                            groupByNcrDeptWiseData.push([option.label, ...groupByNcrDeptInitials]);
+                        }
+
+                        groupByNcrDeptObject.currentLabelData.forEach( (itemCurrentStateData) => {
+                            if (itemCurrentStateData.creationDate && 
+                                (itemCurrentStateData.creationDate >= fromDate && itemCurrentStateData.creationDate <= toDate)) {
+                                    let itemDeptIndex = -1;
+                                    for(const label of groupByNcrDeptObject.labels){
+                                        if(itemCurrentStateData.labels.includes(label)){
+                                            let labelIndex = groupByNcrDeptObject.labels.findIndex(labelCode => labelCode === label);
+                                            itemDeptIndex = labelIndex;
+                                            break;
+                                        }
+                                    }
+
+                                    if(itemDeptIndex > 0){
+                                        groupByNcrDeptWiseData.forEach(ncDeptWiseData => {
+                                            if(ncDeptWiseData[0] == itemCurrentStateData.ncLabel){
+                                                ncDeptWiseData[itemDeptIndex+1] += 1;
+                                            }
+                                        });
+                                    }
+                            }
+                        });
+
+                        this.renderGroupByNcrDeptChart(groupByNcrDeptObject.labelsDesc, groupByNcrDeptWiseData, groupByNcrDeptObject.id);
+                    }
+                });
+            }
+        }
+
+        renderGroupByNcrDeptChart(labels, groupByNcrDeptWiseData, groupId) {
+            let that = this;
+            //prepare template "${contentConfig.id}-Chart"
+            let groupByChartparams: c3.ChartConfiguration = {
+                bindto: `#${groupId}Graph`,
+                data: {
+                    x: 'x',
+                    columns: [
+                        ['x', ...labels],
+                        ...groupByNcrDeptWiseData
+                    ],
+                    type: 'bar'
+                },
+                axis: {
+                    x: {
+                        type: 'category'
+                    }
+                }
+            };
+
+            //prepare chart config and render
+            $(`#${groupId}-Chart div`).remove();
+
+            $(`#${groupId}-Chart`).append(`<div id='${groupId}Graph'>`);
+
+            let groupByChart = c3.generate(groupByChartparams);
+
+            that.allChartsMap.set(groupId, groupByChart);
+        }
+
+        
+        renderGroupByNcrAuditorChartByDateRanges(fromDateVal: any, toDateVal: any, byCategoryLabelData: ByCategoryLabelData, groupId: String) {
+
+            let fromDate = new Date(fromDateVal);
+            let toDate = new Date(toDateVal);
+
+            if (byCategoryLabelData.groupByNcrAuditorData.length > 0) {
+                byCategoryLabelData.groupByNcrAuditorData.forEach(groupByNcrAuditorObject => {
+                    if (groupByNcrAuditorObject.id == groupId) {
+
+                        let auditorsData = [];
+                        let auditCountData = [];
+                        let auditItemsData = [];
+                        let auditNcCountData = [];
+                        let auditNcRatio = [];
+
+                        groupByNcrAuditorObject.currentAuditorInfoData.forEach( (currentAuditorData) => {
+                            if (currentAuditorData.creationDate && 
+                                (currentAuditorData.creationDate >= fromDate && currentAuditorData.creationDate <= toDate)) {
+                                    let auditorIndex = auditorsData.findIndex(auditor => auditor === currentAuditorData.auditorName);
+                                    if(auditorIndex > -1){
+                                        auditCountData[auditorIndex] += 1;
+                                        auditItemsData[auditorIndex].push(currentAuditorData.id);
+                                    }else{
+                                        auditorsData.push(currentAuditorData.auditorName);
+                                        auditCountData.push(1);
+                                        auditItemsData.push([currentAuditorData.id])
+                                        auditNcCountData.push(0);
+                                        auditNcRatio.push(0);
+                                    }
+                            }
+                        });
+
+                        groupByNcrAuditorObject.currentAuditFindingsData.forEach( (currentAuditFindingsData) => {
+                            if (currentAuditFindingsData.creationDate && 
+                                (currentAuditFindingsData.creationDate >= fromDate && currentAuditFindingsData.creationDate <= toDate)) {
+                                    let itemIndex = -1;
+                                    for( let auditItems of auditItemsData){
+                                        itemIndex += 1;
+                                        let auditorItemIndex = auditItems.findIndex(itemRefId => itemRefId === currentAuditFindingsData.id);
+                                        if(auditorItemIndex > 0){
+                                            let auditNcCount = currentAuditFindingsData.auditNcCount;
+                                            auditNcCountData[itemIndex] += auditNcCount;
+                                            break;
+                                        }
+                                    }
+                            }
+                        });
+
+                        auditorsData.forEach((auditor, index) => {
+                            if(auditNcCountData[index] !== 0){
+                                auditNcRatio[index] = Math.round(((auditNcCountData[index]/auditCountData[index]) + Number.EPSILON) * 100) / 100;
+                            }
+                        });
+        
+                        let groupByNcrAuditorWiseData = [
+                            ['x', ...auditorsData],
+                            ['No of audits performed',...auditCountData],
+                            ['No of NC given', ...auditNcCountData],
+                            ['NC ratio', ...auditNcRatio]
+                        ];
+
+                        this.renderGroupByNcrAuditorChart(groupByNcrAuditorWiseData, groupByNcrAuditorObject.id);
+
+                    }
+                });
+            }
+        }
+
+        renderGroupByNcrAuditorChart(groupByNcrAuditorWiseData, groupId) {
+            let that = this;
+            //prepare template "${contentConfig.id}-Chart"
+            let groupByChartparams: c3.ChartConfiguration = {
+                bindto: `#${groupId}Graph`,
+                data: {
+                    x: 'x',
+                    columns: groupByNcrAuditorWiseData,
+                    type: 'bar'
+                },
+                axis: {
+                    x: {
+                        type: 'category'
+                    }
+                }
+            };
+
+            //prepare chart config and render
+            $(`#${groupId}-Chart div`).remove();
+
+            $(`#${groupId}-Chart`).append(`<div id='${groupId}Graph'>`);
+
+            let groupByChart = c3.generate(groupByChartparams);
+
+            that.allChartsMap.set(groupId, groupByChart);
+        }
+
         renderPluginTableByDateRanges(fromDateVal: any, toDateVal: any, byCategoryLabelData: ByCategoryLabelData) {
 
             let fromDate = new Date(fromDateVal);
@@ -1437,7 +1679,7 @@ namespace GenericDashboard {
 
                 //process groupBy functionality
                 ByCategoryLabelData.groupByData.forEach(groupByObject => {
-                    let groupByObjectDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === groupByObject.dataSourceType);
+                    let groupByObjectDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === groupByObject.dataSourceType);
                     Commons.GenericFunctionalities.processGroupByObjectData(groupByObject,
                         groupByObjectDataSource.source,
                         ByCategoryLabelData.category,
@@ -1450,7 +1692,7 @@ namespace GenericDashboard {
 
                 //process groupBy-operands functionality
                 ByCategoryLabelData.groupByOperandsData.forEach(groupByOperandsObject => {
-                    let groupByOperandsDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === groupByOperandsObject.dataSourceType);
+                    let groupByOperandsDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === groupByOperandsObject.dataSourceType);
                     Commons.GenericFunctionalities.processGroupByOperandsData(groupByOperandsObject,
                         groupByOperandsDataSource.source,
                         ByCategoryLabelData.category
@@ -1460,7 +1702,7 @@ namespace GenericDashboard {
 
                 //process groupByStack functionality
                 ByCategoryLabelData.groupByStackData.forEach(groupByStackObject => {
-                    let groupByStackDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === groupByStackObject.dataSourceType);
+                    let groupByStackDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === groupByStackObject.dataSourceType);
                     Commons.GenericFunctionalities.processGroupByStackData(groupByStackObject,
                         groupByStackDataSource.source,
                         ByCategoryLabelData.category,
@@ -1471,8 +1713,8 @@ namespace GenericDashboard {
 
                 //process groupByState functionality
                 ByCategoryLabelData.groupByStateData.forEach(groupByStateObject => {
-                    let groupByStateDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === groupByStateObject.dataSourceType);
-                    if(groupByStateDataSource.type === "Labels"){
+                    let groupByStateDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === groupByStateObject.dataSourceType);
+                    if (groupByStateDataSource.type === "Labels") {
                         Commons.GenericFunctionalities.processGroupByStateData(groupByStateObject,
                             groupByStateDataSource.source,
                             ByCategoryLabelData.category,
@@ -1480,13 +1722,13 @@ namespace GenericDashboard {
                             ByCategoryLabelData.itemCurrentStateTableHeaders,
                             ByCategoryLabelData.itemCurrentStateValues
                         );
-                    }else if(groupByStateDataSource.type === "Needles"){
+                    } else if (groupByStateDataSource.type === "Needles") {
                         Commons.GenericFunctionalities.processGroupByStateNeedleData(groupByStateObject,
                             groupByStateDataSource.source
                         );
                     }
 
-                    if(groupByStateObject.type === "groupByGapAnalysis"){
+                    if (groupByStateObject.type === "groupByGapAnalysis") {
                         that.currentCat = "QMS";
                     }
                 });
@@ -1499,7 +1741,7 @@ namespace GenericDashboard {
 
                     for (const dataSourceType of groupByStateOverDueObject.dataSources) {
 
-                        let dataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === dataSourceType);
+                        let dataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === dataSourceType);
                         if (dataSourceType === "Labels") {
                             labelsDataSource = dataSource.source;
                         } else if (dataSourceType === "Needles") {
@@ -1520,7 +1762,7 @@ namespace GenericDashboard {
 
                 //process avg functionality
                 ByCategoryLabelData.avgData.forEach(avgObject => {
-                    let avgDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === avgObject.dataSourceType);
+                    let avgDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === avgObject.dataSourceType);
                     Commons.GenericFunctionalities.processAvgData(avgObject,
                         avgDataSource.source,
                         ByCategoryLabelData.category
@@ -1529,7 +1771,7 @@ namespace GenericDashboard {
 
                 //process closure functionality
                 ByCategoryLabelData.closureData.forEach(closureObject => {
-                    let closureDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === closureObject.dataSourceType);
+                    let closureDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === closureObject.dataSourceType);
                     Commons.GenericFunctionalities.processClosureData(closureObject,
                         closureDataSource.source,
                         ByCategoryLabelData.category,
@@ -1541,7 +1783,7 @@ namespace GenericDashboard {
 
                 //process dateRangeComapre functionality
                 ByCategoryLabelData.dateRangeCompareData.forEach(dateRangeCompareObject => {
-                    let dateRangeCompareDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === dateRangeCompareObject.dataSourceType);
+                    let dateRangeCompareDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === dateRangeCompareObject.dataSourceType);
                     Commons.GenericFunctionalities.processDateRangeCompareData(dateRangeCompareObject,
                         dateRangeCompareDataSource.source,
                         ByCategoryLabelData.category
@@ -1550,7 +1792,7 @@ namespace GenericDashboard {
 
                 //process tracker functionality
                 ByCategoryLabelData.trackerData.forEach(trackerObject => {
-                    let trackerDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.type === trackerObject.dataSourceType);
+                    let trackerDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === trackerObject.dataSourceType);
                     Commons.GenericFunctionalities.processTrackerData(trackerObject,
                         trackerDataSource.source,
                         ByCategoryLabelData.category,
@@ -1558,6 +1800,29 @@ namespace GenericDashboard {
                         ByCategoryLabelData.itemCurrentStateTableHeaders,
                         ByCategoryLabelData.itemCurrentStateValues
                     );
+                });
+
+                //process groupBy NCR department wise functionality
+                ByCategoryLabelData.groupByNcrDeptData.forEach(groupByNcrDeptObject => {
+                    let groupByNcrDeptObjectDataSource = functionalityDataSources.find((functionalityDataSource) => functionalityDataSource.id === groupByNcrDeptObject.dataSourceType);
+                    Commons.GenericFunctionalities.processGroupByNcrDeptObjectData(groupByNcrDeptObject,
+                        groupByNcrDeptObjectDataSource.source);
+                });
+
+                 //process groupBy NCR auditor wise functionality
+                 ByCategoryLabelData.groupByNcrAuditorData.forEach(groupByNcrAuditorObject => {
+                    let auditFindingsDataSource: XRTrimNeedleItem[];
+                    let auditorinfoDataSource: XRTrimNeedleItem[];
+
+                    for (const dataSource of functionalityDataSources) { 
+                        if (dataSource.id === "audit-findings") {
+                            auditFindingsDataSource = dataSource.source;
+                        } else if (dataSource.id === "general-auditor-information") {
+                            auditorinfoDataSource = dataSource.source;
+                        }
+                    }
+                    Commons.GenericFunctionalities.processGroupByNcrAuditorObjectData(groupByNcrAuditorObject,
+                        auditFindingsDataSource,auditorinfoDataSource);
                 });
             }
         }

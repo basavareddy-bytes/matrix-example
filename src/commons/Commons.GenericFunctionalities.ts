@@ -82,12 +82,17 @@ namespace Commons {
                 let avgData: avgObject[] = [];
                 let closureData: closureObject[] = [];
                 let trackerData: trackerObject[] = [];
+                let groupByNcrDeptData: groupByNcrDeptObject[] = [];
+                let groupByNcrAuditorData: groupByNcrAuditorObject[] = [];
                 let dateRangeCompareData: dateRangeCompareObject[] = [];
                 let groupByStackCurrentLabelData: groupByStackCurrentData[] = [];
                 let groupByObjectCurrentLabelData: groupByObjectCurrentData[] = [];
                 let closureLabelCurrentData: closureObjectCurrentData[] = [];
                 let dateRangeCompareCurrentLabelData: groupByObjectCurrentData[] = [];
                 let trackerLabelCurrentData: Map<string, trackerObjectCurrentData> = new Map<string, trackerObjectCurrentData>();
+                let groupByNcrDeptCurrentLabelData: groupByNcrDeptCurrentData[] = [];
+                let currentAuditorInfoData: auditorInfoCurrentData[] = [];
+                let currentAuditFindingsData: auditFindingsCurrentData[] = [];
                 let operandsData: Map<string, operandObjectData> = new Map<string, operandObjectData>();
 
                 category.functionalities.forEach(functionality => {
@@ -325,7 +330,6 @@ namespace Commons {
                             }
                             break;
                         case 'dateRangeComapre':
-
                             let dateRangeComapreObject: dateRangeCompareObject = {
                                 id: functionality.id,
                                 dataSourceType: functionality.dataSourceType,
@@ -341,6 +345,70 @@ namespace Commons {
                             };
                             dateRangeCompareData.push(dateRangeComapreObject);
                             break;
+                        case 'groupByNcrDept':
+                            let ncOptions = [];
+                            let groupByNcrDeptWiseData = [];
+                            let groupByNcrDeptInitials = Array(functionality.labels.length).fill(0);
+                            let fieldAuditFindings =  IC.getFieldByName(category.id,functionality.sourceTableName);
+                            let ncCatColumn = fieldAuditFindings.parameterJson.columns.find(col=>col.name == functionality.sourceTableColumnName);
+                            let ncDropDownOptions = IC.getDropDowns(ncCatColumn.options.setting).pop();
+                            if( ncDropDownOptions && ncDropDownOptions.value && ncDropDownOptions.value.options){
+                                ncOptions = ncDropDownOptions.value.options;
+                                for( let option of ncDropDownOptions.value.options){
+                                    groupByNcrDeptWiseData.push([option.label, ...groupByNcrDeptInitials]);
+                                }
+                            }
+                            let groupByNcrDeptObject: groupByNcrDeptObject = {
+                                id: functionality.id,
+                                dataSourceType: functionality.dataSourceType,
+                                renderChart: functionality.renderChart,
+                                sourceTableName: functionality.sourceTableName,
+                                sourceTableColumnName: functionality.sourceTableColumnName,
+                                labels: functionality.labels,
+                                labelsDesc: functionality.labelsDesc,
+                                ncOptions: ncOptions,
+                                ncCatColumnField: ncCatColumn.field,
+                                groupByNcrDeptWiseData: groupByNcrDeptWiseData,
+                                currentLabelData: groupByNcrDeptCurrentLabelData
+                            };
+                            groupByNcrDeptData.push(groupByNcrDeptObject);
+                            break;    
+                        case 'groupByNcrAuditor':
+                            let groupByNcrAuditorWiseData =  [
+                                ['x'],
+                                ['No of audits performed'],
+                                ['No of NC given'],
+                                ['NC ratio']
+                            ];
+                            let fieldAuditorInfo =  IC.getFieldByName(category.id,functionality.auditorSourceTableName);
+                            let auditorTypeColumn = fieldAuditorInfo.parameterJson.columns.find(col=>col.name == functionality.auditorTypeColumnName);
+                            let auditorNameColumn = fieldAuditorInfo.parameterJson.columns.find(col=>col.name == functionality.auditorNameColumnName);
+                            let auditorDropDownOptions = IC.getDropDowns(auditorTypeColumn.options.setting).pop();
+                            let auditorOptionId = "";
+                            if( auditorDropDownOptions && auditorDropDownOptions.value && auditorDropDownOptions.value.options){
+                                for( let option of auditorDropDownOptions.value.options){
+                                    if(option.label == functionality.auditorOptionLabel){
+                                        auditorOptionId = option.id;
+                                    }
+                                }
+                            }
+                            let groupByNcrAuditorObject: groupByNcrAuditorObject = {
+                                id: functionality.id,
+                                dataSources: functionality.dataSources,
+                                renderChart: functionality.renderChart,
+                                auditorSourceTableName: functionality.auditorSourceTableName,
+                                auditorTypeColumnName: functionality.auditorTypeColumnName,
+                                auditorNameColumnName: functionality.auditorNameColumnName,
+                                auditorOptionLabel: functionality.auditorOptionLabel,
+                                auditorOptionId: auditorOptionId,
+                                auditorTypeColumnField: auditorTypeColumn.field,
+                                auditorNameColumnField: auditorNameColumn.field,
+                                groupByNcrAuditorWiseData: groupByNcrAuditorWiseData,
+                                currentAuditorInfoData: currentAuditorInfoData,
+                                currentAuditFindingsData: currentAuditFindingsData
+                            };
+                            groupByNcrAuditorData.push(groupByNcrAuditorObject);
+                            break;        
                     };
 
                 });
@@ -352,6 +420,8 @@ namespace Commons {
                     groupByStateData: groupByStateData,
                     groupByStateOverdueData: groupByStateOverdueData,
                     groupByStackData: groupByStackData,
+                    groupByNcrDeptData: groupByNcrDeptData,
+                    groupByNcrAuditorData: groupByNcrAuditorData,
                     avgData: avgData,
                     closureData: closureData,
                     trackerData: trackerData,
@@ -1095,6 +1165,130 @@ namespace Commons {
                 }
             }
 
+        }
+
+        export function processGroupByNcrDeptObjectData(groupByNcrDeptObject: groupByNcrDeptObject,
+            groupByNcrDeptObjectDataSource: XRTrimNeedleItem[]) {
+
+            for (const item of groupByNcrDeptObjectDataSource) {       
+                if(item.labels){
+                    let itemDeptIndex = -1;
+                    for(const label of groupByNcrDeptObject.labels){
+                        if(item.labels.includes(label)){
+                            let labelIndex = groupByNcrDeptObject.labels.findIndex(labelCode => labelCode === label);
+                            itemDeptIndex = labelIndex;
+                            break;
+                        }
+                    }
+
+                    if(itemDeptIndex > 0){
+                        if(item.fieldVal.length == 1){
+                            let auditFindingTable = JSON.parse(item.fieldVal[0].value);
+                            for( let auditFindingLine of auditFindingTable){
+                                let ncId = auditFindingLine[groupByNcrDeptObject.ncCatColumnField];
+                                let ncOption = groupByNcrDeptObject.ncOptions.find(ncOption => ncOption.id === ncId);
+                                groupByNcrDeptObject.groupByNcrDeptWiseData.forEach(ncDeptWiseData => {
+                                    if(ncDeptWiseData[0] == ncOption.label){
+                                    ncDeptWiseData[itemDeptIndex+1] += 1;
+                                    }
+                                });
+
+                                let groupByNcrDeptCurrentData: groupByNcrDeptCurrentData = {
+                                    id: item.itemOrFolderRef,
+                                    creationDate: new Date(item.creationDate),
+                                    labels: item.labels,
+                                    ncLabel: ncOption.label
+                                };
+
+                                groupByNcrDeptObject.currentLabelData.push(groupByNcrDeptCurrentData);
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        export function processGroupByNcrAuditorObjectData(groupByNcrAuditorObject: groupByNcrAuditorObject,
+            auditFindingsDataSource: XRTrimNeedleItem[],
+            auditorinfoDataSource: XRTrimNeedleItem[],
+            ) {
+
+                let auditorsData = [];
+                let auditCountData = [];
+                let auditItemsData = [];
+                let auditNcCountData = [];
+                let auditNcRatio = [];
+
+                for (const auditInfoItem of auditorinfoDataSource) { 
+                    if(auditInfoItem.fieldVal.length == 1){
+                        let auditInfoTable = JSON.parse(auditInfoItem.fieldVal[0].value);
+                        for( let auditInfoLine of auditInfoTable){
+                            let auditorOptionId = auditInfoLine[groupByNcrAuditorObject.auditorTypeColumnField];
+                            if(auditorOptionId == groupByNcrAuditorObject.auditorOptionId){
+                                let auditorName = auditInfoLine[groupByNcrAuditorObject.auditorNameColumnField];
+
+                                let auditorInfoCurrentData: auditorInfoCurrentData = {
+                                    id: auditInfoItem.itemOrFolderRef,
+                                    creationDate: new Date(auditInfoItem.creationDate),
+                                    auditorName: auditorName,
+                                    auditorOptionId: auditorOptionId
+                                };
+
+                                groupByNcrAuditorObject.currentAuditorInfoData.push(auditorInfoCurrentData);
+
+                                let auditorIndex = auditorsData.findIndex(auditor => auditor === auditorName);
+                                if(auditorIndex > -1){
+                                    auditCountData[auditorIndex] += 1;
+                                    auditItemsData[auditorIndex].push(auditInfoItem.itemOrFolderRef);
+                                }else{
+                                    auditorsData.push(auditorName);
+                                    auditCountData.push(1);
+                                    auditItemsData.push([auditInfoItem.itemOrFolderRef])
+                                    auditNcCountData.push(0);
+                                    auditNcRatio.push(0);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                for (const auditFindingItem of auditFindingsDataSource) { 
+                    if(auditFindingItem.fieldVal.length == 1){
+                        let auditFindingTable = JSON.parse(auditFindingItem.fieldVal[0].value);
+                        let itemIndex = -1;
+                        for( let auditItems of auditItemsData){
+                            itemIndex += 1;
+                            let auditorItemIndex = auditItems.findIndex(itemRefId => itemRefId === auditFindingItem.itemOrFolderRef);
+                            if(auditorItemIndex > 0){
+                                let auditNcCount = auditFindingTable.length;
+                                auditNcCountData[itemIndex] += auditNcCount;
+
+                                let auditFindingsCurrentData: auditFindingsCurrentData = {
+                                    id: auditFindingItem.itemOrFolderRef,
+                                    creationDate: new Date(auditFindingItem.creationDate),
+                                    auditNcCount: auditNcCount
+                                };
+
+                                groupByNcrAuditorObject.currentAuditFindingsData.push(auditFindingsCurrentData);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                auditorsData.forEach((auditor, index) => {
+                    if(auditNcCountData[index] !== 0){
+                        auditNcRatio[index] = Math.round(((auditNcCountData[index]/auditCountData[index]) + Number.EPSILON) * 100) / 100;
+                    }
+                });
+
+                groupByNcrAuditorObject.groupByNcrAuditorWiseData = [
+                    ['x', ...auditorsData],
+                    ['No of audits performed',...auditCountData],
+                    ['No of NC given', ...auditNcCountData],
+                    ['NC ratio', ...auditNcRatio]
+                ];
         }
 
     }

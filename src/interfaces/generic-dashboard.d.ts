@@ -24,6 +24,26 @@ interface trackerObjectCurrentData {
     itemStateDays: Map<string, Number>;
 }
 
+interface groupByNcrDeptCurrentData {
+    id: string;
+    creationDate: Date;
+    labels: string;
+    ncLabel: string;
+}
+
+interface auditorInfoCurrentData {
+    id: string;
+    creationDate: Date;
+    auditorName: string;
+    auditorOptionId: string;
+}
+
+interface auditFindingsCurrentData {
+    id: string;
+    creationDate: Date;
+    auditNcCount: Number;
+}
+
 interface operandObjectData {
     operand: string;
     labelsState: Map<string, Boolean>;
@@ -77,6 +97,36 @@ interface groupByStateObject {
     stateWiseData: any[];
     currentState: string;
     currentLabelData: groupByObjectCurrentData[];
+}
+
+interface groupByNcrDeptObject {
+    id: string;
+    dataSourceType: string;
+    renderChart: string;
+    sourceTableName: string;
+    sourceTableColumnName: string;
+    labels: any[];
+    labelsDesc: any[];
+    ncOptions: any[];
+    ncCatColumnField: string;
+    groupByNcrDeptWiseData: any[];
+    currentLabelData: groupByNcrDeptCurrentData[];
+}
+
+interface groupByNcrAuditorObject {
+    id: string;
+    dataSources: string[];
+    renderChart: string;
+    auditorSourceTableName: string;
+    auditorTypeColumnName: string;
+    auditorNameColumnName: string;
+    auditorOptionLabel: string;
+    auditorOptionId: string;
+    auditorTypeColumnField: string;
+    auditorNameColumnField: string;
+    groupByNcrAuditorWiseData: any[];
+    currentAuditorInfoData: auditorInfoCurrentData[];
+    currentAuditFindingsData: auditFindingsCurrentData[];
 }
 
 interface groupByStateOverDueObject extends groupByStateObject {
@@ -178,6 +228,8 @@ interface ByCategoryLabelData {
     groupByStateData: groupByStateObject[];
     groupByStackData: groupByStackObject[];
     groupByStateOverdueData: groupByStateOverDueObject[];
+    groupByNcrDeptData: groupByNcrDeptObject[];
+    groupByNcrAuditorData: groupByNcrAuditorObject[];
     avgData: avgObject[];
     closureData: closureObject[];
     trackerData: trackerObject[];

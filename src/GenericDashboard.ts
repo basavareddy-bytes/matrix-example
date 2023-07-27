@@ -147,27 +147,47 @@ namespace GenericDashboard {
             dataSources.forEach(dataSourceConfig => {
                 if (dataSourceConfig.type == "Needles") {
                     let needleSourceCategory;
+                    let needleSourceFieldName;
                     let needleSourceFieldId;
                     dataSourceConfig.sourceAtrributes.forEach(sourceAttribute => {
                         if (sourceAttribute.name == "category") {
                             needleSourceCategory = sourceAttribute.value;
-                        } else if (sourceAttribute.name == "fieldId") {
-                            needleSourceFieldId = sourceAttribute.value;
+                        } else if (sourceAttribute.name == "fieldName") {
+                            needleSourceFieldName = sourceAttribute.value;
                         }
                     });
+                    needleSourceFieldId =  IC.getFieldByName(needleSourceCategory,needleSourceFieldName).id;
                     if (needleSourceCategory && needleSourceFieldId) {
                         dataSourcePromises.push(Matrix.Labels.getNeedlesByCategoryAndFiledId(dataSourceConfig.id,dataSourceConfig.type,needleSourceCategory,
                             needleSourceFieldId));
                     }
                 } else if (dataSourceConfig.type == "NeedlesBySearch") {
-                    if (dataSourceConfig.sourceAtrributes.length > 0) {
-                        let searchParams = "";
-                        dataSourceConfig.sourceAtrributes.forEach(sourceAttribute => {
-                            let searchParam = sourceAttribute.name + '=' + sourceAttribute.value;
-                            searchParams += searchParam + '&'
-                        });
-                        dataSourcePromises.push(Matrix.Labels.getNeedlesBySearch(dataSourceConfig.id,dataSourceConfig.type,searchParams));
+
+                    let needleSourceCategory;
+                    let needleSourceFieldName;
+                    let needleSourceFieldId;
+                    dataSourceConfig.sourceAtrributes.forEach(sourceAttribute => {
+                        if (sourceAttribute.name == "category") {
+                            needleSourceCategory = sourceAttribute.value;
+                        } else if (sourceAttribute.name == "fieldName") {
+                            needleSourceFieldName = sourceAttribute.value;
+                        }
+                    });
+                    needleSourceFieldId =  IC.getFieldByName(needleSourceCategory,needleSourceFieldName).id;
+                    if (needleSourceCategory && needleSourceFieldId) {
+                        dataSourcePromises.push(Matrix.Labels.getNeedlesBySearch(dataSourceConfig.id,dataSourceConfig.type,needleSourceCategory,
+                            needleSourceFieldId));
                     }
+                    
+                    // if (dataSourceConfig.sourceAtrributes.length > 0) {
+                    //     let searchParams = "";
+                    //     dataSourceConfig.sourceAtrributes.forEach(sourceAttribute => {
+                    //         let searchParam;
+                    //         searchParam = sourceAttribute.name + '=' + sourceAttribute.value;
+                    //         searchParams += searchParam + '&'
+                    //     });
+                    //     dataSourcePromises.push(Matrix.Labels.getNeedlesBySearch(dataSourceConfig.id,dataSourceConfig.type,searchParams));
+                    // }
                 } else if (dataSourceConfig.type == "Labels") {
                     dataSourcePromises.push(Matrix.Labels.projectLabelHistory(dataSourceConfig.id,dataSourceConfig.type));
 

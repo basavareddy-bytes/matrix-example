@@ -22,8 +22,8 @@
                             "value": "IQA"
                         },
                         {
-                            "name": "fieldsOut",
-                            "value": 2459
+                            "name": "fieldName",
+                            "value": "Audit Findings"
                         },
                         {
                             "name": "labels",
@@ -40,8 +40,8 @@
                             "value": "IQA"
                         },
                         {
-                            "name": "fieldsOut",
-                            "value": 2456
+                            "name": "fieldName",
+                            "value": "General Audit Information:"
                         },
                         {
                             "name": "labels",

@@ -32,9 +32,20 @@ namespace Matrix {
         /**
          * Get needles by category and field id for all items in a project
          */
-        export function getNeedlesBySearch(resourceId: string, resourceType: string, searchParams: string): Promise<resourcesData> {
+        // export function getNeedlesBySearch(resourceId: string, resourceType: string, searchParams: string): Promise<resourcesData> {
+        //     return new Promise<resourcesData>((resolve, reject) => {
+        //         Matrix.REST.projectGETRequest("/needle?search=mrql:"+searchParams)
+        //             .then((data: XRTrimNeedle) => resolve({id:resourceId,type:resourceType,source:data.needles}))
+        //             .catch((error) => reject(error));
+        //     });
+        // }
+
+        /**
+         * Get needles by category and field id for all items in a project
+         */
+        export function getNeedlesBySearch(resourceId: string, resourceType: string, category: string, fieldId: Number): Promise<resourcesData> {
             return new Promise<resourcesData>((resolve, reject) => {
-                Matrix.REST.projectGETRequest("/needle?search=mrql:"+searchParams)
+                Matrix.REST.projectGETRequest("/needle?search=mrql:category="+category+"&fieldsOut="+fieldId+"&labels=1")
                     .then((data: XRTrimNeedle) => resolve({id:resourceId,type:resourceType,source:data.needles}))
                     .catch((error) => reject(error));
             });
